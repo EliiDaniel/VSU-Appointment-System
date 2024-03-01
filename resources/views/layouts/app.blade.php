@@ -18,19 +18,22 @@
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             <livewire:layout.navigation />
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+            <!-- Page Side Navigation -->
+            <div class="flex">
+                @if (auth()->user()->role)
+                <div class="w-72">
+                    <header class="bg-white dark:bg-gray-800 shadow w-72 fixed h-screen">
+                        <div class="mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                            <livewire:layout.sidenav />
+                        </div>
+                    </header>
+                </div>
+                @endif
+                <!-- Page Content -->
+                <main class="{{ auth()->user()->role ? 'flex-1 w-full mx-auto py-6 px-4 sm:px-6 lg:px-8' : '' }}">
+                    {{ $slot }}
+                </main>
+            </div>
         </div>
     </body>
 </html>
