@@ -1,7 +1,7 @@
 <div>
-    <section>
+    <section x-data="{ procs: {{ $selectedDocument->processes->pluck('name') }} }">
         <div class="mx-auto">
-            <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden" x-data="{ selectedRole: '{{ $selectedUser->role }}' }">
+            <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
                 <div class="flex items-center justify-between p-4">
                     <div class="flex">
                         <div class="relative w-full">
@@ -36,20 +36,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="flex space-x-3 items-center">
-                            <label class=" whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">Filter:</label>
-                            <select
-                                wire:model.live="role"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-28 p-2.5 ">
-                                <option value="">All</option>
-                                <option value="admin">Admin</option>
-                                <option value="registrar">Registrar</option>
-                                <option value="cashier">Cashier</option>
-                                <option value="requester">Requester</option>
-                                <option value="confirmation">Confirmation</option>
-                            </select>
-                        </div>
                     </div>
                 </div>
                 <div class="overflow-x-auto">
@@ -66,7 +52,7 @@
                                         </span>
                                     </div>
                                 </th>
-                                <th scope="col" class="px-4 py-3 w-1/6 {{ $sortBy == 'name' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200" wire:click="setSortBy('name')">
+                                <th scope="col" class="px-4 py-3 w-1/5 {{ $sortBy == 'name' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200" wire:click="setSortBy('name')">
                                     <div class="flex items-center justify-between">
                                         name
                                         <span>
@@ -76,9 +62,9 @@
                                         </span>
                                     </div>
                                 </th>
-                                <th scope="col" class="px-4 py-3 w-1/6 {{ $sortBy == 'email' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200" wire:click="setSortBy('email')">
+                                <th scope="col" class="px-4 py-3 w-1/5 {{ $sortBy == 'price' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200" wire:click="setSortBy('price')">
                                     <div class="flex items-center justify-between">
-                                        email
+                                        price
                                         <span>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
@@ -86,9 +72,9 @@
                                         </span>
                                     </div>
                                 </th>
-                                <th scope="col" class="px-4 py-3 w-1/6 {{ $sortBy == 'created_at' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200" wire:click="setSortBy('created_at')">
+                                <th scope="col" class="px-4 py-3 w-1/5 {{ $sortBy == 'created_at' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200" wire:click="setSortBy('created_at')">
                                     <div class="flex items-center justify-between">
-                                        joined
+                                        created
                                         <span>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
@@ -96,7 +82,7 @@
                                         </span>
                                     </div>
                                 </th>
-                                <th scope="col" class="px-4 py-3 w-1/6 {{ $sortBy == 'updated_at' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200" wire:click="setSortBy('updated_at')">
+                                <th scope="col" class="px-4 py-3 w-1/5 {{ $sortBy == 'updated_at' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200" wire:click="setSortBy('updated_at')">
                                     <div class="flex items-center justify-between">
                                         last updated
                                         <span>
@@ -106,28 +92,24 @@
                                         </span>
                                     </div>
                                 </th>
-                                <th scope="col" class="px-4 py-3 w-1/6">Role</th>
-                                <th scope="col" class="px-4 py-3 w-1/6">Actions</th>
+                                <th scope="col" class="px-4 py-3 w-1/5">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($users as $user)
-                                <tr wire:key="{{ $user->id }}" class="border-b dark:border-gray-700">
-                                    <td class="px-4 py-3">{{ $user->id }}</td>
+                            @foreach($documents as $document)
+                                <tr wire:key="{{ $document->id }}" class="border-b dark:border-gray-700">
+                                    <td class="px-4 py-3">{{ $document->id }}</td>
                                     <th scope="row"
                                         class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $user->name }}</th>
-                                    <td class="px-4 py-3">{{ $user->email }}</td>
-                                    <td class="px-4 py-3">{{ $user->created_at }}</td>
-                                    <td class="px-4 py-3">{{ $user->updated_at }}</td>
-                                    <td class="px-4 py-3 font-extrabold tracking-widest {{ $user->isAdmin() ? 'text-transparent bg-gradient-to-r from-green-500 via-blue-500 to-red-500 bg-clip-text' : ($user->isRegistrar() ? 'text-green-500' : ($user->isCashier() ? 'text-cyan-500' : ($user->isRequester() ? 'text-blue-500' : 'text-red-500'))) }}">
-                                        {{ ucfirst($user->role ? $user->role : 'confirmation') }}
-                                    </td>
+                                        {{ $document->name }}</th>
+                                    <td class="px-4 py-3">{{ $document->price }}</td>
+                                    <td class="px-4 py-3">{{ $document->created_at }}</td>
+                                    <td class="px-4 py-3">{{ $document->updated_at }}</td>
                                     <td class="px-4 py-3 flex items-center gap-2">
-                                        <x-secondary-button wire:click="showUser({{ $user }})" @click="selectedRole = '{{ $user->role }}'">
+                                        <x-secondary-button wire:click="showDocument({{ $document }})" @click="procs = {{ $document->processes->pluck('name') }}">
                                             {{ __('View') }}
                                         </x-secondary-button>
-                                        <x-danger-button wire:click="deleteUser({{ $user }})" wire:confirm="Are you sure you want to delete {{ $user->name }}?">
+                                        <x-danger-button wire:click="deleteDocument({{ $document }})" wire:confirm="Are you sure you want to delete {{ $document->name }}?">
                                             {{ __('Delete') }}
                                         </x-danger-button>
                                     </td>
@@ -137,11 +119,33 @@
                     </table>
                 </div>
 
-                @include('livewire.registrar.includes.user-modal')
+                @include('livewire.registrar.includes.document-modal')
 
                 <div class="py-4 px-3">
-                    {{ $users->links('vendor.livewire.pagination') }}
+                    {{ $documents->links('vendor.livewire.pagination') }}
                 </div>
+            </div>
+            <div class="fixed bottom-4 right-4">
+                <x-dropdown-reversed align="right" width="48">
+                    <x-slot name="trigger">
+                        <button class="bg-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-300 p-2 rounded-full z-50 opacity-75 hover:opacity-100 ease-in-out duration-200"
+                            >
+                            <svg class="fill-current h-8 w-8 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <title>New Supplier/Type</title>
+                                <path d="M10 3a1 1 0 0 1 1 1v5h5a1 1 0 0 1 0 2h-5v5a1 1 0 1 1-2 0v-5H4a1 1 0 1 1 0-2h5V4a1 1 0 0 1 1-1z"/>
+                            </svg>
+                        </button>
+                    </x-slot>
+
+                    <x-slot name="content">
+                        <x-dropdown-link wire:click="createProcess()">
+                            {{ __('Process') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link wire:click="createDocument()" @click="procs = []">
+                            {{ __('Document') }}
+                        </x-dropdown-link>
+                    </x-slot>
+                </x-dropdown-reversed>
             </div>
         </div>
     </section>

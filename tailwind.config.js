@@ -14,8 +14,27 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            keyframes: {
+                updown: {
+                    'to': {
+                      transform: 'translateY(-10px)',
+                    },
+                },
+                downup: {
+                    'to': {
+                        transform: 'translateY(10px)',
+                    },
+                },
+            },
+            animation: {
+                'updown': 'updown 2s ease-in infinite alternate-reverse',
+                'downup': 'downup 2s ease-in infinite alternate-reverse',
+            },
         },
     },
 
-    plugins: [forms],
+    plugins: [
+        forms,
+        require('tailwindcss-animated')
+    ],
 };

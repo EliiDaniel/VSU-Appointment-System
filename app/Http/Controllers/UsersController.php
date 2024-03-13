@@ -6,19 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 
-class RegistrarController extends Controller
+class UsersController extends Controller
 {
-    public function index()
-    {
-        return view('registrar.index');
-    }
-
-    public function users()
-    {
-        return view('registrar.users');
-    }
-
-    public function updateUser(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'name' => 'required|string|max:255',
