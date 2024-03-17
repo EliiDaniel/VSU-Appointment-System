@@ -12,6 +12,7 @@ class Documents extends Component
     use WithPagination;
 
     public $search = '';
+    public $title = 'view-document';
     public $shownEntries = 5;
     public $sortBy = 'id';
     public $sortDir = 'ASC';
@@ -36,16 +37,21 @@ class Documents extends Component
 
     public function showDocument(Document $document){
         $this->selectedDocument = $document;
+        $this->title = "view-document";
 
-        $this->dispatch('open-modal', 'view-document');
+        $this->dispatch('open-modal', 'document-modal');
     }
     
     public function createDocument(){
-        $this->dispatch('open-modal', 'create-document');
+        $this->title = "create-document";
+
+        $this->dispatch('open-modal', 'document-modal');
     }
 
     public function createProcess(){
-        $this->dispatch('open-modal', 'create-process');
+        $this->title = "create-process";
+
+        $this->dispatch('open-modal', 'document-modal');
     }
 
     public function setSortBy($col){

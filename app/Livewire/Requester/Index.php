@@ -10,4 +10,8 @@ class Index extends Component
     {
         return view('livewire.requester.index');
     }
+    
+    public function createRequest(){
+        $this->dispatch('open-modal', 'create-request');
+    }
 }

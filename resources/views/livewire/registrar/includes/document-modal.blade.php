@@ -1,6 +1,6 @@
-@if($selectedDocument)
-    <x-modal name="view-document">
-        <div class="p-6">
+<x-modal name="document-modal">
+    @if($selectedDocument)
+        <div class="p-6" x-show="$wire.title === 'view-document'">
             <form method="post" action="{{ route('update.document', ['id' => $selectedDocument->id]) }}" class="space-y-6" onsubmit="return confirm('Are you sure you want to update {{ $selectedDocument->name }}?');">
                 @csrf
                 @method('patch')
@@ -46,27 +46,9 @@
                 </div>
             </form>
         </div>
-    </x-modal>
-@endif
+    @endif
 
-@if (session('status') === 'document-updated')
-    <div 
-        x-data="{ show: true }"
-        x-show="show"
-        x-transition
-        x-init="setTimeout(() => show = false, 4000)"
-        class="fixed top-4 right-4 bg-green-300 text-gray-700 dark:bg-green-700 dark:text-gray-300 pl-3 pr-20 py-3 rounded-lg z-50 opacity-75 hover:opacity-100 ease-in-out duration-200"
-        role="alert"
-    >
-        <span class="block sm:inline tracking-widest font-extrabold text-sm">{{ __('Successfully updated!') }}</span>
-        <span class="absolute top-0 bottom-0 right-0 pt-[9.80px] pr-3 cursor-pointer" @click="show = false">
-            <svg class="fill-current h-6 w-5 text-gray-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 1.697l-2.651-2.65-2.65 2.65a1.2 1.2 0 1 1-1.697-1.697l2.65-2.651-2.65-2.65a1.2 1.2 0 1 1 1.697-1.697l2.651 2.65 2.65-2.65a1.2 1.2 0 1 1 1.697 1.697l-2.65 2.651 2.65 2.65z"/></svg>
-        </span>
-    </div>
-@endif
-
-<x-modal name="create-document">
-    <div class="p-6">
+    <div class="p-6" x-show="$wire.title === 'create-document'">
         <form method="post" action="{{ route('create.document') }}">
             @csrf
             @method('patch')
@@ -114,10 +96,8 @@
             </div>
         </form>
     </div>
-</x-modal>
 
-<x-modal name="create-process">
-    <div class="p-6">
+    <div class="p-6" x-show="$wire.title === 'create-process'">
         <form method="post" action="{{ route('create.process') }}">
             @csrf
             @method('patch')
@@ -135,3 +115,19 @@
         </form>
     </div>
 </x-modal>
+
+@if (session('status') === 'document-updated')
+    <div 
+        x-data="{ show: true }"
+        x-show="show"
+        x-transition
+        x-init="setTimeout(() => show = false, 4000)"
+        class="fixed top-4 right-4 bg-green-300 text-gray-700 dark:bg-green-700 dark:text-gray-300 pl-3 pr-20 py-3 rounded-lg z-50 opacity-75 hover:opacity-100 ease-in-out duration-200"
+        role="alert"
+    >
+        <span class="block sm:inline tracking-widest font-extrabold text-sm">{{ __('Successfully updated!') }}</span>
+        <span class="absolute top-0 bottom-0 right-0 pt-[9.80px] pr-3 cursor-pointer" @click="show = false">
+            <svg class="fill-current h-6 w-5 text-gray-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 1.697l-2.651-2.65-2.65 2.65a1.2 1.2 0 1 1-1.697-1.697l2.65-2.651-2.65-2.65a1.2 1.2 0 1 1 1.697-1.697l2.651 2.65 2.65-2.65a1.2 1.2 0 1 1 1.697 1.697l-2.65 2.651 2.65 2.65z"/></svg>
+        </span>
+    </div>
+@endif
