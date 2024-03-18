@@ -4,6 +4,8 @@
         <form method="post" action="">
             @csrf
             @method('patch')
+            
+            @livewire('requester.wizards.request-form')
 
             <div class="flex items-center justify-end mt-4">
                 <x-primary-button class="ms-4">
