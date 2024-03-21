@@ -75,5 +75,4 @@
     </div>
     
     @include('livewire.requester.includes.request-modal')
-
 </div>

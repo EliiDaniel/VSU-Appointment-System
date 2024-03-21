@@ -42,6 +42,7 @@ $maxWidth = [
     })"
     x-on:open-modal.window="$event.detail == '{{ $name }}' ? show = true : null"
     x-on:close-modal.window="$event.detail == '{{ $name }}' ? show = false : null"
+    x-on:confirm-close.window="confirm('Are you sure you want to close?') ? show = false : null"
     x-on:close.stop="$dispatch('confirm-close')"
     x-on:keydown.escape.window="$dispatch('confirm-close')"
     x-on:keydown.tab.prevent="$event.shiftKey || nextFocusable().focus()"
@@ -75,6 +76,5 @@ $maxWidth = [
         x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
     >
         {{ $slot }}
-        <div x-on:confirm-close.window="confirm('Are you sure you want to close?') ? show = false : null"></div>
     </div>
 </div>
