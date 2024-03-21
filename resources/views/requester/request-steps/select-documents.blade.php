@@ -1,17 +1,16 @@
-<div>
+<div x-data="{ total: 0 }">
     <x-label for="name" :value="__('Name')" />
-    <x-text-input wire:model="state.name" id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
-    
-    <x-datetime-picker
-        without-tips="true"
-        placeholder="Pickup Date"
-        wire:model.defer="dateConfigs.minDate"
-        :timezone="'Asia/Manila'"
-        :min="$this->dateConfigs['minDate']"
-        :max="$this->dateConfigs['maxDate']"
-        min-time="08:00"
-        max-time="17:00"
-        interval="30"
-        :clearable="false"
-    />
+    @foreach($this->documents as $document)
+        <label class="flex justify-between py-1">
+            <span>
+                <input type="checkbox" name="documents[]" value="{{ $document->id }}" class="rounded-full" x-on:click="$event.target.checked ? total += {{ $document->price }} : total -= {{ $document->price }};">
+                {{ ucfirst($document->name) }}
+            </span>
+            <span>₱ {{ $document->price }}</span>
+        </label>
+    @endforeach
+
+    <div class="text-right p-1 border-t-2 mt-2">
+        Total Price: ₱ <span x-text="total.toFixed(2)"></span>
+    </div>
 </div>

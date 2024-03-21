@@ -13,6 +13,7 @@ class RequestForm extends WizardComponent
 {
     public Request $request;
     public $dateConfigs;
+    public $documents;
 
     public function mount()
     {

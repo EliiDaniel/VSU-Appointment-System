@@ -28,7 +28,7 @@ class NameStep extends Step
                 'state.name' => ['required', 'string', 'max:255'],
             ],
             [
-                'state.name' => __('Name'),
+                'state.name' => __('Select Documents'),
             ],
         ];
     }

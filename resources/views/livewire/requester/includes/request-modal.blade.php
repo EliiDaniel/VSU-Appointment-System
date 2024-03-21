@@ -4,7 +4,7 @@
             @csrf
             @method('patch')
 
-            <livewire:requester.wizards.request-form shown-entries="9"/>
+            <livewire:requester.wizards.request-form :documents="$documents"/>
         </form>
     </div>
 </x-modal>
