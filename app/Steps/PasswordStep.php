@@ -55,6 +55,6 @@ class PasswordStep extends Step
 
     public function title(): string
     {
-        return __('Password');
+        return __('Pickup');
     }
 }

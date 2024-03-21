@@ -7,7 +7,7 @@ use Vildanbina\LivewireWizard\Components\Step;
 
 class NameStep extends Step
 {
-    protected string $view = 'requester.request-steps.name-step';
+    protected string $view = 'requester.request-steps.select-documents';
 
     public function mount()
     {
@@ -35,6 +35,6 @@ class NameStep extends Step
 
     public function title(): string
     {
-        return __('Name');
+        return __('Select Documents');
     }
 }

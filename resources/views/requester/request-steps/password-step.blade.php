@@ -1,19 +1,13 @@
 <div class="mt-4">
-    <x-label for="password" :value="__('Password')" />
-
-    <x-input wire:model="state.password"
-             id="password" class="block mt-1 w-full"
-             type="password"
-             name="password"
-             required autocomplete="new-password" />
-</div>
-
-<!-- Confirm Password -->
-<div class="mt-4">
-    <x-label for="password_confirmation" :value="__('Confirm Password')" />
-
-    <x-input wire:model="state.password_confirmation"
-             id="password_confirmation" class="block mt-1 w-full"
-             type="password"
-             name="password_confirmation" required />
+    <x-label for="pickup_date" :value="__('Pickup Date')" />
+    <x-datetime-picker
+        without-tips="true"
+        placeholder="Pickup Date"
+        wire:model.defer="dateConfigs"
+        :timezone="'Asia/Manila'"
+        min-time="08:00"
+        max-time="17:00"
+        interval="30"
+        :clearable="false"
+    />
 </div>

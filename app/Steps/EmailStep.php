@@ -35,6 +35,6 @@ class EmailStep extends Step
 
     public function title(): string
     {
-        return __('Email');
+        return __('Payment');
     }
 }
