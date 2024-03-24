@@ -16,7 +16,7 @@
                             <input
                                 wire:model.live.debounce.300ms="search" 
                                 type="text"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 "
+                                class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm pl-10"
                                 placeholder="Search" required="">
                         </div>
                     </div>
@@ -27,7 +27,7 @@
                                     <label class="text-sm font-medium text-gray-900 dark:text-gray-100">Show</label>
                                     <select
                                         wire:model.live="shownEntries"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-20 p-2.5">
+                                        class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm">
                                         <option value="5">5</option>
                                         <option value="10">10</option>
                                         <option value="20">20</option>
@@ -41,10 +41,13 @@
                             <label class=" whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">Filter:</label>
                             <select
                                 wire:model.live="role"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-28 p-2.5 ">
+                                class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm">
                                 <option value="">All</option>
-                                <option value="cashier">Cashier</option>
                                 <option value="admin">Admin</option>
+                                <option value="registrar">Registrar</option>
+                                <option value="cashier">Cashier</option>
+                                <option value="requester">Requester</option>
+                                <option value="confirmation">Confirmation</option>
                             </select>
                         </div>
                     </div>
@@ -117,7 +120,7 @@
                                     <td class="px-4 py-3">{{ $user->email }}</td>
                                     <td class="px-4 py-3">{{ $user->created_at }}</td>
                                     <td class="px-4 py-3">{{ $user->updated_at }}</td>
-                                    <td class="px-4 py-3 font-extrabold tracking-widest {{ $user->isAdmin() ? 'text-transparent bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text' : ($user->isRegistrar() ? 'text-green-500' : ($user->isCashier() ? 'text-cyan-500' : ($user->isRequester() ? 'text-blue-500' : 'text-red-500'))) }}">
+                                    <td class="px-4 py-3 font-extrabold tracking-widest {{ $user->isAdmin() ? 'text-transparent bg-gradient-to-r from-green-500 via-blue-500 to-red-500 bg-clip-text' : ($user->isRegistrar() ? 'text-green-500' : ($user->isCashier() ? 'text-cyan-500' : ($user->isRequester() ? 'text-blue-500' : 'text-red-500'))) }}">
                                         {{ ucfirst($user->role ? $user->role : 'confirmation') }}
                                     </td>
                                     <td class="px-4 py-3 flex items-center gap-2">

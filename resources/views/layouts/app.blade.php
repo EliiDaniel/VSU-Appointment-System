@@ -13,24 +13,23 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @wireUiScripts
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             <livewire:layout.navigation />
 
             <!-- Page Side Navigation -->
-            <div class="flex">
+            <div x-data="{ open: false }" class="flex">
                 @if (auth()->user()->role)
-                <div class="w-72">
-                    <header class="bg-white dark:bg-gray-800 shadow w-72 fixed h-screen">
-                        <div class="mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                            <livewire:layout.sidenav />
-                        </div>
+                <div class="w-12 xl:w-64 mt-0" @mouseover="open = true" @mouseleave="open = false">
+                    <header class="bg-white dark:bg-gray-800 shadow w-12 xl:w-64 hover:w-64 fixed top-[65px] z-10 h-screen hover:px-8 py-6 xl:px-8 transition-all duration-75 ease-in-out overflow-hidden">
+                        <livewire:layout.sidenav />
                     </header>
                 </div>
                 @endif
                 <!-- Page Content -->
-                <main class="{{ auth()->user()->role ? 'flex-1 w-full mx-auto py-6 px-4 sm:px-6 lg:px-8' : '' }}">
+                <main class="mt-[65px] h-auto {{ auth()->user()->role ? 'flex-1 w-full mx-auto min-w-0 py-6 px-4 sm:px-6 lg:px-8' : '' }}">
                     {{ $slot }}
                 </main>
             </div>

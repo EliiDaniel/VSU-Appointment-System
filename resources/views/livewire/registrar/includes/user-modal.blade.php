@@ -17,12 +17,12 @@
                 
                 <div>
                     <x-input-label for="role" :value="__('Role')" />
-                    <div class="flex space-x-4 pt-1">
-                        @foreach(['admin', 'registrar', 'cashier', 'requester', ''] as $role)
-                            <div :class="{ 'flex-1 items-center border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm ring-green-600 transition ease-in-out duration-150': true, 'ring-[3px]': selectedRole === '{{ $role }}' }" x-on:click="selectedRole = '{{ $role }}'">
+                    <div class="flex flex-wrap justify-evenly gap-x-2">
+                        @foreach(['admin', 'registrar', 'cashier', 'requester', 'confirmation'] as $role)
+                            <div :class="{ 'my-1 min-w-28 max-w-32 sm:max-w-28 flex-1 items-center border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm ring-green-600 transition ease-in-out duration-150': true, 'ring-[3px] animate-jump animate-once animate-duration-300': selectedRole === '{{ $role }}' }" x-on:click="selectedRole = '{{ $role }}'">
                                 <label class="block w-full text-center py-3">
                                     <input type="radio" name="role" value="{{ $role }}" class="hidden" x-model="selectedRole">
-                                    {{ ucfirst($role ? $role : 'confirmation') }}
+                                    {{ ucfirst($role) }}
                                 </label>
                             </div>
                         @endforeach
@@ -43,12 +43,12 @@
         x-show="show"
         x-transition
         x-init="setTimeout(() => show = false, 4000)"
-        class="fixed top-4 right-4 bg-green-300 text-gray-700 dark:bg-green-700 dark:text-gray-300 pl-3 pr-16 py-1 rounded-md z-50 opacity-75 hover:opacity-100 ease-in-out duration-200"
+        class="fixed top-4 right-4 bg-green-300 text-gray-700 dark:bg-green-700 dark:text-gray-300 pl-3 pr-20 py-3 rounded-lg z-50 opacity-75 hover:opacity-100 ease-in-out duration-200"
         role="alert"
     >
-        <span class="block sm:inline uppercase font-extrabold text-xs">{{ __('User updated') }}</span>
-        <span class="absolute top-0 bottom-0 right-0 pt-[1.80px] pr-2 cursor-pointer" @click="show = false">
-            <svg class="fill-current h-6 w-5 text-gray-100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 1.697l-2.651-2.65-2.65 2.65a1.2 1.2 0 1 1-1.697-1.697l2.65-2.651-2.65-2.65a1.2 1.2 0 1 1 1.697-1.697l2.651 2.65 2.65-2.65a1.2 1.2 0 1 1 1.697 1.697l-2.65 2.651 2.65 2.65z"/></svg>
+        <span class="block sm:inline tracking-widest font-extrabold text-sm">{{ __('Successfully updated!') }}</span>
+        <span class="absolute top-0 bottom-0 right-0 pt-[9.80px] pr-3 cursor-pointer" @click="show = false">
+            <svg class="fill-current h-6 w-5 text-gray-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 1.697l-2.651-2.65-2.65 2.65a1.2 1.2 0 1 1-1.697-1.697l2.65-2.651-2.65-2.65a1.2 1.2 0 1 1 1.697-1.697l2.651 2.65 2.65-2.65a1.2 1.2 0 1 1 1.697 1.697l-2.65 2.651 2.65 2.65z"/></svg>
         </span>
     </div>
 @endif
