@@ -34,7 +34,7 @@ class DocumentsController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric',
-            'processes' => 'array',
+            'processes' => 'required|array',
         ]);
 
         $document = Document::findOrFail($id);

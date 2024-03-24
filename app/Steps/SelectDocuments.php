@@ -5,14 +5,14 @@ namespace App\Steps;
 use Illuminate\Validation\Rules;
 use Vildanbina\LivewireWizard\Components\Step;
 
-class NameStep extends Step
+class SelectDocuments extends Step
 {
     protected string $view = 'requester.request-steps.select-documents';
-
+    
     public function mount()
     {
-        $this->mergeState([
-            'name' => $this->model->name
+        $this->setState([
+            'price' => $this->model->price,
         ]);
     }
 
@@ -25,10 +25,10 @@ class NameStep extends Step
     {
         return [
             [
-                'state.name' => ['required', 'string', 'max:255'],
+                'state.selectedDocs' => ['required', 'array'],
             ],
             [
-                'state.name' => __('Select Documents'),
+                'state.selectedDocs' => __('Select Documents'),
             ],
         ];
     }

@@ -5,9 +5,9 @@ namespace App\Steps;
 use Illuminate\Validation\Rule;
 use Vildanbina\LivewireWizard\Components\Step;
 
-class EmailStep extends Step
+class Payment extends Step
 {
-    protected string $view = 'requester.request-steps.email-step';
+    protected string $view = 'requester.request-steps.payment';
 
     public function mount()
     {
@@ -28,7 +28,7 @@ class EmailStep extends Step
                 'state.email' => ['required', 'email', Rule::unique('users', 'email')],
             ],
             [
-                'state.email' => __('Email'),
+                'state.email' => __('Payment'),
             ],
         ];
     }

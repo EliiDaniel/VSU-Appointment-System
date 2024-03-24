@@ -10,7 +10,7 @@
     @endif
 
     <select {{ $attributes->class([
-        $defaultClasses(),
+        'form-select block w-full pl-3 pr-10 py-2 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm',
         $errorClasses() =>  $errors->has($name),
         $colorClasses() => !$errors->has($name),
     ]) }}>
