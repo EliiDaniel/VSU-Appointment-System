@@ -1,9 +1,8 @@
 <div class="mt-4">
-    <x-label for="pickup_date" :value="__('Pickup Date')" />
     <x-datetime-picker
         without-tips="true"
         placeholder="Pickup Date"
-        wire:model.defer="dateConfigs.minDate"
+        wire:model="state.appointment_date"
         :timezone="'Asia/Manila'"
         :min="$this->dateConfigs['minDate']"
         :max="$this->dateConfigs['maxDate']"

@@ -2,17 +2,16 @@
 
 namespace App\Steps;
 
-use Illuminate\Validation\Rule;
 use Vildanbina\LivewireWizard\Components\Step;
 
 class Payment extends Step
 {
     protected string $view = 'requester.request-steps.payment';
-
+    
     public function mount()
     {
         $this->mergeState([
-            'email' => $this->model->email
+            'payment_type',
         ]);
     }
 
@@ -25,10 +24,10 @@ class Payment extends Step
     {
         return [
             [
-                'state.email' => ['required', 'email', Rule::unique('users', 'email')],
+                'state.payment_type' => ['required', 'string'],
             ],
             [
-                'state.email' => __('Payment'),
+                'state.payment_type' => __('Payment'),
             ],
         ];
     }

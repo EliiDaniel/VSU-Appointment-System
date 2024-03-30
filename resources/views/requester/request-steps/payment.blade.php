@@ -1,11 +1,7 @@
 <div>    
     <x-native-select
-    label="Payment Method"
-        :options="[
-            ['name' => 'Walk in',  'id' => 1],
-            ['name' => 'Online', 'id' => 2],
-        ]"
-        option-label="name"
-        option-value="id"
+    placeholder="Select payment method"
+    :options="['Walk in', 'Online']"
+    wire:model="state.payment_type"
     />
 </div>
