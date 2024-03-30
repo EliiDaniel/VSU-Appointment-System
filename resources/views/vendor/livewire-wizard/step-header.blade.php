@@ -7,7 +7,7 @@
     <div class="relative mb-2">
         @if(!$loop->first)
             <div class="absolute" style="width: calc(100% - 2.5rem - 1rem); top: 50%; transform: translate(-50%, -50%)">
-                <div class="bg-gradient-to-r from-transparent to-gray-200 rounded flex-1">
+                <div class=" {{(($stepIsGreaterOrEqualThan && !$isFailedStep) || $isFailedStep) ? 'bg-gradient-to-r from-gray-200 to-white' : 'bg-gray-200'}} rounded flex-1">
                     <div
                         @class([
                             'rounded py-0.5',

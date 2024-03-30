@@ -2,7 +2,6 @@
 
 namespace App\Steps;
 
-use Illuminate\Validation\Rules;
 use Vildanbina\LivewireWizard\Components\Step;
 
 class SelectDocuments extends Step
@@ -11,8 +10,8 @@ class SelectDocuments extends Step
     
     public function mount()
     {
-        $this->setState([
-            'price' => $this->model->price,
+        $this->mergeState([
+            'price',
         ]);
     }
 
@@ -25,10 +24,10 @@ class SelectDocuments extends Step
     {
         return [
             [
-                'state.selectedDocs' => ['required', 'array'],
+                'state.selected_documents' => ['required', 'array'],
             ],
             [
-                'state.selectedDocs' => __('Select Documents'),
+                'state.selected_documents' => __('Select Documents'),
             ],
         ];
     }

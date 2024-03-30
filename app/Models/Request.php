@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Request extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'price',
+        'payment_type',
+        'appointment_date',
+    ];
     
     public function user()
     {
