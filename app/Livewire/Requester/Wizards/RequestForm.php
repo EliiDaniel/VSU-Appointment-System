@@ -29,6 +29,7 @@ class RequestForm extends WizardComponent
         $this->mergeState([
             'user_id' => auth()->user()->id,
             'selected_documents' => [],
+            'payment_type' => '',
             'appointment_date' => $this->dateConfigs['minDate'],
         ]);
     }
