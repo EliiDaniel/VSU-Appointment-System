@@ -1,4 +1,4 @@
-<x-modal name="request-modal" maxWidth="2xl">
+<x-modal name="request-modal" maxWidth="2xl" prompt="$wire.title !== 'filters'">
     <div class="p-6 text-gray-900 dark:text-gray-100" x-show="$wire.title === 'create-request'">
         <livewire:requester.wizards.request-form :documents="$documents"/>
     </div>
