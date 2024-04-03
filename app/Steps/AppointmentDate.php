@@ -26,7 +26,7 @@ class AppointmentDate extends Step
 
         $request->documents()->sync($state['selected_documents']);
 
-        return redirect()->route('requester.dashboard');
+        return redirect()->route($this->getLivewire()->reDir);
     }
 
     public function validate()

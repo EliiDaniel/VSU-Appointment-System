@@ -13,6 +13,8 @@ class RequestForm extends WizardComponent
 {
     public $dateConfigs;
     public $documents;
+    public $reDir;
+
     public array $steps = [
         SelectDocuments::class,
         Payment::class,

@@ -1,3 +1,9 @@
+@props([
+    'name',
+    'show' => false,
+    'maxWidth' => '2xl',
+    'prompt' => true,
+])
 <div
     x-data="{
         show: @js($show),
@@ -26,8 +32,8 @@
     x-on:open-modal.window="$event.detail == '{{ $name }}' ? show = true : null"
     x-on:close-modal.window="$event.detail == '{{ $name }}' ? show = false : null"
     x-on:confirm-close.window="confirm('Are you sure you want to close?') ? show = false : null"
-    x-on:close.stop="$dispatch('confirm-close')"
-    x-on:keydown.escape.window="$dispatch('confirm-close')"
+    x-on:close.stop="{{ $prompt }} ? $dispatch('confirm-close') : show = false"
+    x-on:keydown.escape.window="{{ $prompt }} ? $dispatch('confirm-close') : show = false"
     x-on:keydown.tab.prevent="$event.shiftKey || nextFocusable().focus()"
     x-on:keydown.shift.tab.prevent="prevFocusable().focus()"
     x-show="show"
@@ -37,7 +43,7 @@
     <div
         x-show="show"
         class="fixed inset-0 transform transition-all"
-        x-on:click="$dispatch('confirm-close')"
+        x-on:click="{{ $prompt }} ? $dispatch('confirm-close') : show = false"
         x-transition:enter="ease-out duration-300"
         x-transition:enter-start="opacity-0"
         x-transition:enter-end="opacity-100"
