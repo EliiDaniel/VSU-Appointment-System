@@ -21,6 +21,7 @@ class Requests extends Component
     public $selectedDocuments = [];
     public $title = 'create-request';
     public Request $selectedRequest;
+    public ?Document $selectedDocument;
 
     public function mount()
     {
@@ -54,6 +55,7 @@ class Requests extends Component
 
     public function createRequest(){
         $this->title = 'create-request';
+        $this->selectedDocument = null;
 
         $this->dispatch('open-modal', 'request-modal');
     }
@@ -62,6 +64,26 @@ class Requests extends Component
         $this->title = 'filters';
 
         $this->dispatch('open-modal', 'request-modal');
+    }
+    
+    public function viewRequest(Request $request){
+        $this->selectedRequest = $request;
+        $this->selectedDocument = null;
+        $this->title = 'view-request';
+
+        $this->dispatch('close-modal', 'view-document');
+        $this->dispatch('open-modal', 'request-modal');
+    }
+
+    public function cancelRequest(Request $request){
+        $request->canceled_at = date('Y-m-d H:i:s');
+        $request->save();
+    }
+
+    public function viewDocumentProcess(Document $document){
+        $this->selectedDocument = $document;
+
+        $this->dispatch('open-modal', 'view-document');
     }
 
     public function setSortBy($col){

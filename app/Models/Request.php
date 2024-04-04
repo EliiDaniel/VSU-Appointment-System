@@ -15,7 +15,16 @@ class Request extends Model
         'payment_type',
         'appointment_date',
     ];
-    
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updating(function ($model) {
+            $model->status = 'Canceled';
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

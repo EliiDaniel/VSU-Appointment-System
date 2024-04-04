@@ -17,11 +17,12 @@ return new class extends Migration
             $table->decimal('price', 8, 2)->default(0);
             $table->enum('payment_type', ['Walk in', 'Online'])->default('Walk in');
             $table->timestamp('appointment_date');
+            $table->timestamp('canceled_at')->nullable();
             $table->timestamp('approved_at')->nullable();
             $table->timestamp('completed_at')->nullable();
             $table->timestamp('claimed_at')->nullable();
             $table->timestamp('paid_at')->nullable();
-            $table->enum('status', ['Pending Approval', 'In Progress', 'Awaiting Payment', 'Ready for Collection', 'Completed'])->default('Pending Approval');
+            $table->enum('status', ['Pending Approval', 'In Progress', 'Awaiting Payment', 'Ready for Collection', 'Completed', 'Canceled'])->default('Pending Approval');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             

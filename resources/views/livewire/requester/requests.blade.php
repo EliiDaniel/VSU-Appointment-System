@@ -117,11 +117,11 @@
                                     <td class="px-4 py-3">{{ date('Y-m-d H:i', strtotime($request->appointment_date)) }}</td>
                                     <td class="px-4 py-3">
                                         <div class="flex items-center gap-2">
-                                            <x-secondary-button>
+                                            <x-secondary-button wire:click="viewRequest({{ $request }})">
                                                 {{ __('View') }}
                                             </x-secondary-button>
-                                            <x-danger-button>
-                                                {{ __('Cancel') }}
+                                            <x-danger-button wire:click="cancelRequest({{ $request }})" wire:confirm="Are you sure you want to cancel request?" disabled="{{ $request->canceled_at ? 'true' : false }}">
+                                                {{ __(  $request->canceled_at ? 'Canceled' : 'Cancel') }}
                                             </x-danger-button>
                                         </div>
                                     </td>
