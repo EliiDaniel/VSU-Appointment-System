@@ -1,6 +1,6 @@
 <x-modal name="request-modal" maxWidth="2xl" prompt="$wire.title !== 'filters' && $wire.title !== 'view-request'">
     <div class="p-6 text-gray-900 dark:text-gray-100" x-show="$wire.title === 'create-request'">
-        <livewire:requester.wizards.request-form :documents="$documents" re-dir="$dir"/>
+        <livewire:requester.wizards.request-form :documents="$documents" :re-dir="$dir"/>
     </div>
 
     @if(isset($selectedRequest))
@@ -37,7 +37,16 @@
                     <div class="my-4 space-y-2">
                         @foreach ($selectedRequest->documents as $document)
                         <div class="flex items-center justify-between space-x-3">
-                            <x-secondary-button wire:click="viewDocumentProcess({{ $document }})">{{ $document->name }}</x-secondary-button>
+                            <div class="flex items-center space-x-1">
+                                <x-secondary-button wire:click="viewDocumentProcess({{ $document }}, {{ $document->pivot->id }})">{{ $document->name }}</x-secondary-button>
+                                @if($selectedRequest->isDocumentComplete($document->pivot->id))
+                                    <span class="text-emerald-600 dark:text-emerald-400">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                        </svg>
+                                    </span>
+                                @endif
+                            </div>
                             <span class="whitespace-nowrap">₱ {{ $document->price }}</span>
                         </div>
                         @endforeach
@@ -64,7 +73,10 @@
                                     </svg>
                                 </span>
                             @endif
-                            <div class="p-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm"><div class="animate-jump animate-once animate-ease-in-out">{{ $process->name }}</div></div>
+                            
+                            <div :class="{ 'p-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm ring-emerald-500 ring-offset-2 dark:ring-offset-gray-800 transition ease-in-out duration-75': true, 'ring-2 animate-jump animate-once animate-ease-in-out': {{ in_array($process->pivot->document_process_id, $completedProcesses->toArray()) ? 'true' : 'false' }} }">
+                                {{ $process->name }}
+                            </div>
                         </div>
                     @endforeach
                     </div>

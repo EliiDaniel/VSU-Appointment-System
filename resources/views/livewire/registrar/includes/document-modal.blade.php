@@ -68,7 +68,7 @@
                 <div class="flex flex-wrap pt-1">
                     @foreach($processes as $process)
                         <label class="text-center">
-                        <input type="checkbox" name="processes[]" value="{{ $process->id }}" class="rounded-full ml-4" x-init=" $watch('show', value => { if (value) { $dispatch('reinit') } })" @reinit="$event.target.checked = procs.includes('{{ $process->name }}')" x-on:click=" $event.target.checked ? procs.push('{{ $process->name }}') : procs = procs.filter(item => item !== '{{ $process->name }}');">
+                        <input type="checkbox" name="processes[]" value="{{ $process->id }}" class="rounded-full ml-4" x-init="$watch('show', value => { if (value) { $dispatch('reinit') } })" @reinit="$event.target.checked = procs.includes('{{ $process->name }}')" x-on:click="$event.target.checked ? procs.push('{{ $process->name }}') : procs = procs.filter(item => item !== '{{ $process->name }}');">
                             {{ ucfirst($process->name) }}
                         </label>
                     @endforeach

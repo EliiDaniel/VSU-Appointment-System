@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Request;
 use App\Models\Document;
+use App\Models\RequestDocumentProcess;
 
 class Requests extends Component
 {
@@ -22,6 +23,8 @@ class Requests extends Component
     public $title = 'create-request';
     public Request $selectedRequest;
     public ?Document $selectedDocument;
+    public $completedProcesses = [];
+    public $pivotId;
 
     public function mount()
     {
@@ -80,8 +83,10 @@ class Requests extends Component
         $request->save();
     }
 
-    public function viewDocumentProcess(Document $document){
+    public function viewDocumentProcess(Document $document, $pivotId){
         $this->selectedDocument = $document;
+        $this->pivotId = $pivotId;
+        $this->completedProcesses = RequestDocumentProcess::where('request_document_id', $pivotId)->pluck('document_process_id');
 
         $this->dispatch('open-modal', 'view-document');
     }

@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('document_id');
             $table->unsignedBigInteger('document_process_id');
-            $table->timestamp('completed_at')->nullable();
             $table->timestamps();
 
             $table->foreign('document_id')->references('id')->on('documents')->onDelete('cascade');
