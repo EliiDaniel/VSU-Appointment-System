@@ -1,9 +1,20 @@
 @props([
     'name',
     'show' => false,
-    'maxWidth' => '2xl',
-    'prompt' => true,
+    'maxWidth' => '2xl'
 ])
+
+@php
+$maxWidth = [
+    'sm' => 'sm:max-w-sm',
+    'md' => 'sm:max-w-md',
+    'lg' => 'sm:max-w-lg',
+    'xl' => 'sm:max-w-xl',
+    '2xl' => 'sm:max-w-2xl',
+    '3xl' => 'sm:max-w-3xl',
+][$maxWidth];
+@endphp
+
 <div
     x-data="{
         show: @js($show),
@@ -31,9 +42,8 @@
     })"
     x-on:open-modal.window="$event.detail == '{{ $name }}' ? show = true : null"
     x-on:close-modal.window="$event.detail == '{{ $name }}' ? show = false : null"
-    x-on:confirm-close.window="confirm('Are you sure you want to close?') ? show = false : null"
-    x-on:close.stop="{{ $prompt }} ? $dispatch('confirm-close') : show = false"
-    x-on:keydown.escape.window="{{ $prompt }} ? $dispatch('confirm-close') : show = false"
+    x-on:close.stop="show = false"
+    x-on:keydown.escape.window="show = false"
     x-on:keydown.tab.prevent="$event.shiftKey || nextFocusable().focus()"
     x-on:keydown.shift.tab.prevent="prevFocusable().focus()"
     x-show="show"
@@ -43,7 +53,7 @@
     <div
         x-show="show"
         class="fixed inset-0 transform transition-all"
-        x-on:click="{{ $prompt }} ? $dispatch('confirm-close') : show = false"
+        x-on:click="show = false"
         x-transition:enter="ease-out duration-300"
         x-transition:enter-start="opacity-0"
         x-transition:enter-end="opacity-100"

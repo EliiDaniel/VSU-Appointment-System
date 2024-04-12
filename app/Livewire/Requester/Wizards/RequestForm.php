@@ -13,6 +13,8 @@ class RequestForm extends WizardComponent
 {
     public $dateConfigs;
     public $documents;
+    public $reDir;
+
     public array $steps = [
         SelectDocuments::class,
         Payment::class,
@@ -29,6 +31,7 @@ class RequestForm extends WizardComponent
         $this->mergeState([
             'user_id' => auth()->user()->id,
             'selected_documents' => [],
+            'payment_type' => '',
             'appointment_date' => $this->dateConfigs['minDate'],
         ]);
     }

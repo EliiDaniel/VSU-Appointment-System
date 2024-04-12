@@ -8,14 +8,17 @@ use App\Models\Document;
 
 class Index extends Component
 {
+    public $title = 'create-request';
+
     public function render()
     {
         return view('livewire.requester.index', [
             'documents' => Document::all(),
+            'dir' => 'requester.dashboard',
         ]);
     }
     
     public function createRequest(){
-        $this->dispatch('open-modal', 'create-request');
+        $this->dispatch('open-modal', 'request-modal');
     }
 }

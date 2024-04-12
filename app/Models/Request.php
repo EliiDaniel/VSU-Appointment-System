@@ -15,7 +15,16 @@ class Request extends Model
         'payment_type',
         'appointment_date',
     ];
-    
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updating(function ($model) {
+            $model->status = 'Canceled';
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -23,7 +32,12 @@ class Request extends Model
 
     public function documents()
     {
-        return $this->belongsToMany(Document::class, 'request_documents')->withPivot('completed_at');
+        return $this->belongsToMany(Document::class, 'request_documents')->withPivot('id', 'completed_at');
+    }
+
+    public function isDocumentComplete($pivotId)
+    {
+        return $this->documents()->wherePivot('id', $pivotId)->first()->processes()->count() === RequestDocumentProcess::where('request_document_id', $pivotId)->count();
     }
 
     public function scopeSearch($query, $value){
