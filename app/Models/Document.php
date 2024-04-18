@@ -16,7 +16,7 @@ class Document extends Model
 
     public function processes()
     {
-        return $this->belongsToMany(DocumentProcess::class, 'document_process_pivot')->withPivot('completed_at');
+        return $this->belongsToMany(DocumentProcess::class, 'document_process_pivot');
     }
 
     public function requests()

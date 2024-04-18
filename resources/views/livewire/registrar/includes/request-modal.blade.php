@@ -79,21 +79,21 @@
                 @endif
             </x-modal-second>
         </div>
-    @endif
 
-    @if($selectedRequest->status !== 'Canceled')
-        @if($selectedRequest->status === 'Pending Approval')
-            <div class="flex items-center justify-end">
-                <x-primary-button class="ms-4 mb-4 mr-4">
-                    {{ __('Approve') }}
-                </x-primary-button>
-            </div>
-        @else
-            <div class="flex items-center justify-end">
-                <x-primary-button class="ms-4 mb-4 mr-4">
-                    {{ __('Save') }}
-                </x-primary-button>
-            </div>
+        @if($selectedRequest->status !== 'Canceled')
+            @if($selectedRequest->status === 'Pending Approval')
+                <div class="flex items-center justify-end">
+                    <x-primary-button class="ms-4 mb-4 mr-4">
+                        {{ __('Approve') }}
+                    </x-primary-button>
+                </div>
+            @else
+                <div class="flex items-center justify-end">
+                    <x-primary-button class="ms-4 mb-4 mr-4">
+                        {{ __('Save') }}
+                    </x-primary-button>
+                </div>
+            @endif
         @endif
     @endif
 </x-modal>

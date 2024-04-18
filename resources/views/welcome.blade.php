@@ -19,9 +19,7 @@
                 <livewire:welcome.navigation />
             @endif
 
-            <a href="/" wire:navigate>
-                <x-application-logo maxWidth="2xl" class="w-20 h-20 fill-current text-gray-500" />
-            </a>
+            <livewire:welcome/>
         </div>
     </body>
 </html>
