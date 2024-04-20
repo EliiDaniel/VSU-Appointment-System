@@ -6,6 +6,7 @@ use App\Http\Controllers\{
     RequestersController,
     UsersController,
     DocumentsController,
+    EmailVerificationController,
 };
 
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view('/', 'welcome');
+Route::get('/verify-email/{email}', [EmailVerificationController::class, 'verify'])->name('email.verify');
+Route::get('/verification-complete', [EmailVerificationController::class, 'index'])->name('verification.complete');
 
 Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified', 'role'])->name('dashboard');

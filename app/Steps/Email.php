@@ -2,11 +2,12 @@
 
 namespace App\Steps;
 
+use Illuminate\Validation\Rule;
 use Vildanbina\LivewireWizard\Components\Step;
 
-class Payment extends Step
+class Email extends Step
 {
-    protected string $view = 'requester.request-steps.payment';
+    protected string $view = 'requester.request-steps.email';
 
     public function icon(): string
     {
@@ -17,16 +18,16 @@ class Payment extends Step
     {
         return [
             [
-                'state.payment_type' => ['required', 'string'],
+                'state.email' => ['required', 'email', 'exists:verified_emails,email'],
             ],
             [
-                'state.payment_type' => __('Payment'),
+                'state.email' => __('Email has not been verified'),
             ],
         ];
     }
 
     public function title(): string
     {
-        return __('Payment');
+        return __('Email');
     }
 }

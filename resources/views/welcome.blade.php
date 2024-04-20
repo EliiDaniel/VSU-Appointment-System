@@ -12,6 +12,7 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @wireUiScripts
     </head>
     <body class="antialiased">
         <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
@@ -19,9 +20,7 @@
                 <livewire:welcome.navigation />
             @endif
 
-            <a href="/" wire:navigate>
-                <x-application-logo maxWidth="2xl" class="w-20 h-20 fill-current text-gray-500" />
-            </a>
+            <livewire:welcome/>
         </div>
     </body>
 </html>
