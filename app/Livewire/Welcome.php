@@ -6,6 +6,9 @@ use Livewire\Component;
 use App\Models\Request;
 use App\Models\Document;
 use App\Models\RequestDocumentProcess;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\EmailVerification;
 
 class Welcome extends Component
 {
@@ -14,7 +17,13 @@ class Welcome extends Component
     public $pivotId;
     public $completedProcesses = [];
     public $trackingNumber;
+    public $email;
     public $title = 'create-request';
+
+    public function mount()
+    {
+        $this->email = session('verified_email');
+    }
 
     public function render()
     {
@@ -26,7 +35,7 @@ class Welcome extends Component
 
     public function track($code)
     {
-        $this->request = Request::find($code);
+        $this->request = Request::where('tracking_code', $code)->first();
         $this->selectedDocument = null;
         $this->title = 'view-request';
 
@@ -38,7 +47,7 @@ class Welcome extends Component
         $this->title = 'create-request';
         $this->selectedDocument = null;
 
-        $this->dispatch('open-modal', 'request-modal');
+        $this->dispatch('open-modal', 'tracking-modal');
     }
 
     public function viewDocumentProcess(Document $document, $pivotId){
@@ -54,5 +63,10 @@ class Welcome extends Component
         if (!empty($this->trackingNumber)) {
             $this->track($this->trackingNumber);
         }
+    }
+
+    public function submitEmail()
+    {
+        Notification::route('mail', $this->email)->notify(new EmailVerification(url('/verify-email/' . urlencode($this->email))));
     }
 }

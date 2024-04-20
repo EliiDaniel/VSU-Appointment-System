@@ -10,7 +10,7 @@
             </div>
 
             <div class="flex items-center justify-between mt-4">
-                <x-secondary-button>
+                <x-secondary-button wire:click="createRequest">
                     {{ __('Request Documents') }}
                 </x-secondary-button>
                 
@@ -22,6 +22,10 @@
     </div>
     
     <x-modal name="tracking-modal" maxWidth="2xl" prompt="$wire.title !== 'view-request'">
+        <div class="p-6 text-gray-900 dark:text-gray-100" x-show="$wire.title === 'create-request'">
+            <livewire:wizards.no-account-request-form :documents="$documents" :re-dir="$dir" :verified-email="$email"/>
+        </div>
+
     @if(isset($request))
         <div class="p-6 text-gray-900 dark:text-gray-100" x-show="$wire.title === 'view-request'">
             <div class="text-lg flex items-center justify-between">
@@ -104,7 +108,7 @@
         </div>
 
     @else
-        <div class="p-6 text-gray-900 dark:text-gray-100">
+        <div class="p-6 text-gray-900 dark:text-gray-100" x-show="$wire.title === 'view-request'">
             No Request Found
         </div>
 

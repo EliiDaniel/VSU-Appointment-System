@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 
 class Request extends Model
 {
@@ -11,6 +12,7 @@ class Request extends Model
 
     protected $fillable = [
         'user_id',
+        'verified_email_id',
         'price',
         'payment_type',
         'appointment_date',
@@ -19,6 +21,18 @@ class Request extends Model
     protected static function boot()
     {
         parent::boot();
+    
+        static::created(function ($request) {
+            do {
+                $hash = Hash::make($request->id);
+                $hashLength = 10;
+                $hash = substr($hash, 0, $hashLength);
+
+                $existingRequest = self::where('tracking_code', $hash)->first();
+            } while ($existingRequest);
+            $request->tracking_code = $hash;
+            $request->save();
+        });
 
         static::updating(function ($model) {
             $model->status = 'Canceled';
@@ -28,6 +42,11 @@ class Request extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function verified_email()
+    {
+        return $this->belongsTo(VerifiedEmail::class);
     }
 
     public function documents()

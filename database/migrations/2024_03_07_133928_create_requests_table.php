@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->string('tracking_code')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('verified_email_id')->nullable();
             $table->decimal('price', 8, 2)->default(0);
             $table->enum('payment_type', ['Walk in', 'Online'])->default('Walk in');
             $table->timestamp('appointment_date');
@@ -25,7 +27,8 @@ return new class extends Migration
             $table->enum('status', ['Pending Approval', 'In Progress', 'Awaiting Payment', 'Ready for Collection', 'Completed', 'Canceled'])->default('Pending Approval');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            
+            $table->foreign('verified_email_id')->references('id')->on('verified_emails')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
