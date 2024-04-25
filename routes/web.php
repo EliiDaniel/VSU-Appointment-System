@@ -7,6 +7,7 @@ use App\Http\Controllers\{
     UsersController,
     DocumentsController,
     EmailVerificationController,
+    CheckoutController,
 };
 
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,8 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome');
 Route::get('/verify-email/{email}', [EmailVerificationController::class, 'verify'])->name('email.verify');
 Route::get('/verification-complete', [EmailVerificationController::class, 'index'])->name('verification.complete');
+Route::get('/checkout-successful', [CheckoutController::class, 'successful'])->name('checkout.successful');
+Route::get('/checkout-failed', [CheckoutController::class, 'failed'])->name('checkout.failed');
 
 Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified', 'role'])->name('dashboard');

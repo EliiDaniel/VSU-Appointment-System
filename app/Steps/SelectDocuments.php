@@ -7,13 +7,6 @@ use Vildanbina\LivewireWizard\Components\Step;
 class SelectDocuments extends Step
 {
     protected string $view = 'requester.request-steps.select-documents';
-    
-    public function mount()
-    {
-        $this->mergeState([
-            'price',
-        ]);
-    }
 
     public function icon(): string
     {

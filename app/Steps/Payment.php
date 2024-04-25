@@ -15,6 +15,18 @@ class Payment extends Step
 
     public function validate()
     {
+        if($this->getLivewire()->getState()['payment_type'] === 'Online'){
+            return [
+                [
+                    'state.payment_type' => ['required', 'string'],
+                    'state.checkout_id' => ['required', 'string', 'exists:transactions,checkout_id'],
+                ],
+                [
+                    'state.payment_type' => __('Payment'),
+                    'state.checkout_id' => __('Payment'),
+                ],
+            ];
+        }
         return [
             [
                 'state.payment_type' => ['required', 'string'],

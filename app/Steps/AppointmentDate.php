@@ -20,13 +20,22 @@ class AppointmentDate extends Step
     {
         $request = Request::create([
             'user_id' => isset($state['user_id']) ? $state['user_id'] : null,
+            'transaction_id' => isset($this->getLivewire()->transaction) ? $this->getLivewire()->transaction->id : null,
             'verified_email_id' => isset($state['email']) ? VerifiedEmail::where('email', $state['email'])->first()->id : null,
             'price' => $state['price'],
             'payment_type' => $state['payment_type'],
             'appointment_date' => Carbon::parse($state['appointment_date'])->format('Y-m-d\TH:i'),
         ]);
 
-        $request->documents()->sync($state['selected_documents']);
+        $syncData = [];
+        foreach ($this->getLivewire()->selected_docs as $doc) {
+            $syncData[] = [
+                'document_id' => $doc->id,
+                'quantity' => $state['quantities'][$doc->id]
+            ];
+        }
+
+        $request->documents()->sync($syncData);
 
         return $this->getLivewire()->reDir !== '/' ? redirect()->route($this->getLivewire()->reDir) : redirect('/');
     }

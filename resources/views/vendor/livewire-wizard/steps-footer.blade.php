@@ -1,6 +1,12 @@
 <div class="p-2 flex flex-row-reverse justify-between">
     @if($this->hasNextStep())
-        <x-button primary right-icon="chevron-right" wire:click="goToNextStep" spinner="goToNextStep" :label="__('Next')"/>
+        @if($this->getCurrentStep()->title() === 'Select Documents' )
+            <x-button primary right-icon="chevron-right" wire:click="createOnlineCheckout" spinner="goToNextStep" :label="__('Next')"/>
+        @elseif($this->getCurrentStep()->title() === 'Payment' )
+            <x-button primary right-icon="chevron-right" wire:click="verifyPayment" spinner="goToNextStep" :label="__('Next')"/>
+        @else
+            <x-button primary right-icon="chevron-right" wire:click="goToNextStep" spinner="goToNextStep" :label="__('Next')"/>
+        @endif
         @if($this->getCurrentStep()->title() === 'Email' )
             <div class="flex items-center gap-2">
                 <x-secondary-button wire:click="verify">
