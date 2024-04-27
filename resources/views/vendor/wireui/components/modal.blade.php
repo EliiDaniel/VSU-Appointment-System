@@ -3,6 +3,7 @@
     'show' => false,
     'maxWidth' => '2xl',
     'prompt' => true,
+    'disabledClose' => false,
 ])
 <div
     x-data="{
@@ -31,7 +32,8 @@
     })"
     x-on:open-modal.window="$event.detail == '{{ $name }}' ? show = true : null"
     x-on:close-modal.window="$event.detail == '{{ $name }}' ? show = false : null"
-    x-on:confirm-close.window="confirm('Are you sure you want to close?') ? show = false : null"
+    x-on:confirm-close.window="!{{ $disabledClose }} ? (confirm('Are you sure you want to close?') ? show = false : null) : alert('Transaction Completed, Unable to close modal!')"
+    x-on:disabled-close.window="alert('Unable to close modal, payment already made!')"
     x-on:close.stop="{{ $prompt }} ? $dispatch('confirm-close') : show = false"
     x-on:keydown.escape.window="{{ $prompt }} ? $dispatch('confirm-close') : show = false"
     x-on:keydown.tab.prevent="$event.shiftKey || nextFocusable().focus()"
