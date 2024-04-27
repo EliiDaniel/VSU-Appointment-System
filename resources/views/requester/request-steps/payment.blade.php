@@ -21,3 +21,30 @@
         </a>
     </div>
 </div>
+
+@script
+    <script>
+        let paymentInterval, globalInterval;
+
+        function globalIntervalLogic() {
+            paymentInterval = setInterval(() => {
+                if ($wire.state['payment_type'] == 'Online' && !$wire.state['transaction']) {
+                    clearInterval(globalInterval);
+                    $wire.verifyPayment();
+                } else if ($wire.state['payment_type'] == 'Online') {
+                    clearInterval(paymentInterval);
+                    globalInterval = startInterval(globalInterval, globalIntervalLogic);
+                } else if ($wire.state['transaction']) {
+                    clearInterval(globalInterval);
+                    clearInterval(paymentInterval);
+                }
+            }, 5000);
+        }
+
+        function startInterval(interval, callback) {
+            clearInterval(interval);
+            return setInterval(callback, 5000);
+        }
+        globalInterval = startInterval(globalInterval, globalIntervalLogic);
+    </script>
+@endscript

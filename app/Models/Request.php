@@ -25,9 +25,7 @@ class Request extends Model
     
         static::created(function ($request) {
             do {
-                $hash = Hash::make($request->id);
-                $hashLength = 10;
-                $hash = substr($hash, 0, $hashLength);
+                $hash = uniqid() . mt_rand(1000, 9999);
 
                 $existingRequest = self::where('tracking_code', $hash)->first();
             } while ($existingRequest);
