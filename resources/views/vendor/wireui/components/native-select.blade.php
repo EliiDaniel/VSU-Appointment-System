@@ -39,11 +39,4 @@
             {{ $hint }}
         </label>
     @endif
-
-    @if ($name)
-        <x-dynamic-component
-            :component="WireUi::component('error')"
-            :name="$name"
-        />
-    @endif
 </div>

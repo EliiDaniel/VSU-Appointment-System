@@ -13,6 +13,7 @@ class Request extends Model
     protected $fillable = [
         'user_id',
         'verified_email_id',
+        'transaction_id',
         'price',
         'payment_type',
         'appointment_date',
@@ -51,12 +52,17 @@ class Request extends Model
 
     public function documents()
     {
-        return $this->belongsToMany(Document::class, 'request_documents')->withPivot('id', 'completed_at');
+        return $this->belongsToMany(Document::class, 'request_documents')->withPivot('id', 'quantity', 'completed_at');
     }
 
     public function isDocumentComplete($pivotId)
     {
         return $this->documents()->wherePivot('id', $pivotId)->first()->processes()->count() === RequestDocumentProcess::where('request_document_id', $pivotId)->count();
+    }
+
+    public function transaction()
+    {
+        return $this->hasOne(Transaction::class);
     }
 
     public function scopeSearch($query, $value){
