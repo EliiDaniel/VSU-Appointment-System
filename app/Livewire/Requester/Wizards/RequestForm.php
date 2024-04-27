@@ -34,6 +34,7 @@ class RequestForm extends WizardComponent
         ];
 
         $this->mergeState([
+            'transaction' => false,
             'checkout_id' => '',
             'user_id' => auth()->user()->id,
             'selected_documents' => [],
@@ -104,6 +105,7 @@ class RequestForm extends WizardComponent
                 ],
                 'success_url' => route('checkout.successful'),
                 'statement_descriptor' => 'Laravel Paymongo Library',
+                'reference_number' => uniqid() . mt_rand(100, 999),
                 'metadata' => [
                     'Key' => 'Value'
                 ]
@@ -117,7 +119,7 @@ class RequestForm extends WizardComponent
         $this->goToNextStep();
     }
 
-    public function calculatePrice($selected_documents )
+    public function calculatePrice($selected_documents)
     {
         $total_price = 0;
 
@@ -132,17 +134,16 @@ class RequestForm extends WizardComponent
 
     public function verifyPayment()
     {
-        if($this->state['payment_type'] == 'Online'){
+        if($this->state['payment_type'] == 'Online' && !isset($this->transaction) && isset($this->checkout)){
             $checkout = Paymongo::checkout()->find($this->checkout['id']);
             if(isset($checkout->getData()['paid_at'])){
                 $this->transaction = Transaction::create([
                     'checkout_id' => $checkout->getData()['id'],
                 ]);
+                $this->state['transaction'] = true;
                 session()->flash('transaction_complete', 'Transaction Complete');
             }
         }
-        
-        $this->goToNextStep();
     }
 
     public function expireCheckout()
