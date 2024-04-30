@@ -20,7 +20,6 @@ class AppointmentDate extends Step
     {
         $request = Request::create([
             'user_id' => isset($state['user_id']) ? $state['user_id'] : null,
-            'transaction_id' => isset($this->getLivewire()->transaction) ? $this->getLivewire()->transaction->id : null,
             'verified_email_id' => isset($state['email']) ? VerifiedEmail::where('email', $state['email'])->first()->id : null,
             'price' => $state['price'],
             'payment_type' => $state['payment_type'],
@@ -36,6 +35,10 @@ class AppointmentDate extends Step
         }
 
         $request->documents()->sync($syncData);
+
+        if (isset($this->getLivewire()->transaction)) {
+            $this->getLivewire()->transaction->update(['request_id' => $request->id]);
+        }
 
         return $this->getLivewire()->reDir !== '/' ? redirect()->route($this->getLivewire()->reDir) : redirect('/');
     }

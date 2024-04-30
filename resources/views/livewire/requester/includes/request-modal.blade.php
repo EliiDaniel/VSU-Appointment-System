@@ -8,7 +8,7 @@
             <div class="p-6 text-gray-900 dark:text-gray-100" x-show="$wire.title === 'view-request'">
                 <div class="text-lg flex items-center justify-between">
                     <span class="text-gray-600 dark:text-gray-400">Status: {{ $selectedRequest->status }}</span>
-                    <span class="text-gray-600 dark:text-gray-400 whitespace-nowrap">Request #{{ $selectedRequest->id }}</span>
+                    <span class="text-gray-600 dark:text-gray-400 whitespace-nowrap">Request #{{ $selectedRequest->tracking_code }}</span>
                 </div>
                 <div class="mt-2">
                     <div>
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <x-modal-second name="view-document" maxWidth="lg">
                     @if(isset($selectedDocument))
                         <div class="flex flex-wrap p-6 justify-center">

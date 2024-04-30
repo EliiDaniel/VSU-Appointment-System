@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('request_id')->nullable();
             $table->string('checkout_id');
             $table->timestamps();
+
+            $table->foreign('request_id')->references('id')->on('requests')->onDelete('cascade');
         });
     }
 

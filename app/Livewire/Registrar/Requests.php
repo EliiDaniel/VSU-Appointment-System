@@ -72,7 +72,8 @@ class Requests extends Component
         $this->dispatch('open-modal', 'view-document');
     }
 
-    public function modifyProcess($documentProcess){
+    public function modifyProcess($documentProcess)
+    {
         $docProcess = RequestDocumentProcess::exists($this->pivotId, $documentProcess);
         if ($docProcess) {
             $docProcess->delete();
@@ -83,7 +84,13 @@ class Requests extends Component
             ]);
         }
 
+        $this->selectedRequest->areAllDocumentsCompleted();
         $this->completedProcesses = RequestDocumentProcess::where('request_document_id', $this->pivotId)->pluck('document_process_id');
+    }
+
+    public function approveRequest()
+    {
+        $this->selectedRequest->approve();
     }
 
     public function updatedShownEntries()

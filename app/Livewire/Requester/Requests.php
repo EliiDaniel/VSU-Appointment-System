@@ -79,8 +79,7 @@ class Requests extends Component
     }
 
     public function cancelRequest(Request $request){
-        $request->canceled_at = date('Y-m-d H:i:s');
-        $request->save();
+        $request->cancel();
     }
 
     public function viewDocumentProcess(Document $document, $pivotId){

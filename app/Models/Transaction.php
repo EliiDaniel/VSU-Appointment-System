@@ -10,6 +10,12 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
+        'request_id',
         'checkout_id',
     ];
+
+    public function request()
+    {
+        return $this->belongsTo(Request::class);
+    }
 }
