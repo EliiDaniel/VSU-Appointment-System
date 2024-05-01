@@ -8,6 +8,7 @@ use App\Steps\Payment;
 use App\Steps\AppointmentDate;
 use App\Models\Request;
 use App\Models\Transaction;
+use App\Models\Schedule;
 use Carbon\Carbon;
 use Luigel\Paymongo\Facades\Paymongo;
 
@@ -19,8 +20,10 @@ class RequestForm extends WizardComponent
     public $checkout;
     public $selected_docs;
     public ?Transaction $transaction;
+    public ?Schedule $schedule;
 
     public array $steps = [
+        AppointmentDate::class,
         SelectDocuments::class,
         Payment::class,
         AppointmentDate::class,
@@ -28,9 +31,11 @@ class RequestForm extends WizardComponent
 
     public function mount()
     {
+        $this->schedule = Schedule::first();
         $this->dateConfigs = [
-            'minDate' => Carbon::now()->addDays(2)->startOfDay()->addHours(8)->format('Y-m-d\TH:i'),
-            'maxDate' => Carbon::now()->addDays(7)->endOfDay()->subHours(7)->format('Y-m-d\TH:i'),
+            'minDate' => Carbon::now()->addDays($this->schedule->min)->startOfDay()->addHours(8)->format('Y-m-d\TH:i'),
+            'maxDate' => Carbon::now()->addDays($this->schedule->min + $this->schedule->max)->endOfDay()->subHours(7)->format('Y-m-d\TH:i'),
+            'blockedDates' => Carbon::now()->addDays(3)->endOfDay()->subHours(7)->format('Y-n-j'),
         ];
 
         $this->mergeState([
@@ -40,7 +45,7 @@ class RequestForm extends WizardComponent
             'selected_documents' => [],
             'quantities' => $this->populateQuantities(),
             'payment_type' => '',
-            'appointment_date' => $this->dateConfigs['minDate'],
+            'appointment_date' => null,
         ]);
     }
 

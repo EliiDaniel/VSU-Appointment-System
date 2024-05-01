@@ -157,7 +157,7 @@
                     </template>
 
                     <template
-                        x-for="date in dates"
+                        x-for="(date, index) in dates"
                         :key="`date.${date.day}.${date.month}`"
                     >
                         <div class="flex justify-center picker-days">
@@ -165,13 +165,13 @@
                                          hover:bg-gray-100 dark:hover:bg-gray-800 dark:focus:ring-gray-400
                                           disabled:cursor-not-allowed"
                                 :class="{
-                                    'text-gray-600 dark:text-gray-100': !date.isDisabled && !date.isSelected && date.month === month,
-                                    'text-gray-400 dark:text-gray-500': date.isDisabled || date.month !== month,
+                                    'text-gray-600 dark:text-gray-100': !(date.isDisabled || `${date.year}-${date.month + 1}-${date.day}` === '{{$this->dateConfigs['blockedDates']}}' || !{{ json_encode($this->schedule->enabled_days) }}.includes((index % 7))) && !date.isSelected && date.month === month,
+                                    'text-gray-400 dark:text-gray-500': date.isDisabled || `${date.year}-${date.month + 1}-${date.day}` === '{{$this->dateConfigs['blockedDates']}}' || date.month !== month || !{{ json_encode($this->schedule->enabled_days) }}.includes((index % 7)),
                                     '!text-green-500 bg-gray-600 font-semibold border border-gray-600': date.isSelected,
                                     'disabled:bg-gray-400 disabled:border-gray-400': date.isSelected,
                                     'hover:bg-gray-600 dark:bg-gray-700 dark:border-green-400': date.isSelected,
                                 }"
-                                :disabled="date.isDisabled"
+                                :disabled="date.isDisabled || `${date.year}-${date.month + 1}-${date.day}` === '{{$this->dateConfigs['blockedDates']}}' || !{{ json_encode($this->schedule->enabled_days) }}.includes((index % 7))"
                                 x-on:click="selectDate(date)"
                                 x-text="date.day"
                                 type="button">

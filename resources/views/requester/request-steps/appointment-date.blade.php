@@ -9,6 +9,6 @@
         min-time="08:00"
         max-time="17:00"
         interval="30"
-        :clearable="false"
+        :clearable="true"
     />
 </div>

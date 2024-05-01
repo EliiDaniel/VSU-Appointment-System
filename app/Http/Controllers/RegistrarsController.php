@@ -25,4 +25,9 @@ class RegistrarsController extends Controller
     {
         return view('registrar.requests');
     }
+    
+    public function schedules()
+    {
+        return view('registrar.schedules');
+    }
 }
