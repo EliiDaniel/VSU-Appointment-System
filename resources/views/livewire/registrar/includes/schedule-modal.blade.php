@@ -1,5 +1,5 @@
-<x-modal name="view-schedule" prompt="true" disabledClose="false">
-    <div class="p-6">
+<x-modal name="schedule-modal" prompt="true" disabledClose="false">
+    <div class="p-6" x-show="$wire.title === 'view-schedule'">
         <form method="post" class="space-y-6">
             @csrf
             @method('patch')
@@ -31,6 +31,32 @@
             </div>
             <div class="flex items-center justify-end gap-4">
                 <x-primary-button>{{ __('Update') }}</x-primary-button>
+            </div>
+        </form>
+    </div>
+
+    
+    <div class="p-6 text-gray-900 dark:text-gray-100" x-show="$wire.title === 'create-blocked-date'">
+        <form method="post" action="{{ route('create.blocked-date') }}" class="space-y-6">
+            @csrf
+            @method('patch')
+
+            <div>
+                <x-datetime-picker
+                    name="date"
+                    without-tips="true"
+                    label="Appointment Date"
+                    placeholder="Blocked Date"
+                    :timezone="'Asia/Manila'"
+                    display-format="YYYY-MM-DD HH:mm:ss"
+                    wire:model="model"
+                    :min="now()"
+                    without-time="true"
+                />
+            </div>
+
+            <div class="flex items-center justify-end gap-4">
+                <x-primary-button>{{ __('Create') }}</x-primary-button>
             </div>
         </form>
     </div>

@@ -9,6 +9,7 @@ use App\Steps\AppointmentDate;
 use App\Models\Request;
 use App\Models\Transaction;
 use App\Models\Schedule;
+use App\Models\BlockedDate;
 use Carbon\Carbon;
 use Luigel\Paymongo\Facades\Paymongo;
 
@@ -23,7 +24,6 @@ class RequestForm extends WizardComponent
     public ?Schedule $schedule;
 
     public array $steps = [
-        AppointmentDate::class,
         SelectDocuments::class,
         Payment::class,
         AppointmentDate::class,
@@ -35,7 +35,7 @@ class RequestForm extends WizardComponent
         $this->dateConfigs = [
             'minDate' => Carbon::now()->addDays($this->schedule->min)->startOfDay()->addHours(8)->format('Y-m-d\TH:i'),
             'maxDate' => Carbon::now()->addDays($this->schedule->min + $this->schedule->max)->endOfDay()->subHours(7)->format('Y-m-d\TH:i'),
-            'blockedDates' => Carbon::now()->addDays(3)->endOfDay()->subHours(7)->format('Y-n-j'),
+            'blockedDates' => BlockedDate::getFormattedBlockedDates(Carbon::now()->addDays($this->schedule->min)->startOfDay()->addHours(8)->format('Y-m-d\TH:i'), Carbon::now()->addDays($this->schedule->min + $this->schedule->max)->endOfDay()->subHours(7)->format('Y-m-d\TH:i')),
         ];
 
         $this->mergeState([
@@ -160,5 +160,10 @@ class RequestForm extends WizardComponent
                 $this->checkout = null;
             }
         }
+    }
+
+    public function getRequestCountOn($day)
+    {
+        return Request::numberOfRequestsOn($day);
     }
 }

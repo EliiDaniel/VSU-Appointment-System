@@ -17,6 +17,8 @@ return new class extends Migration
             $table->integer('daily_limit')->default(50);
             $table->integer('min')->default(0);
             $table->integer('max')->default(0);
+            $table->time('min_time')->nullable();
+            $table->time('max_time')->nullable();
             $table->timestamps();
         });
     }

@@ -9,6 +9,8 @@ use App\Steps\AppointmentDate;
 use App\Steps\Email;
 use App\Models\Request;
 use App\Models\Transaction;
+use App\Models\Schedule;
+use App\Models\BlockedDate;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\EmailVerification;
@@ -24,6 +26,7 @@ class NoAccountRequestForm extends WizardComponent
     public $checkout;
     public $selected_docs;
     public ?Transaction $transaction;
+    public ?Schedule $schedule;
 
     public array $steps = [
         Email::class,
@@ -34,9 +37,11 @@ class NoAccountRequestForm extends WizardComponent
 
     public function mount()
     {
+        $this->schedule = Schedule::first();
         $this->dateConfigs = [
-            'minDate' => Carbon::now()->addDays(2)->startOfDay()->addHours(8)->format('Y-m-d\TH:i'),
-            'maxDate' => Carbon::now()->addDays(7)->endOfDay()->subHours(7)->format('Y-m-d\TH:i'),
+            'minDate' => Carbon::now()->addDays($this->schedule->min)->startOfDay()->addHours(8)->format('Y-m-d\TH:i'),
+            'maxDate' => Carbon::now()->addDays($this->schedule->min + $this->schedule->max)->endOfDay()->subHours(7)->format('Y-m-d\TH:i'),
+            'blockedDates' => BlockedDate::getFormattedBlockedDates(Carbon::now()->addDays($this->schedule->min)->startOfDay()->addHours(8)->format('Y-m-d\TH:i'), Carbon::now()->addDays($this->schedule->min + $this->schedule->max)->endOfDay()->subHours(7)->format('Y-m-d\TH:i')),
         ];
 
         $this->mergeState([
@@ -46,7 +51,7 @@ class NoAccountRequestForm extends WizardComponent
             'selected_documents' => [],
             'quantities' => $this->populateQuantities(),
             'payment_type' => '',
-            'appointment_date' => $this->dateConfigs['minDate'],
+            'appointment_date' => null,
         ]);
     }
 
@@ -175,5 +180,10 @@ class NoAccountRequestForm extends WizardComponent
                 $this->checkout = null;
             }
         }
+    }
+
+    public function getRequestCountOn($day)
+    {
+        return Request::numberOfRequestsOn($day);
     }
 }

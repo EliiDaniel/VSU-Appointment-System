@@ -15,6 +15,7 @@ class Schedules extends Component
     public $shownEntries = 5;
     public $sortBy = 'id';
     public $sortDir = 'ASC';
+    public $title = 'view-document';
     public Schedule $schedule;
     public $selectedDays;
     public $dayNames ;
@@ -50,7 +51,14 @@ class Schedules extends Component
 
     public function viewSchedule(){
         $this->selectedDays = json_decode($this->schedule->enabled_days);
-        $this->dispatch('open-modal', 'view-schedule');
-    }
+        $this->title = "view-schedule";
 
+        $this->dispatch('open-modal', 'schedule-modal');
+    }
+    
+    public function createBlockedDate(){
+        $this->title = "create-blocked-date";
+
+        $this->dispatch('open-modal', 'schedule-modal');
+    }
 }

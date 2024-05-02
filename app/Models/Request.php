@@ -103,6 +103,15 @@ class Request extends Model
         }
     }
 
+    public static function numberOfRequestsOn($date)
+    {
+        $formattedDate = date('Y-n-j', strtotime($date));
+
+        $count =  self::whereDate('appointment_date', '=', $formattedDate)->count();
+
+        return $count;
+    }
+
     public function scopeSearch($query, $value){
         $query->where('id', 'like', "%{$value}%");
     }

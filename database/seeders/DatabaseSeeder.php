@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
         // ]);
         \App\Models\Schedule::create([
             'enabled_days' => json_encode([1, 2, 3, 4, 5, 6]),
+            'min_time' => '08:00:00',
+            'max_time' => '17:00:00',
         ]);
     }
 }
