@@ -29,8 +29,7 @@ class ScheduleController extends Controller
         'enabled_days' => json_encode($validatedData['days'])
     ]);
 
-
-    $request->session()->flash('status', 'Success');
+    $request->session()->flash('status', 'Appointment Settings');
     return redirect()->back();
 }
 }

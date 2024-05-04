@@ -44,7 +44,8 @@ class Schedules extends Component
     public function render()
     {
         return view('livewire.registrar.schedules', [
-            'blocked_dates' => BlockedDate::orderBy($this->sortBy, $this->sortDir)
+            'blocked_dates' => BlockedDate::search($this->search)
+                            ->orderBy($this->sortBy, $this->sortDir)
                             ->paginate($this->shownEntries),
         ]);
     }
@@ -65,5 +66,19 @@ class Schedules extends Component
         $this->title = "create-blocked-date";
 
         $this->dispatch('open-modal', 'schedule-modal');
+    }
+    
+    public function deleteBlockedDate(BlockedDate $blocked_date){
+        $blocked_date->delete();
+    }
+    
+    public function updatedShownEntries()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
     }
 }

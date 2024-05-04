@@ -1,4 +1,4 @@
-<x-modal name="document-modal">
+<x-modal name="document-modal" prompt="true" disabledClose="false">
     @if($selectedDocument)
         <div class="p-6" x-show="$wire.title === 'view-document'">
             <form method="post" action="{{ route('update.document', ['id' => $selectedDocument->id]) }}" class="space-y-6" onsubmit="return confirm('Are you sure you want to update {{ $selectedDocument->name }}?');">
@@ -17,12 +17,16 @@
                 
                 <div class="text-gray-700 dark:text-gray-300 whitespace-nowrap">
                     <x-input-label for="process" :value="__('Select process in order')" />
-                    <div class="flex flex-wrap pt-1">
+                    <div class="flex flex-wrap pt-1 gap-2">
                         @foreach($processes as $process)
-                            <label class="text-center">
-                            <input type="checkbox" name="processes[]" value="{{ $process->id }}" class="rounded-full ml-4" x-init=" $watch('show', value => { if (value) { $dispatch('reinit') } })" @reinit="$event.target.checked = procs.includes('{{ $process->name }}')" x-on:click=" $event.target.checked ? procs.push('{{ $process->name }}') : procs = procs.filter(item => item !== '{{ $process->name }}');">
-                                {{ ucfirst($process->name) }}
+                        <div x-data="{ isChecked: procs.includes('{{ $process->name }}') }" class="mr-2 mb-2">
+                            <label>
+                                <input x-model="isChecked" type="checkbox" name="processes[]" value="{{ $process->id }}" class="hidden">
+                                <button type="button" @click="isChecked = !isChecked; isChecked ? procs.push('{{ $process->name }}') : procs = procs.filter(item => item !== '{{ $process->name }}');" x-bind:class="{ 'outline-none ring-2 ring-emerald-500 ring-offset-2 dark:ring-offset-gray-800': isChecked }" class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-25 transition ease-in-out duration-150">
+                                    {{ ucfirst($process->name)  }}
+                                </button>
                             </label>
+                        </div>
                         @endforeach
                     </div>
 
@@ -65,12 +69,16 @@
         
             <div class="text-gray-700 dark:text-gray-300 mt-4">
                 <x-input-label for="process" :value="__('Select process in order')" />
-                <div class="flex flex-wrap pt-1">
+                <div class="flex flex-wrap pt-1 gap-2">
                     @foreach($processes as $process)
-                        <label class="text-center">
-                        <input type="checkbox" name="processes[]" value="{{ $process->id }}" class="rounded-full ml-4" x-init="$watch('show', value => { if (value) { $dispatch('reinit') } })" @reinit="$event.target.checked = procs.includes('{{ $process->name }}')" x-on:click="$event.target.checked ? procs.push('{{ $process->name }}') : procs = procs.filter(item => item !== '{{ $process->name }}');">
-                            {{ ucfirst($process->name) }}
-                        </label>
+                        <div x-data="{ isChecked: false }" class="mr-2 mb-2">
+                            <label>
+                                <input x-model="isChecked" type="checkbox" name="processes[]" value="{{ $process->id }}" class="hidden">
+                                <button type="button" @click="isChecked = !isChecked; isChecked ? procs.push('{{ $process->name }}') : procs = procs.filter(item => item !== '{{ $process->name }}');" x-bind:class="{ 'outline-none ring-2 ring-emerald-500 ring-offset-2 dark:ring-offset-gray-800': isChecked }" class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-25 transition ease-in-out duration-150">
+                                    {{ ucfirst($process->name)  }}
+                                </button>
+                            </label>
+                        </div>
                     @endforeach
                 </div>
 

@@ -17,6 +17,7 @@ class BlockedDatesController extends Controller
             'date' => $request->input('date'),
         ]);
 
+        $request->session()->flash('status', 'Blocked Date Created');
         return redirect()->back();
     }
 }

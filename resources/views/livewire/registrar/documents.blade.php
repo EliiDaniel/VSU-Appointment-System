@@ -128,7 +128,7 @@
             <div class="fixed bottom-4 right-4">
                 <x-dropdown-reversed align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="bg-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-300 p-2 rounded-full z-50 opacity-75 hover:opacity-100 ease-in-out duration-200"
+                        <button class="bg-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-300 p-2 rounded-full opacity-75 hover:opacity-100 ease-in-out duration-200"
                             >
                             <svg class="fill-current h-8 w-8 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                 <title>New Supplier/Type</title>

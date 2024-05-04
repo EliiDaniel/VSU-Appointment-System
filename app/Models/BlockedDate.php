@@ -28,4 +28,8 @@ class BlockedDate extends Model
 
         return $formattedDates;
     }
+
+    public function scopeSearch($query, $value){
+        $query->where('date', 'like', "%{$value}%");
+    }
 }
