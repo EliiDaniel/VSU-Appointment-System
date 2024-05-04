@@ -11,7 +11,10 @@ class Schedule extends Model
 
     protected $fillable = [
         'enabled_days',
+        'daily_limit',
         'min',
         'max',
+        'min_time',
+        'max_time',
     ];
 }

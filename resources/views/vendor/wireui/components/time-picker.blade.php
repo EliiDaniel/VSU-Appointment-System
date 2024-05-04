@@ -28,14 +28,15 @@
             :prefix="$prefix"
             :prepend="$prepend"
             x-model="input"
+            class="py-[10px] border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm0"
             x-on:input.debounce.150ms="onInput($event.target.value)"
             x-on:blur="emitInput">
             <x-slot name="append">
                 <div class="absolute inset-y-0 right-3 z-5 flex items-center justify-center">
                     <div @class([
-                        'flex items-center gap-x-2 my-auto',
+                        'flex items-center gap-x-2 my-auto dark:text-gray-300',
                         'text-negative-400 dark:text-negative-600' => $name && $errors->has($name),
-                        'text-secondary-400'                         => $name && $errors->has($name),
+                        'text-gray-400'                         => $name && $errors->has($name),
                     ])>
                         <x-dynamic-component
                             :component="WireUi::component('icon')"
@@ -48,7 +49,7 @@
 
                         <x-dynamic-component
                             :component="WireUi::component('icon')"
-                            class="cursor-pointer w-5 h-5 text-gray-400 dark:text-gray-600"
+                            class="cursor-pointer w-5 h-5"
                             name="clock"
                             x-show="!config.readonly && !config.disabled"
                             x-on:click="toggle"
@@ -60,14 +61,15 @@
     </div>
 
     <x-wireui::parts.popover
-        class="p-2.5 sm:max-w-[15rem]"
+        class="p-2.5 sm:max-w-[15rem] border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
         :margin="(bool) $label"
         x-on:keydown.tab.prevent="$event.shiftKey || getNextFocusable().focus()"
         x-on:keydown.arrow-down.prevent="$event.shiftKey || getNextFocusable().focus()"
         x-on:keydown.shift.tab.prevent="getPrevFocusable().focus()"
         x-on:keydown.arrow-up.prevent="getPrevFocusable().focus()"
-    >
-        <x-dynamic-component
+    >   
+
+    <x-dynamic-component
             :component="WireUi::component('input')"
             :label="trans('wireui::messages.selectTime')"
             tabindex="0"
@@ -75,25 +77,26 @@
             x-bind:placeholder="input ? input : '12:00'"
             x-ref="search"
             x-on:input.debounce.150ms="onSearch($event.target.value)"
+            class="hidden"
         />
-
         <ul class="mt-1 w-full h-64 sm:h-32 pb-1 pt-2 overflow-y-auto soft-scrollbar">
             <template x-for="time in filteredTimes">
-                <li class="group rounded-md focus:outline-none focus:bg-primary-100 hover:text-white
-                            hover:bg-primary-600 cursor-pointer select-none relative py-2 pl-2 pr-9
-                            dark:hover:bg-secondary-700"
+                <li class="group rounded-md focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700
+                                   relative py-2 pl-2 pr-9 text-left transition-colors ease-in-out duration-100 cursor-pointer select-none
+                                   hover:text-white hover:bg-gray-600 dark:hover:bg-gray-700 dark:text-gray-400"
                     :class="{
-                        'text-primary-600 dark:text-secondary-400':   input === time.value,
-                        'text-secondary-700 dark:text-secondary-400': input !== time.value,
+                        'text-gray-600':   input === time.value,
+                        'text-gray-700': input !== time.value,
                     }"
                     tabindex="0"
                     x-on:keydown.enter="selectTime(time)"
                     x-on:click="selectTime(time)">
-                    <span x-text="time.label" class="font-normal block truncate"></span>
+                    <span x-text="time.label" class="font-normal block truncate
+                    z"></span>
                     <span
                         class="
-                            absolute text-primary-600 group-hover:text-white inset-y-0
-                            right-0 flex items-center pr-4 dark:text-secondary-400
+                            absolute text-gray-600 group-hover:text-white inset-y-0
+                            right-0 flex items-center pr-4 dark:text-gray-400
                         "
                         x-show="input === time.value">
                         <x-dynamic-component

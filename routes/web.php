@@ -9,6 +9,7 @@ use App\Http\Controllers\{
     EmailVerificationController,
     CheckoutController,
     BlockedDatesController,
+    ScheduleController,
 };
 
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,9 @@ Route::middleware(['auth', 'verified', 'role:admin,registrar'])
         Route::patch('/documents', [DocumentsController::class, 'create'])->name('create.document');
         Route::patch('/documents/{id}', [DocumentsController::class, 'update'])->name('update.document');
         Route::patch('/process', [DocumentsController::class, 'createProcess'])->name('create.process');
+
+        // Schedules
+        Route::patch('/schedule', [ScheduleController::class, 'update'])->name('update.schedule');
         
         // Blocked Dates
         Route::patch('/blocked-dates', [BlockedDatesController::class, 'create'])->name('create.blocked-date');

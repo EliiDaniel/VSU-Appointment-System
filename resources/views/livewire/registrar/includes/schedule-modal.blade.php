@@ -1,6 +1,6 @@
 <x-modal name="schedule-modal" prompt="true" disabledClose="false">
     <div class="p-6" x-show="$wire.title === 'view-schedule'">
-        <form method="post" class="space-y-6">
+        <form method="post" action="{{ route('update.schedule') }}"  class="space-y-6">
             @csrf
             @method('patch')
 
@@ -10,12 +10,33 @@
                     <x-text-input id="daily_limit" name="daily_limit" type="number" class="mt-1 max-w-56" value="{{ old('name', $schedule->daily_limit) }}"  required autofocus autocomplete="name" />
                 </div>
                 <div>
+                    <x-time-picker
+                        label="Minimum Available Tme"
+                        format="24"
+                        wire:model="minTime"
+                        name="min_time"
+                        interval="30"
+                    />
+                </div>
+                <div>
+                    <x-time-picker
+                        label="Maximum Available Tme"
+                        format="24"
+                        wire:model="maxTime"
+                        name="max_time"
+                        interval="30"
+                    />
+                </div>
+            </div>
+
+            <div class="flex flex-wrap md:grid grid-cols-2 gap-4">                
+                <div>
                     <x-input-label for="min" :value="__('Minimum Date')" />
-                    <x-text-input id="min" name="min" type="number" class="mt-1 max-w-56" value="{{ old('name', $schedule->min) }}"  required autofocus autocomplete="name" />
+                    <x-text-input id="min" name="min" type="number" class="mt-1 w-full" value="{{ old('name', $schedule->min) }}"  required autofocus autocomplete="name" />
                 </div>
                 <div>
                     <x-input-label for="max" :value="__('Maximum Date')" />
-                    <x-text-input id="max" name="max" type="number" class="mt-1 max-w-56" value="{{ old('name', $schedule->max) }}" required autofocus autocomplete="name" />    
+                    <x-text-input id="max" name="max" type="number" class="mt-1  w-full" value="{{ old('name', $schedule->max) }}" required autofocus autocomplete="name" />    
                 </div>
             </div>
 
@@ -48,8 +69,8 @@
                     label="Appointment Date"
                     placeholder="Blocked Date"
                     :timezone="'Asia/Manila'"
-                    display-format="YYYY-MM-DD HH:mm:ss"
-                    wire:model="model"
+                    display-format="YYYY-MM-DD"
+                    wire:model="blockedDate"
                     :min="now()"
                     without-time="true"
                 />
@@ -61,3 +82,19 @@
         </form>
     </div>
 </x-modal>
+
+@if (session('status'))
+    <div 
+        x-data="{ show: true }"
+        x-show="show"
+        x-transition
+        x-init="setTimeout(() => show = false, 4000)"
+        class="fixed top-4 right-4 bg-green-300 text-gray-700 dark:bg-green-700 dark:text-gray-300 pl-3 pr-20 py-3 rounded-lg z-50 opacity-75 hover:opacity-100 ease-in-out duration-200"
+        role="alert"
+    >
+        <span class="block sm:inline tracking-widest font-extrabold text-sm">{{ session('status') }}</span>
+        <span class="absolute top-0 bottom-0 right-0 pt-[9.80px] pr-3 cursor-pointer" @click="show = false">
+            <svg class="fill-current h-6 w-5 text-gray-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 1.697l-2.651-2.65-2.65 2.65a1.2 1.2 0 1 1-1.697-1.697l2.65-2.651-2.65-2.65a1.2 1.2 0 1 1 1.697-1.697l2.651 2.65 2.65-2.65a1.2 1.2 0 1 1 1.697 1.697l-2.65 2.651 2.65 2.65z"/></svg>
+        </span>
+    </div>
+@endif

@@ -38,7 +38,7 @@
         :icon="$icon"
         :prefix="$prefix"
         :prepend="$prepend"
-        class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm0"
+        class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm"
         readonly
         x-on:click="toggle"
         x-bind:value="model ? getDisplayValue() : model">
@@ -154,7 +154,7 @@
                             x-text="day">
                         </span>
                     </template>
-@if(isset($this->dateConfigs))
+                    @if(isset($this->dateConfigs))
                     <template
                         x-for="(date, index) in dates"
                         :key="`date.${date.day}.${date.month}`"

@@ -17,12 +17,17 @@ class Schedules extends Component
     public $sortDir = 'ASC';
     public $title = 'view-document';
     public Schedule $schedule;
+    public $minTime;
+    public $maxTime;
+    public $blockedDate;
     public $selectedDays;
     public $dayNames ;
 
     public function mount()
     {
         $this->schedule = Schedule::first();
+        $this->minTime = $this->schedule->min_time;
+        $this->maxTime = $this->schedule->max_time;
         $this->selectedDays = [];
         $this->dayNames = [
             1 => 'Monday',
