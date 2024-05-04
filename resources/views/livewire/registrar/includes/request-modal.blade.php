@@ -1,9 +1,9 @@
-<x-modal name="request-modal" maxWidth="2xl" prompt="$wire.selectedRequestStatus !== 'Canceled'">
+<x-modal name="request-modal" maxWidth="2xl" prompt="$wire.selectedRequestStatus !== 'Canceled'" disabledClose="false">
     @if(isset($selectedRequest))
         <div class="p-6 text-gray-900 dark:text-gray-100">
             <div class="text-lg flex items-center justify-between">
                 <span class="text-gray-600 dark:text-gray-400">Status: {{ $selectedRequest->status }}</span>
-                <span class="text-gray-600 dark:text-gray-400 whitespace-nowrap">Request #{{ $selectedRequest->id }}</span>
+                <span class="text-gray-600 dark:text-gray-400 whitespace-nowrap">Request #{{ $selectedRequest->tracking_code }}</span>
             </div>
             <div class="mt-2">
                 <div>
@@ -70,9 +70,10 @@
                                 </span>
                             @endif
                             
-                            <button :class="{ 'p-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm ring-emerald-500 ring-offset-2 dark:ring-offset-gray-800 transition ease-in-out duration-75': true, 'ring-2 animate-jump animate-once animate-ease-in-out': {{ in_array($process->pivot->document_process_id, $completedProcesses->toArray()) ? 'true' : 'false' }} }" wire:click="modifyProcess({{ $process->pivot->document_process_id }})" wire:confirm="Are you sure you want mark this step as {{ in_array($process->pivot->document_process_id, $completedProcesses->toArray()) ? 'unfinished' : 'complete'}}?">
+                            <button {{ in_array($selectedRequest->status, ['Pending Approval' ,'Canceled', 'Completed']) ? 'disabled' : '' }} :class="{ 'p-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm ring-emerald-500 ring-offset-2 dark:ring-offset-gray-800 transition ease-in-out duration-75': true, 'ring-2 animate-jump animate-once animate-ease-in-out': {{ in_array($process->pivot->document_process_id, $completedProcesses->toArray()) ? 'true' : 'false' }} }" wire:click="modifyProcess({{ $process->pivot->document_process_id }})" wire:confirm="Are you sure you want mark this step as {{ in_array($process->pivot->document_process_id, $completedProcesses->toArray()) ? 'unfinished' : 'complete'}}?">
                                 {{ $process->name }}
                             </button>
+
                         </div>
                     @endforeach
                     </div>
@@ -83,14 +84,14 @@
         @if($selectedRequest->status !== 'Canceled')
             @if($selectedRequest->status === 'Pending Approval')
                 <div class="flex items-center justify-end">
-                    <x-primary-button class="ms-4 mb-4 mr-4">
+                    <x-primary-button class="ms-4 mb-4 mr-4" wire:click="approveRequest()" wire:confirm="Are you sure you want to approve request?">
                         {{ __('Approve') }}
                     </x-primary-button>
                 </div>
             @else
                 <div class="flex items-center justify-end">
-                    <x-primary-button class="ms-4 mb-4 mr-4">
-                        {{ __('Save') }}
+                    <x-primary-button class="ms-4 mb-4 mr-4" @click="$dispatch('confirm-close')">
+                        {{ __('Done') }}
                     </x-primary-button>
                 </div>
             @endif

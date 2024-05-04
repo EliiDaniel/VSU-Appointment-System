@@ -22,7 +22,7 @@
     @endif
 
     @if(session()->has('transaction_complete'))
-        <div class="text-green-600" x-init="disableClose = true"> 
+        <div class="text-green-600 animate-jump animate-once animate-ease-in-out" x-init="disableClose = true"> 
             {{ session('transaction_complete') }}
         </div>
     @endif

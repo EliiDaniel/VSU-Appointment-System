@@ -48,6 +48,10 @@ class Documents extends Component
         $this->dispatch('open-modal', 'document-modal');
     }
 
+    public function deleteDocument(Document $document){
+        $document->delete();
+    }
+
     public function createProcess(){
         $this->title = "create-process";
 

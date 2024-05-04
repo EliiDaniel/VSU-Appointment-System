@@ -6,9 +6,9 @@
         :timezone="'Asia/Manila'"
         :min="$this->dateConfigs['minDate']"
         :max="$this->dateConfigs['maxDate']"
-        min-time="08:00"
-        max-time="17:00"
+        min-time="{{ date('H:i', strtotime($this->schedule->min_time)) }}"
+        max-time="{{ date('H:i', strtotime($this->schedule->max_time)) }}"
         interval="30"
-        :clearable="false"
+        :clearable="true"
     />
 </div>

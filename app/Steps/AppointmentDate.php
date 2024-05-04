@@ -6,6 +6,7 @@ use App\Models\Request;
 use App\Models\VerifiedEmail;
 use Vildanbina\LivewireWizard\Components\Step;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class AppointmentDate extends Step
 {
@@ -20,7 +21,6 @@ class AppointmentDate extends Step
     {
         $request = Request::create([
             'user_id' => isset($state['user_id']) ? $state['user_id'] : null,
-            'transaction_id' => isset($this->getLivewire()->transaction) ? $this->getLivewire()->transaction->id : null,
             'verified_email_id' => isset($state['email']) ? VerifiedEmail::where('email', $state['email'])->first()->id : null,
             'price' => $state['price'],
             'payment_type' => $state['payment_type'],
@@ -37,14 +37,23 @@ class AppointmentDate extends Step
 
         $request->documents()->sync($syncData);
 
+        if (isset($this->getLivewire()->transaction)) {
+            $this->getLivewire()->transaction->update(['request_id' => $request->id]);
+        }
+
         return $this->getLivewire()->reDir !== '/' ? redirect()->route($this->getLivewire()->reDir) : redirect('/');
     }
 
     public function validate()
     {
+        Validator::extend('within_working_hours', function ($attribute, $value, $parameters, $validator) {
+            $carbonDate = Carbon::parse($value);
+            $hour = (int)$carbonDate->format('H');
+            return ($hour >= Carbon::parse($this->getLivewire()->schedule->min_time)->format('H') && $hour < Carbon::parse($this->getLivewire()->schedule->max_time)->format('H'));
+        });
         return [
             [
-                'state.appointment_date' => ['required','date'],
+                'state.appointment_date' => ['required','date','within_working_hours'],
             ],
             [
                 'state.appointment_date' => __('Pickup'),

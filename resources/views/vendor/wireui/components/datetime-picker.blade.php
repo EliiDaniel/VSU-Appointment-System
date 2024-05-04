@@ -38,15 +38,14 @@
         :icon="$icon"
         :prefix="$prefix"
         :prepend="$prepend"
-        class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm0"
+        class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm"
         readonly
         x-on:click="toggle"
         x-bind:value="model ? getDisplayValue() : model">
         @if (!$readonly && !$disabled)
             <x-slot name="append">
                 <div class="absolute inset-y-0 right-3 z-5 flex items-center justify-center">
-                    <div class="flex items-center gap-x-2 my-auto
-                        {{ $errors->has($name) ? 'text-negative-400 dark:text-negative-600' : 'text-gray-400' }}">
+                    <div class="flex items-center gap-x-2 my-auto">
 
                         @if ($clearable)
                             <x-dynamic-component
@@ -155,7 +154,33 @@
                             x-text="day">
                         </span>
                     </template>
-
+                    @if(isset($this->dateConfigs))
+                    <template
+                        x-for="(date, index) in dates"
+                        :key="`date.${date.day}.${date.month}`"
+                    >
+                        <div class="flex justify-center picker-days">
+                            <button class="text-sm w-7 h-6 focus:outline-none rounded-md focus:ring-2 focus:ring-ofsset-2 focus:ring-gray-600
+                                         hover:bg-gray-100 dark:hover:bg-gray-800 dark:focus:ring-gray-400
+                                          disabled:cursor-not-allowed"
+                                x-data="{ requestCount: 0 }"
+                                x-init="$wire.getRequestCountOn(`${date.year}-${date.month + 1}-${date.day}`).then(result => requestCount = result).catch(error => console.error('Error:', error));"
+                                :data-tooltip="`${requestCount}` + '/' + {{ $this->schedule->daily_limit }}"
+                                :class="{
+                                    'text-gray-600 dark:text-gray-100 relative z-[50] data-[tooltip]:after:content-[attr(data-tooltip)] data-[tooltip]:after:invisible data-[tooltip]:after:scale-50 data-[tooltip]:after:origin-bottom data-[tooltip]:after:opacity-0 hover:data-[tooltip]:after:visible hover:data-[tooltip]:after:opacity-100 hover:data-[tooltip]:after:scale-100 data-[tooltip]:after:transition-all data-[tooltip]:after:absolute data-[tooltip]:after:bg-gray-900 data-[tooltip]:after:bottom-[calc(100%+4px)] data-[tooltip]:after:left-1/2 data-[tooltip]:after:-translate-x-1/2 data-[tooltip]:after:-z-[1] data-[tooltip]:after:px-1.5 data-[tooltip]:after:py-1 data-[tooltip]:after:min-h-fit data-[tooltip]:after:min-w-fit data-[tooltip]:after:rounded-md data-[tooltip]:after:drop-shadow data-[tooltip]:before:drop-shadow data-[tooltip]:after:text-center data-[tooltip]:after:text-white data-[tooltip]:after:whitespace-nowrap data-[tooltip]:after:text-[10px] data-[tooltip]:before:invisible data-[tooltip]:before:opacity-0 hover:data-[tooltip]:before:visible hover:data-[tooltip]:before:opacity-100 data-[tooltip]:before:transition-all data-[tooltip]:before:bg-gray-900 data-[tooltip]:before:[clip-path:polygon(100%_0,0_0,50%_100%)] data-[tooltip]:before:absolute data-[tooltip]:before:bottom-full data-[tooltip]:before:left-1/2 data-[tooltip]:before:-translate-x-1/2 data-[tooltip]:before:z-0 data-[tooltip]:before:w-3 data-[tooltip]:before:h-[4px]': !(date.isDisabled || {{ json_encode($this->dateConfigs['blockedDates']) }}.includes(`${date.year}-${date.month + 1}-${date.day}`) || !{{ json_encode($this->schedule->enabled_days) }}.includes((index % 7))) && !date.isSelected && date.month === month,
+                                    'text-gray-400 dark:text-gray-500': date.isDisabled || {{ json_encode($this->dateConfigs['blockedDates']) }}.includes(`${date.year}-${date.month + 1}-${date.day}`) || date.month !== month || !{{ json_encode($this->schedule->enabled_days) }}.includes((index % 7)),
+                                    '!text-green-500 bg-gray-600 font-semibold border border-gray-600': date.isSelected,
+                                    'disabled:bg-gray-400 disabled:border-gray-400': date.isSelected,
+                                    'hover:bg-gray-600 dark:bg-gray-700 dark:border-green-400': date.isSelected,
+                                }"
+                                :disabled="date.isDisabled || requestCount >= {{ $this->schedule->daily_limit }} || {{ json_encode($this->dateConfigs['blockedDates']) }}.includes(`${date.year}-${date.month + 1}-${date.day}`) || !{{ json_encode($this->schedule->enabled_days) }}.includes((index % 7))"
+                                x-on:click="selectDate(date)"
+                                x-text="date.day"
+                                type="button">
+                            </button>
+                        </div>
+                    </template>
+                    @else
                     <template
                         x-for="date in dates"
                         :key="`date.${date.day}.${date.month}`"
@@ -178,6 +203,7 @@
                             </button>
                         </div>
                     </template>
+                    @endif
                 </div>
             </div>
         </div>

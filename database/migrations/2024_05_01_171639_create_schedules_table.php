@@ -11,9 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->string('checkout_id');
+            $table->json('enabled_days')->nullable();
+            $table->integer('daily_limit')->default(50);
+            $table->integer('min')->default(0);
+            $table->integer('max')->default(0);
+            $table->time('min_time')->nullable();
+            $table->time('max_time')->nullable();
             $table->timestamps();
         });
     }
@@ -23,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('schedules');
     }
 };

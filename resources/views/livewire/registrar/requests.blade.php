@@ -117,8 +117,8 @@
                                     <td class="px-4 py-3">{{ date('Y-m-d H:i', strtotime($request->appointment_date)) }}</td>
                                     <td class="px-4 py-3">
                                         <div class="flex items-center gap-2">
-                                            <x-secondary-button wire:click="viewRequest({{ $request }})">
-                                                {{ __('View') }}
+                                            <x-secondary-button wire:click="viewRequest({{ $request }})" wire:confirm="Are you sure you want to update request?">
+                                                {{ __('Update') }}
                                             </x-secondary-button>
                                         </div>
                                     </td>
