@@ -85,7 +85,7 @@ class Request extends Model
 
     public function cancel()
     {
-        if (Gate::allows('cancel-request')) {
+        if (Gate::allows('cancel-request') && !$this->canceled_at) {
             $this->update(['canceled_at' => date('Y-m-d H:i:s'), 'status' => 'Canceled']);
             return response()->json(['message' => 'Request canceled successfully'], 200);
         } else {
@@ -95,7 +95,7 @@ class Request extends Model
 
     public function approve()
     {
-        if (Gate::allows('approve-request')) {
+        if (Gate::allows('approve-request') && !$this->approved_at) {
             $this->update(['approved_at' => date('Y-m-d H:i:s'), 'status' => 'In Progress']);
             return response()->json(['message' => 'Request approved successfully'], 200);
         } else {
@@ -105,8 +105,18 @@ class Request extends Model
 
     public function approvePayment()
     {
-        if (Gate::allows('approve-request-payment')) {
+        if (Gate::allows('approve-request-payment') && !$this->paid_at) {
             $this->update(['paid_at' => date('Y-m-d H:i:s'), 'status' => 'Ready for Collection']);
+            return response()->json(['message' => 'Request approved successfully'], 200);
+        } else {
+            abort(403, 'Unauthorized action.');
+        }
+    }
+
+    public function complete()
+    {
+        if (Gate::allows('complete-request') && !$this->completed_at) {
+            $this->update(['completed_at' => date('Y-m-d H:i:s'), 'status' => 'Completed']);
             return response()->json(['message' => 'Request approved successfully'], 200);
         } else {
             abort(403, 'Unauthorized action.');

@@ -74,7 +74,7 @@ Route::middleware(['auth', 'verified', 'role:admin,requester'])
 
 Route::get('/waiting-for-confirmation', function () {
     return view('waiting-for-confirmation');
-})->middleware(['auth', 'verified', 'role:'])->name('waiting-for-confirmation');
+})->middleware(['auth', 'verified', 'role:confirmation'])->name('waiting-for-confirmation');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])

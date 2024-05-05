@@ -93,6 +93,11 @@ class Requests extends Component
         $this->selectedRequest->approve();
     }
 
+    public function completeRequest()
+    {
+        $this->selectedRequest->complete();
+    }
+
     public function updatedShownEntries()
     {
         $this->resetPage();

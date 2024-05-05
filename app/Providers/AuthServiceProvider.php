@@ -34,5 +34,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('approve-request-payment', function ($user) {
             return in_array($user->role, ['cashier', 'admin']);
         });
+        
+        Gate::define('complete-request', function ($user) {
+            return in_array($user->role, ['registrar', 'admin']);
+        });
     }
 }
