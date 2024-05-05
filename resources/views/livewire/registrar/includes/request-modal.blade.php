@@ -1,6 +1,6 @@
 <x-modal name="request-modal" maxWidth="2xl" prompt="$wire.selectedRequestStatus !== 'Canceled'" disabledClose="false">
     @if(isset($selectedRequest))
-        <div class="p-6 text-gray-900 dark:text-gray-100">
+        <div class="p-6 text-gray-900 dark:text-gray-100" x-show="$wire.title === 'view-request'">
             <div class="text-lg flex items-center justify-between">
                 <span class="text-gray-600 dark:text-gray-400">Status: {{ $selectedRequest->status }}</span>
                 <span class="text-gray-600 dark:text-gray-400 whitespace-nowrap">Request #{{ $selectedRequest->tracking_code }}</span>
@@ -43,7 +43,15 @@
                                     </span>
                                 @endif
                             </div>
-                            <span class="whitespace-nowrap">₱ {{ $document->price }}</span>
+                            <span class="whitespace-nowrap flex items-center gap-2">
+                                ₱ {{ $document->price }} 
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                    </svg>
+                                </span>
+                                {{ $document->pivot->quantity }}
+                            </span>
                         </div>
                         @endforeach
                     </div>
@@ -103,4 +111,43 @@
             @endif
         @endif
     @endif
+
+    @if(isset($statuses))
+            <div class="p-6 text-gray-900 dark:text-gray-100" x-show="$wire.title === 'filters'">
+                <label class="whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">Documents:</label>
+                <div class="flex flex-wrap pt-1">
+                    @foreach($documents as $document)
+                        <div class="flex items-center ml-4 whitespace-nowrap">
+                            <input type="checkbox" id="{{ $document->name }}" wire:model.live="selectedDocuments" value="{{ $document->name }}" class="h-4 w-4 text-emerald-600 dark:text-emerald-400 border-gray-300 dark:border-gray-700 focus:ring-emerald-500 dark:focus:ring-emerald-600 bg-white dark:bg-gray-900 rounded">
+                            <label for="{{ $document->name }}" class="ml-2 block text-gray-900 dark:text-gray-200">{{ ucfirst($document->name) }}</label>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="sm:flex sm:space-x-3 items-center mt-4">
+                    <div class="flex space-x-3 items-center">
+                        <label class="whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">Type:</label>
+                        <select
+                            wire:model.live="type"
+                            class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm">
+                            <option value="">All</option>
+                            <option value="Walk in">Walk in</option>
+                            <option value="Online">Online</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex space-x-3 mt-2 sm:mt-0 items-center">
+                        <label class="whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">Status:</label>
+                        <select
+                            wire:model.live="status"
+                            class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm">
+                            <option value="">All</option>
+                            @foreach($statuses as $status)
+                                <option value="{{ $status }}">{{ $status }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+        @endif
 </x-modal>

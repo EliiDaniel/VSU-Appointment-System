@@ -40,6 +40,13 @@ class Request extends Model
         });
 
         static::updating(function ($request) {
+            if ($request->isDirty('status')) {
+                Notification::create([
+                    'title' => "Request #..." . substr($request->tracking_code, -6) . " Status Update",
+                    'content' => "Request #{$request->tracking_code} is now {$request->status}",
+                    'user_id' => $request->user->id,
+                ]);
+            }
         });
     }
 
@@ -85,7 +92,7 @@ class Request extends Model
 
     public function cancel()
     {
-        if (Gate::allows('cancel-request') && !$this->canceled_at) {
+        if (Gate::allows('cancel-request') && !$this->canceled_at && !$this->approved_at) {
             $this->update(['canceled_at' => date('Y-m-d H:i:s'), 'status' => 'Canceled']);
             return response()->json(['message' => 'Request canceled successfully'], 200);
         } else {
@@ -133,6 +140,6 @@ class Request extends Model
     }
 
     public function scopeSearch($query, $value){
-        $query->where('id', 'like', "%{$value}%");
+        $query->where('tracking_code', 'like', "%{$value}%");
     }
 }

@@ -2,7 +2,23 @@
     <section>
         <div class="mx-auto">
             <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
-                <div class="flex md:hidden items-center p-4 space-x-3">
+                <div class="flex flex-wrap sm:flex-nowrap gap-4 lg:hidden items-center p-4 space-x-3">
+                    <div class="relative w-full">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                                fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <input
+                            wire:model.live.debounce.300ms="search" 
+                            type="text"
+                            class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm pl-10"
+                            placeholder="Search" required="">
+                    </div>
+                    
                     <div class="flex space-x-3 items-center">
                         <button wire:click="openFilters()"  class="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-600">Filters</button>
                     </div>
@@ -19,8 +35,27 @@
                         </select>
                     </div>
                 </div>
-                <div class="hidden md:flex items-center justify-between p-4 space-x-3">
+                
+                <div class="hidden lg:flex items-center justify-between p-4 space-x-3">
                     <div class="flex space-x-3">
+                        <div class="hidden md:flex">
+                            <div class="relative w-full">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                                        fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input
+                                    wire:model.live.debounce.300ms="search" 
+                                    type="text"
+                                    class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm pl-10 md:max-w-52 2xl:max-w-none"
+                                    placeholder="Search" required="">
+                            </div>
+                        </div>
+
                         <div x-data="{ documentsDd: false }" class="relative">
                             <button @click="documentsDd = !documentsDd" class="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-600">
                                 <div class="flex justify-center items-center">
@@ -60,7 +95,7 @@
                             <label class="whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">Status:</label>
                             <select
                                 wire:model.live="status"
-                                class="max-w-32 lg:max-w-none border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm">
+                                class="max-w-32 xl:max-w-none border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm">
                                 <option value="">All</option>
                                 @foreach($statuses as $status)
                                     <option value="{{ $status }}">{{ $status }}</option>
@@ -85,10 +120,11 @@
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-4 py-3 w-1/5">documents</th>
-                                <th scope="col" class="px-4 py-3 w-1/5">status</th>
-                                <th scope="col" class="px-4 py-3 w-1/5">payment type</th>
-                                <th scope="col" class="px-4 py-3 w-1/5 {{ $sortBy == 'appointment_date' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200 cursor-pointer" wire:click="setSortBy('appointment_date')">
+                                <th scope="col" class="px-4 py-3 w-1/6">documents</th>
+                                <th scope="col" class="px-4 py-3 w-1/6">tracking code</th>
+                                <th scope="col" class="px-4 py-3 w-1/6">status</th>
+                                <th scope="col" class="px-4 py-3 w-1/6">payment type</th>
+                                <th scope="col" class="px-4 py-3 w-1/6 {{ $sortBy == 'appointment_date' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200 cursor-pointer" wire:click="setSortBy('appointment_date')">
                                     <div class="flex items-center justify-between">
                                         date requested
                                         <span>
@@ -98,7 +134,7 @@
                                         </span>
                                     </div>
                                 </th>
-                                <th scope="col" class="px-4 py-3 w-1/5">Actions</th>
+                                <th scope="col" class="px-4 py-3 w-1/6">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -112,6 +148,7 @@
                                             @endif
                                         @endforeach
                                     </td>
+                                    <td class="px-4 py-3">{{ $request->tracking_code }}</td>
                                     <td class="px-4 py-3">{{ $request->status }}</td>
                                     <td class="px-4 py-3">{{ $request->payment_type }}</td>
                                     <td class="px-4 py-3">{{ date('Y-m-d H:i', strtotime($request->appointment_date)) }}</td>
@@ -120,7 +157,7 @@
                                             <x-secondary-button wire:click="viewRequest({{ $request }})">
                                                 {{ __('View') }}
                                             </x-secondary-button>
-                                            <x-danger-button wire:click="cancelRequest({{ $request }})" wire:confirm="Are you sure you want to cancel request?" disabled="{{ $request->canceled_at ? 'true' : false }}">
+                                            <x-danger-button x-show="!{{ $request->approved_at ? 'true' : 'false' }}" wire:click="cancelRequest({{ $request }})" wire:confirm="Are you sure you want to cancel request?" disabled="{{ $request->canceled_at ? 'true' : false }}">
                                                 {{ __(  $request->canceled_at ? 'Canceled' : 'Cancel') }}
                                             </x-danger-button>
                                         </div>
