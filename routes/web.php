@@ -62,6 +62,7 @@ Route::middleware(['auth', 'verified', 'role:admin,cashier'])
     ->group(function () {
         Route::get('/cashier', [CashiersController::class, 'index'])->name('cashier.dashboard');
         Route::get('/cashier/dashboard', [CashiersController::class, 'index'])->name('cashier.dashboard');
+        Route::get('/cashier/requests', [CashiersController::class, 'requests'])->name('cashier.requests');
     });
 
 Route::middleware(['auth', 'verified', 'role:admin,requester'])

@@ -88,6 +88,12 @@
                         {{ __('Approve') }}
                     </x-primary-button>
                 </div>
+            @elseif($selectedRequest->status === 'Ready for Collection')
+                <div class="flex items-center justify-end">
+                    <x-primary-button class="ms-4 mb-4 mr-4" @click="$dispatch('confirm-close')">
+                        {{ __('Complete Request') }}
+                    </x-primary-button>
+                </div>
             @else
                 <div class="flex items-center justify-end">
                     <x-primary-button class="ms-4 mb-4 mr-4" @click="$dispatch('confirm-close')">

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('blocked_dates', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('date')->nullable();
+            $table->dateTime('date')->nullable();
             $table->timestamps();
         });
     }

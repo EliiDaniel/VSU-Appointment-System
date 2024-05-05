@@ -18,13 +18,13 @@ return new class extends Migration
             $table->unsignedBigInteger('verified_email_id')->nullable();
             $table->decimal('price', 8, 2)->default(0);
             $table->enum('payment_type', ['Walk in', 'Online'])->default('Walk in');
-            $table->timestamp('appointment_date');
-            $table->timestamp('canceled_at')->nullable();
-            $table->timestamp('approved_at')->nullable();
-            $table->timestamp('completed_at')->nullable();
-            $table->timestamp('claimed_at')->nullable();
-            $table->timestamp('paid_at')->nullable();
-            $table->enum('status', ['Pending Approval', 'In Progress', 'Awaiting Payment', 'Ready for Collection', 'Completed', 'Canceled'])->default('Pending Approval');
+            $table->dateTime('appointment_date');
+            $table->dateTime('canceled_at')->nullable();
+            $table->dateTime('approved_at')->nullable();
+            $table->dateTime('completed_at')->nullable();
+            $table->dateTime('claimed_at')->nullable();
+            $table->dateTime('paid_at')->nullable();
+            $table->enum('status', ['Pending Approval', 'In Progress', 'Payment Approval', 'Awaiting Payment', 'Ready for Collection', 'Completed', 'Canceled'])->default('Pending Approval');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('verified_email_id')->references('id')->on('verified_emails')->onDelete('cascade');
