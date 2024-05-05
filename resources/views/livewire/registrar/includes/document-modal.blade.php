@@ -1,4 +1,4 @@
-<x-modal name="document-modal" prompt="true" disabledClose="false">
+<x-modal name="document-modal" prompt="true" disabledClose="false" maxWidth="xl">
     @if($selectedDocument)
         <div class="p-6" x-show="$wire.title === 'view-document'">
             <form method="post" action="{{ route('update.document', ['id' => $selectedDocument->id]) }}" class="space-y-6" onsubmit="return confirm('Are you sure you want to update {{ $selectedDocument->name }}?');">

@@ -74,7 +74,7 @@ class Request extends Model
             }
         }
 
-        $this->update(['status' => $this->paid_at ? 'Ready for Collection' : 'Awaiting Payment']);
+        $this->update(['status' => $this->paid_at ? 'Ready for Collection' : ($this->transaction ? 'Payment Approval' : 'Awaiting Payment')]);
         return 'true';
     }
 
@@ -97,6 +97,16 @@ class Request extends Model
     {
         if (Gate::allows('approve-request')) {
             $this->update(['approved_at' => date('Y-m-d H:i:s'), 'status' => 'In Progress']);
+            return response()->json(['message' => 'Request approved successfully'], 200);
+        } else {
+            abort(403, 'Unauthorized action.');
+        }
+    }
+
+    public function approvePayment()
+    {
+        if (Gate::allows('approve-request-payment')) {
+            $this->update(['paid_at' => date('Y-m-d H:i:s'), 'status' => 'Ready for Collection']);
             return response()->json(['message' => 'Request approved successfully'], 200);
         } else {
             abort(403, 'Unauthorized action.');

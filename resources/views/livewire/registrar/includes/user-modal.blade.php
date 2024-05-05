@@ -1,5 +1,5 @@
 @if($selectedUser)
-    <x-modal name="view-user" prompt="true" disabledClose="false">
+    <x-modal name="view-user" prompt="true" disabledClose="false" maxWidth="xl">
         <div class="p-6">
             <form method="post" action="{{ route('update.user', ['id' => $selectedUser->id]) }}" class="space-y-6" onsubmit="return confirm('Are you sure you want to update {{ $selectedUser->name }}?');">
                 @csrf

@@ -10,4 +10,9 @@ class CashiersController extends Controller
     {
         return view('cashier.index');
     }
+
+    public function requests()
+    {
+        return view('cashier.requests');
+    }
 }

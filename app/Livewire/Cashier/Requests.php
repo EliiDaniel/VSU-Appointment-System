@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Registrar;
+namespace App\Livewire\Cashier;
 
 use Livewire\Component;
 use App\Models\Request;
@@ -17,9 +17,10 @@ class Requests extends Component
     public $shownEntries = 5;
     public $sortBy = 'appointment_date';
     public $sortDir = 'ASC';
-    public $statuses = ['Pending Approval', 'In Progress', 'Payment Approval', 'Awaiting Payment', 'Ready for Collection', 'Completed'];
+    public $statuses = ['Payment Approval', 'Awaiting Payment', 'Ready for Collection', 'Completed'];
     public $status = '';
     public $type = '';
+    public $title = 'view-request';
     public $selectedDocuments = [];
     public Request $selectedRequest;
     public $selectedRequestStatus = '';
@@ -36,8 +37,9 @@ class Requests extends Component
 
     public function render()
     {
-        return view('livewire.registrar.requests', [
-            'requests' => Request::when($this->status !== '', function($query){
+        return view('livewire.cashier.requests', [
+            'requests' => Request::whereIn('status', $this->statuses)
+                        ->when($this->status !== '', function($query){
                             $query->where('status', $this->status);
                         })
                         ->when($this->type !== '', function($query){
@@ -53,7 +55,12 @@ class Requests extends Component
             'documents' => Document::all(),
         ]);
     }
+    public function openFilters(){
+        $this->title = 'filters';
 
+        $this->dispatch('open-modal', 'request-modal');
+    }
+    
     public function viewRequest(Request $request){
         $this->selectedRequest = $request;
 
@@ -72,25 +79,13 @@ class Requests extends Component
         $this->dispatch('open-modal', 'view-document');
     }
 
-    public function modifyProcess($documentProcess)
-    {
-        $docProcess = RequestDocumentProcess::exists($this->pivotId, $documentProcess);
-        if ($docProcess) {
-            $docProcess->delete();
-        } else {
-            RequestDocumentProcess::create([
-                'request_document_id' => $this->pivotId,
-                'document_process_id' => $documentProcess,
-            ]);
-        }
-
-        $this->selectedRequest->areAllDocumentsCompleted();
-        $this->completedProcesses = RequestDocumentProcess::where('request_document_id', $this->pivotId)->pluck('document_process_id');
+    public function approvePayment(){
+        $this->selectedRequest->approvePayment();
     }
 
-    public function approveRequest()
-    {
-        $this->selectedRequest->approve();
+    public function setSortBy($col){
+        $this->sortDir = ($this->sortBy === $col) ? (($this->sortDir == 'DESC') ? 'ASC' : 'DESC') : 'ASC';
+        $this->sortBy = ($this->sortBy === $col) ? $this->sortBy : $col;
     }
 
     public function updatedShownEntries()
