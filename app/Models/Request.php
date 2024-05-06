@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Notification as NotificationEmail;
+use App\Notifications\StatusUpdate;
 
 class Request extends Model
 {
@@ -41,11 +42,18 @@ class Request extends Model
 
         static::updating(function ($request) {
             if ($request->isDirty('status')) {
-                Notification::create([
-                    'title' => "Request #..." . substr($request->tracking_code, -6) . " Status Update",
-                    'content' =>  json_encode([$request->tracking_code, $request->status]),
-                    'user_id' => $request->user->id,
-                ]);
+                if ($request->user && $request->user->hasVerifiedEmail()) {
+                    Notification::create([
+                        'title' => "Request #..." . substr($request->tracking_code, -6) . " Status Update",
+                        'content' =>  json_encode([$request->tracking_code, $request->status]),
+                        'user_id' => $request->user->id,
+                    ]);
+
+                    NotificationEmail::route('mail', $request->user->email)->notify(new StatusUpdate(url('/requester/requests/?tracking_code=' . $request->tracking_code), "The status of your request with tracking code $request->tracking_code has been updated to $request->status."));
+                }
+                elseif ($request->verified_email) {
+                    NotificationEmail::route('mail', $request->verified_email->email)->notify(new StatusUpdate(url('?tracking_code=' . $request->tracking_code), "The status of your request with tracking code $request->tracking_code has been updated to $request->status."));
+                }
             }
         });
     }

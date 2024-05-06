@@ -20,7 +20,7 @@
                 <livewire:welcome.navigation />
             @endif
 
-            <livewire:welcome/>
+            <livewire:welcome :tracking-number="$trackingCode ? $trackingCode : null"/>
         </div>
     </body>
 </html>
