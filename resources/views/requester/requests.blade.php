@@ -1,3 +1,3 @@
 <x-app-layout>
-    <livewire:requester.requests/>
+    <livewire:requester.requests :search="$trackingCode ? $trackingCode : null"/>
 </x-app-layout>

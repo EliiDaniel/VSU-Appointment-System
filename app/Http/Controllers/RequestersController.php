@@ -11,8 +11,10 @@ class RequestersController extends Controller
         return view('requester.index');
     }
 
-    public function requests()
+    public function requests(Request $request)
     {
-        return view('requester.requests');
+        $trackingCode = $request->query('tracking_code');
+
+        return view('requester.requests', ['trackingCode' => $trackingCode]);
     }
 }

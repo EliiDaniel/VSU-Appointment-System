@@ -21,9 +21,11 @@ class RegistrarsController extends Controller
         return view('registrar.documents');
     }
     
-    public function requests()
+    public function requests(Request $request)
     {
-        return view('registrar.requests');
+        $trackingCode = $request->query('tracking_code');
+
+        return view('registrar.requests', ['trackingCode' => $trackingCode]);
     }
     
     public function schedules()

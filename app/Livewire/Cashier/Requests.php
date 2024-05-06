@@ -17,7 +17,7 @@ class Requests extends Component
     public $shownEntries = 5;
     public $sortBy = 'appointment_date';
     public $sortDir = 'ASC';
-    public $statuses = ['Payment Approval', 'Awaiting Payment', 'Ready for Collection', 'Completed'];
+    public $statuses = ['Payment Approval', 'Awaiting Payment', 'Ready for Collection', 'Completed', 'Canceled'];
     public $status = '';
     public $type = '';
     public $title = 'view-request';
@@ -50,11 +50,13 @@ class Requests extends Component
                                 $subQuery->whereIn('name', $this->selectedDocuments);
                             });
                         })
+                        ->search($this->search)
                         ->orderBy($this->sortBy, $this->sortDir)
                         ->paginate($this->shownEntries),
             'documents' => Document::all(),
         ]);
     }
+
     public function openFilters(){
         $this->title = 'filters';
 

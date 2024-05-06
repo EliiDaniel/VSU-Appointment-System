@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome');
+Route::view('/', 'welcome', ['trackingCode' => request()->query('tracking_code')]);
 Route::get('/verify-email/{email}', [EmailVerificationController::class, 'verify'])->name('email.verify');
 Route::get('/verification-complete', [EmailVerificationController::class, 'index'])->name('verification.complete');
 Route::get('/checkout-successful', [CheckoutController::class, 'successful'])->name('checkout.successful');
@@ -74,7 +74,7 @@ Route::middleware(['auth', 'verified', 'role:admin,requester'])
 
 Route::get('/waiting-for-confirmation', function () {
     return view('waiting-for-confirmation');
-})->middleware(['auth', 'verified', 'role:'])->name('waiting-for-confirmation');
+})->middleware(['auth', 'verified', 'role:confirmation'])->name('waiting-for-confirmation');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])

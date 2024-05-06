@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Notification as NotificationEmail;
+use App\Notifications\StatusUpdate;
 
 class Request extends Model
 {
@@ -40,6 +41,20 @@ class Request extends Model
         });
 
         static::updating(function ($request) {
+            if ($request->isDirty('status')) {
+                if ($request->user && $request->user->hasVerifiedEmail()) {
+                    Notification::create([
+                        'title' => "Request #..." . substr($request->tracking_code, -6) . " Status Update",
+                        'content' =>  json_encode([$request->tracking_code, $request->status]),
+                        'user_id' => $request->user->id,
+                    ]);
+
+                    NotificationEmail::route('mail', $request->user->email)->notify(new StatusUpdate(url('/requester/requests/?tracking_code=' . $request->tracking_code), "The status of your request with tracking code $request->tracking_code has been updated to $request->status."));
+                }
+                elseif ($request->verified_email) {
+                    NotificationEmail::route('mail', $request->verified_email->email)->notify(new StatusUpdate(url('?tracking_code=' . $request->tracking_code), "The status of your request with tracking code $request->tracking_code has been updated to $request->status."));
+                }
+            }
         });
     }
 
@@ -85,7 +100,7 @@ class Request extends Model
 
     public function cancel()
     {
-        if (Gate::allows('cancel-request')) {
+        if (Gate::allows('cancel-request') && !$this->canceled_at && !$this->approved_at) {
             $this->update(['canceled_at' => date('Y-m-d H:i:s'), 'status' => 'Canceled']);
             return response()->json(['message' => 'Request canceled successfully'], 200);
         } else {
@@ -95,7 +110,7 @@ class Request extends Model
 
     public function approve()
     {
-        if (Gate::allows('approve-request')) {
+        if (Gate::allows('approve-request') && !$this->approved_at) {
             $this->update(['approved_at' => date('Y-m-d H:i:s'), 'status' => 'In Progress']);
             return response()->json(['message' => 'Request approved successfully'], 200);
         } else {
@@ -105,8 +120,18 @@ class Request extends Model
 
     public function approvePayment()
     {
-        if (Gate::allows('approve-request-payment')) {
+        if (Gate::allows('approve-request-payment') && !$this->paid_at) {
             $this->update(['paid_at' => date('Y-m-d H:i:s'), 'status' => 'Ready for Collection']);
+            return response()->json(['message' => 'Request approved successfully'], 200);
+        } else {
+            abort(403, 'Unauthorized action.');
+        }
+    }
+
+    public function complete()
+    {
+        if (Gate::allows('complete-request') && !$this->completed_at) {
+            $this->update(['completed_at' => date('Y-m-d H:i:s'), 'status' => 'Completed']);
             return response()->json(['message' => 'Request approved successfully'], 200);
         } else {
             abort(403, 'Unauthorized action.');
@@ -123,6 +148,6 @@ class Request extends Model
     }
 
     public function scopeSearch($query, $value){
-        $query->where('id', 'like', "%{$value}%");
+        $query->where('tracking_code', 'like', "%{$value}%");
     }
 }

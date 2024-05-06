@@ -69,6 +69,11 @@ class User extends Authenticatable
         return $this->role === self::ROLE_REQUESTER;
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
     public function scopeSearch($query, $value){
         $query->where('id', 'like', "%{$value}%")
         ->orWhere('name', 'like', "%{$value}%")
