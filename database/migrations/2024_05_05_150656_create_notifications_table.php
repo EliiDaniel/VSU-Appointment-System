@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->json('content')->nullable();
-            $table->boolean('read')->default(false);
+            $table->dateTime('read_at');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
             

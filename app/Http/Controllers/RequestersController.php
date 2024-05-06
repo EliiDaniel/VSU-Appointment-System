@@ -17,4 +17,9 @@ class RequestersController extends Controller
 
         return view('requester.requests', ['trackingCode' => $trackingCode]);
     }
+    
+    public function notifications()
+    {
+        return view('requester.notifications');
+    }
 }
