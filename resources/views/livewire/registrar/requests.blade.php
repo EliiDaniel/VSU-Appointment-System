@@ -1,7 +1,7 @@
 <div>
     <section>
         <div class="mx-auto">
-            <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+            <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg">
                 <div class="flex flex-wrap sm:flex-nowrap gap-4 lg:hidden items-center p-4 space-x-3">
                     <div class="relative w-full">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
