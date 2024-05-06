@@ -59,19 +59,19 @@ $markAsRead = function (Notification $notification) {
                         @if(auth()->user()->notifications->isNotEmpty())
                             @foreach(auth()->user()->notifications()->latest()->take(5)->get() as $notification)
                             <div x-data="{ read: {{ $notification->read }} }">
-                                <button
+                                <x-dropdown-link :href="(request()->routeIs('registrar*') ? route('registrar.requests') : (request()->routeIs('cashier*') ? route('cashier.requests') : route('requester.requests'))) . '?tracking_code=' . json_decode($notification->content)[0]"
                                     class=" w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800 transition duration-150 ease-in-out flex justify-between items-center gap-4 whitespace-nowrap relative z-[50] data-[tooltip]:after:content-[attr(data-tooltip)] data-[tooltip]:after:invisible data-[tooltip]:after:scale-50 data-[tooltip]:after:origin-right data-[tooltip]:after:opacity-0 hover:data-[tooltip]:after:visible hover:data-[tooltip]:after:opacity-100 hover:data-[tooltip]:after:scale-100 data-[tooltip]:after:transition-all data-[tooltip]:after:absolute data-[tooltip]:after:bg-white data-[tooltip]:after:dark:bg-gray-700 data-[tooltip]:after:right-[calc(100%+4px)] data-[tooltip]:after:top-1/2 data-[tooltip]:after:-translate-y-1/2 data-[tooltip]:after:-z-[1] data-[tooltip]:after:px-1.5 data-[tooltip]:after:py-1 data-[tooltip]:after:min-h-fit data-[tooltip]:after:min-w-fit data-[tooltip]:after:rounded-md data-[tooltip]:after:drop-shadow data-[tooltip]:before:drop-shadow data-[tooltip]:after:text-center data-[tooltip]:after:text-gray-700 data-[tooltip]:after:dark:text-gray-300 data-[tooltip]:after:whitespace-nowrap data-[tooltip]:after:text-[10px] data-[tooltip]:before:invisible data-[tooltip]:before:opacity-0 hover:data-[tooltip]:before:visible hover:data-[tooltip]:before:opacity-100 data-[tooltip]:before:transition-all data-[tooltip]:before:bg-white data-[tooltip]:before:dark:bg-gray-700 data-[tooltip]:before:[clip-path:polygon(0_0,0_100%,100%_50%)] data-[tooltip]:before:absolute data-[tooltip]:before:right-full data-[tooltip]:before:top-1/2 data-[tooltip]:before:-translate-y-1/2 data-[tooltip]:before:z-0 data-[tooltip]:before:w-[4px] data-[tooltip]:before:h-3"
-                                    data-tooltip="{{ $notification->content }}" @click="read = true" wire:click="markAsRead({{ $notification }})">
+                                    data-tooltip="Request #{{ json_decode($notification->content)[0] }} is now {{ json_decode($notification->content)[1] }}" @click="read = true" wire:click="markAsRead({{ $notification }})">
                                     {{ $notification->title }}
                                     <span :class="read ? 'bg-gray-500' : 'bg-green-500'" class="h-3 w-3 rounded-full"></span>
-                                </button>
+                                </x-dropdown-link>
                             </div>
                             @endforeach
                                 <x-dropdown-link :href="route('requester.requests')" class="flex justify-center uppercase tracking-widest font-semibold text-xs">
                                     view all
                                 </x-dropdown-link>
                         @else
-                            <x-dropdown-link>
+                            <x-dropdown-link class="whitespace-nowrap">
                                 {{ __('No new notification') }}
                             </x-dropdown-link>
                         @endif
@@ -122,19 +122,19 @@ $markAsRead = function (Notification $notification) {
                         @if(auth()->user()->notifications->isNotEmpty())
                             @foreach(auth()->user()->notifications()->latest()->take(5)->get() as $notification)
                             <div x-data="{ read: {{ $notification->read }} }">
-                                <button
+                                <x-dropdown-link :href="(request()->routeIs('registrar*') ? route('registrar.requests') : (request()->routeIs('cashier*') ? route('cashier.requests') : route('requester.requests'))) . '?tracking_code=' . json_decode($notification->content)[0]"
                                     class=" w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800 transition duration-150 ease-in-out flex justify-between items-center gap-4 relative z-[50] data-[tooltip]:after:content-[attr(data-tooltip)] data-[tooltip]:after:invisible data-[tooltip]:after:scale-50 data-[tooltip]:after:origin-right data-[tooltip]:after:opacity-0 hover:data-[tooltip]:after:visible hover:data-[tooltip]:after:opacity-100 hover:data-[tooltip]:after:scale-100 data-[tooltip]:after:transition-all data-[tooltip]:after:absolute data-[tooltip]:after:bg-white data-[tooltip]:after:dark:bg-gray-700 data-[tooltip]:after:right-[calc(100%+4px)] data-[tooltip]:after:top-1/2 data-[tooltip]:after:-translate-y-1/2 data-[tooltip]:after:-z-[1] data-[tooltip]:after:px-1.5 data-[tooltip]:after:py-1 data-[tooltip]:after:min-h-fit data-[tooltip]:after:min-w-fit data-[tooltip]:after:rounded-md data-[tooltip]:after:drop-shadow data-[tooltip]:before:drop-shadow data-[tooltip]:after:text-center data-[tooltip]:after:text-gray-700 data-[tooltip]:after:dark:text-gray-300 data-[tooltip]:after:whitespace-nowrap data-[tooltip]:after:text-[10px] data-[tooltip]:before:invisible data-[tooltip]:before:opacity-0 hover:data-[tooltip]:before:visible hover:data-[tooltip]:before:opacity-100 data-[tooltip]:before:transition-all data-[tooltip]:before:bg-white data-[tooltip]:before:dark:bg-gray-700 data-[tooltip]:before:[clip-path:polygon(0_0,0_100%,100%_50%)] data-[tooltip]:before:absolute data-[tooltip]:before:right-full data-[tooltip]:before:top-1/2 data-[tooltip]:before:-translate-y-1/2 data-[tooltip]:before:z-0 data-[tooltip]:before:w-[4px] data-[tooltip]:before:h-3"
-                                    data-tooltip="{{ $notification->content }}" @click="read = true" wire:click="markAsRead({{ $notification }})">
+                                    data-tooltip="Request #{{ json_decode($notification->content)[0] }} is now {{ json_decode($notification->content)[1] }}" @click="read = true" wire:click="markAsRead({{ $notification }})">
                                     {{ $notification->title }}
                                     <span :class="read ? 'bg-gray-500' : 'bg-green-500'" class="min-h-3 min-w-3 rounded-full"></span>
-                                </button>
+                                </x-dropdown-link>
                             </div>
                             @endforeach
                                 <x-dropdown-link :href="route('requester.requests')" class="flex justify-center uppercase tracking-widest font-semibold text-xs">
                                     view all
                                 </x-dropdown-link>
                         @else
-                            <x-dropdown-link>
+                            <x-dropdown-link class="whitespace-nowrap">
                                 {{ __('No new notification') }}
                             </x-dropdown-link>
                         @endif

@@ -43,7 +43,7 @@ class Request extends Model
             if ($request->isDirty('status')) {
                 Notification::create([
                     'title' => "Request #..." . substr($request->tracking_code, -6) . " Status Update",
-                    'content' => "Request #{$request->tracking_code} is now {$request->status}",
+                    'content' =>  json_encode([$request->tracking_code, $request->status]),
                     'user_id' => $request->user->id,
                 ]);
             }

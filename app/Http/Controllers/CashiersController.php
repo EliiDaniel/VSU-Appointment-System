@@ -11,8 +11,10 @@ class CashiersController extends Controller
         return view('cashier.index');
     }
 
-    public function requests()
+    public function requests(Request $request)
     {
-        return view('cashier.requests');
+        $trackingCode = $request->query('tracking_code');
+
+        return view('cashier.requests', ['trackingCode' => $trackingCode]);
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->longText('content');
+            $table->json('content')->nullable();
             $table->boolean('read')->default(false);
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
