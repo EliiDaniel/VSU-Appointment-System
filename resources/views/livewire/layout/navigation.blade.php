@@ -30,7 +30,7 @@ $markAsRead = function (Notification $notification) {
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     @if(auth()->user()->isAdmin())
-                        <x-nav-link :href="route('registrar.dashboard')" :active="request()->routeIs('registrar*')" wire:navigate>
+                        <x-nav-link :href="route('registrar.dashboard')" :active="request()->routeIs('registrar*')">
                             {{ __('Registrar') }}
                         </x-nav-link>
                         <x-nav-link :href="route('cashier.dashboard')" :active="request()->routeIs('cashier*')" wire:navigate>
