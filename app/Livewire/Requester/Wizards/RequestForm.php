@@ -49,6 +49,13 @@ class RequestForm extends WizardComponent
         ]);
     }
 
+    public function updatedState($name, $value)
+    {
+        if (strpos($value, 'selected_documents')) {
+            $this->expireCheckout();
+        }
+    }
+
     public function populateQuantities()
     {
         $quantities = [];

@@ -49,6 +49,10 @@ class Request extends Model
                         'user_id' => $request->user->id,
                     ]);
                 }
+
+                if (in_array($request->status, ['Payment Approval', 'Awaiting Payment'])) {
+                    $request->sendEmailNotificationsToCashiers();
+                }
                 $request->sendEmailNotifications();
             }
 
@@ -63,11 +67,48 @@ class Request extends Model
                         NotificationEmail::route('mail', $request->user->email)->notify(new RequestStatusUpdate(url('/requester/requests/?tracking_code=' . $request->tracking_code), "You have successfully filed a new request with tracking code $request->tracking_code,now pending for approval."));
                     }
                 }
-                elseif ($request->verified_email) {
+
+                $request->sendEmailNotificationsToRegistrars();
+
+                if ($request->verified_email) {
                     NotificationEmail::route('mail', $request->verified_email->email)->notify(new RequestStatusUpdate(url('?tracking_code=' . $request->tracking_code), "You have successfully filed a new request with tracking code $request->tracking_code,now pending for approval."));
                 }
             }
         });
+    }
+
+    private function sendEmailNotificationsToRegistrars()
+    {
+        $registrars = User::whereIn('role', ['registrar', 'admin'])->get();
+
+        foreach ($registrars as $registrar) {
+            Notification::create([
+                'title' => "Request #..." . substr($this->tracking_code, -6) . " Created",
+                'content' => json_encode(['request', $this->tracking_code, 'pending for approval.']),
+                'user_id' => $registrar->id,
+            ]);
+
+            if ($registrar->hasVerifiedEmail()) {
+                NotificationEmail::route('mail', $registrar->email)->notify(new RequestStatusUpdate(url('/requester/requests/?tracking_code=' . $this->tracking_code), "The status of your request with tracking code $this->tracking_code has been updated to $this->status."));
+            }
+        }
+    }
+
+    private function sendEmailNotificationsToCashiers()
+    {
+        $cashiers = User::whereIn('role', ['cashier', 'admin'])->get();
+
+        foreach ($cashiers as $cashier) {
+            Notification::create([
+                'title' => "Request #..." . substr($this->tracking_code, -6) . " Status Update",
+                'content' => json_encode(['request', $this->tracking_code, $this->status]),
+                'user_id' => $cashier->id,
+            ]);
+
+            if ($cashier->hasVerifiedEmail()) {
+                NotificationEmail::route('mail', $cashier->email)->notify(new RequestStatusUpdate(url('/requester/requests/?tracking_code=' . $this->tracking_code), "The status of your request with tracking code $this->tracking_code has been updated to $this->status."));
+            }
+        }
     }
 
     private function sendEmailNotifications()
