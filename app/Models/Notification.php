@@ -13,7 +13,7 @@ class Notification extends Model
         'title',
         'content',
         'user_id',
-        'read',
+        'read_at',
     ];
 
     public function user()
@@ -29,6 +29,7 @@ class Notification extends Model
     }
 
     public function scopeSearch($query, $value){
-        $query->where('title', 'like', "%{$value}%");
+        $query->where('title', 'like', "%{$value}%")
+            ->orWhereJsonContains('content', $value);
     }
 }
