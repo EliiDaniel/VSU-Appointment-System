@@ -17,4 +17,9 @@ class CashiersController extends Controller
 
         return view('cashier.requests', ['trackingCode' => $trackingCode]);
     }
+    
+    public function notifications()
+    {
+        return view('cashier.notifications');
+    }
 }

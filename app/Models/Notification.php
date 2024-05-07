@@ -13,7 +13,7 @@ class Notification extends Model
         'title',
         'content',
         'user_id',
-        'read',
+        'read_at',
     ];
 
     public function user()
@@ -23,6 +23,13 @@ class Notification extends Model
 
     public function markAsRead()
     {
-        $this->update(['read' => true]);
+        if (!$this->read_at) {
+            $this->update(['read_at' => date('Y-m-d H:i:s')]);
+        }
+    }
+
+    public function scopeSearch($query, $value){
+        $query->where('title', 'like', "%{$value}%")
+            ->orWhereJsonContains('content', $value);
     }
 }

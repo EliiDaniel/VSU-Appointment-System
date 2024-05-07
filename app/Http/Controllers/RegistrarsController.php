@@ -32,4 +32,9 @@ class RegistrarsController extends Controller
     {
         return view('registrar.schedules');
     }
+    
+    public function notifications()
+    {
+        return view('registrar.notifications');
+    }
 }

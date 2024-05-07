@@ -42,6 +42,7 @@ Route::middleware(['auth', 'verified', 'role:admin,registrar'])
         Route::get('/registrar/requests', [RegistrarsController::class, 'requests'])->name('registrar.requests');
         Route::get('/registrar/documents', [RegistrarsController::class, 'documents'])->name('registrar.documents');
         Route::get('/registrar/schedules', [RegistrarsController::class, 'schedules'])->name('registrar.schedules');
+        Route::get('/registrar/notifications', [RegistrarsController::class, 'notifications'])->name('registrar.notifications');
 
         // Users
         Route::patch('/users/{id}', [UsersController::class, 'update'])->name('update.user');
@@ -63,6 +64,7 @@ Route::middleware(['auth', 'verified', 'role:admin,cashier'])
         Route::get('/cashier', [CashiersController::class, 'index'])->name('cashier.dashboard');
         Route::get('/cashier/dashboard', [CashiersController::class, 'index'])->name('cashier.dashboard');
         Route::get('/cashier/requests', [CashiersController::class, 'requests'])->name('cashier.requests');
+        Route::get('/cashier/notifications', [CashiersController::class, 'notifications'])->name('cashier.notifications');
     });
 
 Route::middleware(['auth', 'verified', 'role:admin,requester'])
@@ -70,6 +72,7 @@ Route::middleware(['auth', 'verified', 'role:admin,requester'])
     Route::get('/requester', [RequestersController::class, 'index'])->name('requester.dashboard');
     Route::get('/requester/dashboard', [RequestersController::class, 'index'])->name('requester.dashboard');
     Route::get('/requester/requests', [RequestersController::class, 'requests'])->name('requester.requests');
+    Route::get('/requester/notifications', [RequestersController::class, 'notifications'])->name('requester.notifications');
 });
 
 Route::get('/waiting-for-confirmation', function () {
