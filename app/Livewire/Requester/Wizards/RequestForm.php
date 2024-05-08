@@ -104,9 +104,9 @@ class RequestForm extends WizardComponent
             $checkout = Paymongo::checkout()->create([
                 'cancel_url' => route('checkout.failed'),
                 'billing' => [
-                    'name' => 'Juan Doe',
-                    'email' => 'juan@doe.com',
-                    'phone' => '+639123456789',
+                    'name' => auth()->user()->name,
+                    'email' => auth()->user()->hasVerifiedEmail() ? auth()->user()->email : 'testemail@gmail.com',
+                    'phone' => '',
                 ],
                 'description' => 'My checkout session description',
                 'line_items' => $line_items,
@@ -149,11 +149,11 @@ class RequestForm extends WizardComponent
         if($this->state['payment_type'] == 'Online' && !isset($this->transaction) && isset($this->checkout)){
             $checkout = Paymongo::checkout()->find($this->checkout['id']);
             if(isset($checkout->getData()['paid_at'])){
-                $this->transaction = Transaction::create([
-                    'checkout_id' => $checkout->getData()['id'],
-                ]);
                 $this->state['transaction'] = true;
                 session()->flash('transaction_complete', 'Transaction Complete');
+                $this->transaction = Transaction::firstOrCreate([
+                    'checkout_id' => $checkout->getData()['id'],
+                ]);
             }
         }
     }

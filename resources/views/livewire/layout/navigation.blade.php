@@ -1,28 +1,11 @@
-<?php
-
-use App\Livewire\Actions\Logout;
-use App\Models\Notification;
-
-$logout = function (Logout $logout) {
-    $logout();
-
-    $this->redirect('/', navigate: true);
-};
-
-$markAsRead = function (Notification $notification) {
-    $notification->markAsRead();
-};
-
-?>
-
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 fixed top-0 w-full z-20">
+<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 fixed top-0 w-full z-50">
     <!-- Primary Navigation Menu -->
     <div class="px-6">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}" wire:navigate>
+                    <a href="{{ route('dashboard') }}">
                         <x-application-logo maxWidth="xs" class="block w-auto fill-current text-gray-800 dark:text-gray-200 " />
                     </a>
                 </div>
@@ -30,34 +13,42 @@ $markAsRead = function (Notification $notification) {
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     @if(auth()->user()->isAdmin())
-                        <x-nav-link :href="route('registrar.dashboard')" :active="request()->routeIs('registrar*')" wire:navigate>
+                        <x-nav-link :href="route('registrar.dashboard')" :active="request()->routeIs('registrar*')">
                             {{ __('Registrar') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('cashier.dashboard')" :active="request()->routeIs('cashier*')" wire:navigate>
+                        <x-nav-link :href="route('cashier.dashboard')" :active="request()->routeIs('cashier*')">
                             {{ __('Cashier') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('requester.dashboard')" :active="request()->routeIs('requester*')" wire:navigate>
+                        <x-nav-link :href="route('requester.dashboard')" :active="request()->routeIs('requester*')">
                             {{ __('Requesters') }}
                         </x-nav-link>
                     @endif
                 </div>
             </div>
-
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="64">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-1 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition duration-150 ease-in-out cursor-pointer">
-                                <title>Notifications</title>
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
-                            </svg>
-                        </button>
+                        @if (!$hasUnread)
+                            <button class="inline-flex items-center px-1 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition duration-150 ease-in-out cursor-pointer">
+                                    <title>Notifications</title>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
+                                </svg>
+                            </button>
+                        @else
+                            <button class="inline-flex items-center px-1 py-2 border border-transparent text-sm leading-4 font-medium rounded-md hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-emerald-500 hover:text-gray-700 dark:hover:text-gray-300 transition duration-150 ease-in-out cursor-pointer animate-wiggle animate-infinite animate-ease-linear">
+                                    <title>Notifications</title>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
+                                </svg>
+                            </button>
+                        @endif
                     </x-slot>
 
                     <x-slot name="content">
-                        @if(auth()->user()->notifications->isNotEmpty())
-                            @foreach(auth()->user()->notifications()->latest()->take(5)->get() as $notification)
+                        @if($notifications)
+                            @foreach($notifications as $notification)
                                 <div x-data="{ read: {{ $notification->read_at === null ? 'false' : 'true' }} }">
                                     @if (json_decode($notification->content)[0] === 'request')
                                         <x-dropdown-link :href="(request()->routeIs('registrar*') ? route('registrar.requests') : (request()->routeIs('cashier*') ? route('cashier.requests') : route('requester.requests'))) . '?tracking_code=' . json_decode($notification->content)[1]"
@@ -112,17 +103,26 @@ $markAsRead = function (Notification $notification) {
             <div class="-me-2 flex items-center sm:hidden">
                 <x-dropdown align="right" width="56">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-1 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition duration-150 ease-in-out cursor-pointer">
-                                <title>Notifications</title>
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
-                            </svg>
-                        </button>
+                    @if (!$hasUnread)
+                            <button class="inline-flex items-center px-1 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition duration-150 ease-in-out cursor-pointer">
+                                    <title>Notifications</title>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
+                                </svg>
+                            </button>
+                        @else
+                            <button class="inline-flex items-center px-1 py-2 border border-transparent text-sm leading-4 font-medium rounded-md hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-emerald-500 hover:text-gray-700 dark:hover:text-gray-300 transition duration-150 ease-in-out cursor-pointer animate-wiggle animate-infinite animate-ease-linear">
+                                    <title>Notifications</title>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
+                                </svg>
+                            </button>
+                        @endif
                     </x-slot>
 
                     <x-slot name="content">
-                        @if(auth()->user()->notifications->isNotEmpty())
-                            @foreach(auth()->user()->notifications()->latest()->take(5)->get() as $notification)
+                        @if($notifications)
+                            @foreach($notifications as $notification)
                                 <div x-data="{ read: {{ $notification->read_at === null ? 'false' : 'true' }} }">
                                     @if(json_decode($notification->content)[0] === 'request')
                                         <x-dropdown-link :href="(request()->routeIs('registrar*') ? route('registrar.requests') : (request()->routeIs('cashier*') ? route('cashier.requests') : route('requester.requests'))) . '?tracking_code=' . json_decode($notification->content)[1]"
@@ -159,13 +159,13 @@ $markAsRead = function (Notification $notification) {
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             @if(auth()->user()->isAdmin())
-                <x-responsive-nav-link :href="route('registrar.dashboard')" :active="request()->routeIs('registrar*')" wire:navigate>
+                <x-responsive-nav-link :href="route('registrar.dashboard')" :active="request()->routeIs('registrar*')">
                     {{ __('Registrar') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('cashier.dashboard')" :active="request()->routeIs('cashier*')" wire:navigate>
+                <x-responsive-nav-link :href="route('cashier.dashboard')" :active="request()->routeIs('cashier*')">
                     {{ __('Cashier') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('requester.dashboard')" :active="request()->routeIs('requester*')" wire:navigate>
+                <x-responsive-nav-link :href="route('requester.dashboard')" :active="request()->routeIs('requester*')">
                     {{ __('Requester') }}
                 </x-responsive-nav-link>
             @endif
@@ -193,3 +193,11 @@ $markAsRead = function (Notification $notification) {
         </div>
     </div>
 </nav>
+
+@script
+    <script>
+        setInterval(() => {
+            $wire.reloadNotifs();
+        }, 1000);
+    </script>
+@endscript

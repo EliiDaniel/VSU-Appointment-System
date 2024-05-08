@@ -52,8 +52,8 @@
                                 wire:model.live="type"
                                 class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm">
                                 <option value="">All</option>
-                                <option value="request">Request</option>
-                                <option value="user">User</option>
+                                <option value="request">Requests</option>
+                                <option value="transaction">Transactions</option>
                             </select>
                         </div>
                     </div>
@@ -96,21 +96,23 @@
                                         class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $notification->title }}</th>
                                     <td class="px-4 py-3 flex items-center gap-2">
-                                        #{{ json_decode($notification->content)[1] }} 
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                                        </svg>
-                                        {{ json_decode($notification->content)[2] }} 
+                                        @if (json_decode($notification->content)[0] === 'request')
+                                            #{{ json_decode($notification->content)[1] }} Status: {{ json_decode($notification->content)[2] }} 
+                                        @elseif (json_decode($notification->content)[0] === 'transaction')
+                                            Checkeout ID: {{ json_decode($notification->content)[1] }}, Reference No: {{ json_decode($notification->content)[2] }} 
+                                        @endif
                                     </td>
                                     <td class="px-4 py-3">{{ $notification->read_at }}</td>
                                     <td class="px-4 py-3">{{ $notification->created_at }}</td>
-                                    <td class="px-4 py-3 flex items-center gap-2">
-                                        <x-secondary-button wire:click="viewNotification({{ $notification }})">
-                                            {{ __('View') }}
-                                        </x-secondary-button>
-                                        <x-danger-button>
-                                            {{ __('Delete') }}
-                                        </x-danger-button>
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center gap-2">
+                                            <x-secondary-button wire:click="viewNotification({{ $notification }})">
+                                                {{ __('View') }}
+                                            </x-secondary-button>
+                                            <x-danger-button>
+                                                {{ __('Delete') }}
+                                            </x-danger-button>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

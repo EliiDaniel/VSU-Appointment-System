@@ -20,9 +20,11 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         \App\Models\Schedule::create([
-            'enabled_days' => json_encode([1, 2, 3, 4, 5, 6]),
+            'enabled_days' => json_encode([1, 2, 3, 4, 5]),
             'min_time' => '08:00:00',
             'max_time' => '17:00:00',
+            'max' => 7,
+            'min' => 3,
         ]);
     }
 }
