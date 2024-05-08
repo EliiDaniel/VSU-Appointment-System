@@ -15,7 +15,7 @@ $markAsRead = function (Notification $notification) {
 
 ?>
 
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 fixed top-0 w-full z-20">
+<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 fixed top-0 w-full z-50">
     <!-- Primary Navigation Menu -->
     <div class="px-6">
         <div class="flex justify-between h-16">

@@ -61,7 +61,7 @@
             </div>
             </div>
         </div>
-        <div class="p-6 lg:grid grid-cols-2 gap-4 space-y-8 lg:space-y-0">
+        <div class="p-6 lg:grid grid-cols-2 gap-8 space-y-8 lg:space-y-0">
             <div class="block md:grid grid-cols-3 gap-4 justify-center lg:flex">
                 <div class="hidden md:flex flex-wrap lg:hidden grid-cols-5 gap-4 p-3">
                     <div class="flex items-center justify-between p-4 px-8 shadow-md rounded-md h-28 bg-white dark:bg-gray-800 overflow-hidden sm:rounded-lg w-full">
@@ -124,11 +124,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="space-y-8 col-span-2">
-                    <div class="min-w-96 min-h-56 max-w-[500px] max-h-96 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg py-8">
+                <div class="col-span-2 w-full grid grid-rows-2 gap-4">
+                    <div class="mx-auto min-w-full min-h-full bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg py-8">
                         <canvas id="users-chart" class="p-2" style="min-height: 250px; min-width: 250px;max-height: 300px; max-width: 100%"></canvas>
                     </div>
-                    <div class="min-w-96 min-h-60 max-w-[500px] max-h-96 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg py-8">
+                    <div class="mx-auto min-w-full px-6 min-h-full bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg py-8">
                         <canvas id="requests-statistics-chart" class="p-2" style="min-height: 250px; min-width: 250px;max-height: 500px; max-width: 100%"></canvas>
                     </div>
                 </div>

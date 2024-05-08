@@ -1,23 +1,22 @@
 <div>
-    <div x-data="{disableClose: false}">
+    <div x-data="{disableClose: false}" class="px-6 -mt-28 rounded-md sm:px-0">
         <a href="/" wire:navigate>
             <x-application-logo maxWidth="2xl" class="w-20 h-20 fill-current text-gray-500" />
         </a>
 
         @if (!auth()->user())
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg mx-auto">
+            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden rounded-lg mx-auto">
                 <form wire:submit.prevent="submitForm">
                     <div>
                         <x-input-label for="tracking" :value="__('Tracking Code')" />
                         <x-text-input wire:model="trackingNumber" class="block mt-1 w-full" type="text" name="tracking" required autofocus autocomplete="off" />
                     </div>
 
-                    <div class="flex items-center justify-between mt-4">
-                        <x-secondary-button wire:click="createRequest">
+                    <div class="grid grid-cols-2 sm:flex items-center justify-between mt-4 gap-4">
+                        <x-secondary-button wire:click="createRequest" class="h-full">
                             {{ __('Request Documents') }}
                         </x-secondary-button>
-                        
-                        <x-primary-button>
+                        <x-primary-button class="h-full">
                             {{ __('Track Request') }}
                         </x-primary-button>
                     </div>
