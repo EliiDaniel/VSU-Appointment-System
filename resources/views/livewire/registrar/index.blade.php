@@ -125,10 +125,10 @@
                     </div>
                 </div>
                 <div class="col-span-2 w-full grid grid-rows-2 gap-4">
-                    <div class="mx-auto min-w-full min-h-full bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg py-8">
+                    <div class="min-w-96 mx-auto w-full min-h-full bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg py-8">
                         <canvas id="users-chart" class="p-2" style="min-height: 250px; min-width: 250px;max-height: 300px; max-width: 100%"></canvas>
                     </div>
-                    <div class="mx-auto min-w-full px-6 min-h-full bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg py-8">
+                    <div class="min-w-96 mx-auto w-full px-6 min-h-full bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg py-8">
                         <canvas id="requests-statistics-chart" class="p-2" style="min-height: 250px; min-width: 250px;max-height: 500px; max-width: 100%"></canvas>
                     </div>
                 </div>
@@ -140,7 +140,6 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     var usersChart = document.getElementById('users-chart').getContext('2d');
     var requestsChart = document.getElementById('requests-chart').getContext('2d');
