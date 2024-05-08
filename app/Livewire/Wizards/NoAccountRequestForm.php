@@ -124,8 +124,8 @@ class NoAccountRequestForm extends WizardComponent
             $checkout = Paymongo::checkout()->create([
                 'cancel_url' => route('checkout.failed'),
                 'billing' => [
-                    'name' => 'Juan Doe',
-                    'email' => 'juan@doe.com',
+                    'name' => '',
+                    'email' => $this->state['email'],
                     'phone' => '+639123456789',
                 ],
                 'description' => 'My checkout session description',
@@ -169,11 +169,11 @@ class NoAccountRequestForm extends WizardComponent
         if($this->state['payment_type'] == 'Online' && !isset($this->transaction) && isset($this->checkout)){
             $checkout = Paymongo::checkout()->find($this->checkout['id']);
             if(isset($checkout->getData()['paid_at'])){
-                $this->transaction = Transaction::create([
-                    'checkout_id' => $checkout->getData()['id'],
-                ]);
                 $this->state['transaction'] = true;
                 session()->flash('transaction_complete', 'Transaction Complete');
+                $this->transaction = Transaction::firstOrCreate([
+                    'checkout_id' => $checkout->getData()['id'],
+                ]);
             }
         }
     }
