@@ -10,7 +10,6 @@ use App\Http\Controllers\{
     CheckoutController,
     BlockedDatesController,
     ScheduleController,
-    AdminsController,
 };
 
 use Illuminate\Support\Facades\Route;
