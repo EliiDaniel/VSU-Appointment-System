@@ -1,6 +1,6 @@
 <div>
     <section>
-        <div class="mx-auto">
+        <div class="mx-auto" wire:poll>
             <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg">
                 <div class="flex flex-wrap sm:flex-nowrap gap-4 lg:hidden items-center p-4 space-x-3">
                     <div class="relative w-full">

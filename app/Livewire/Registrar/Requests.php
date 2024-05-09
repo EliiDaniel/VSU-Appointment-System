@@ -81,6 +81,11 @@ class Requests extends Component
         $this->dispatch('open-modal', 'view-document');
     }
 
+    public function setSortBy($col){
+        $this->sortDir = ($this->sortBy === $col) ? (($this->sortDir == 'DESC') ? 'ASC' : 'DESC') : 'ASC';
+        $this->sortBy = ($this->sortBy === $col) ? $this->sortBy : $col;
+    }
+
     public function modifyProcess($documentProcess)
     {
         $docProcess = RequestDocumentProcess::exists($this->pivotId, $documentProcess);
