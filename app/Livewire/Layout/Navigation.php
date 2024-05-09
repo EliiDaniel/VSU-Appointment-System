@@ -8,28 +8,12 @@ use Livewire\Component;
 
 class Navigation extends Component
 {
-    public $notifications;
-    public $hasUnread = false;
-
-    public function mount()
-    {
-        $this->notifications = auth()->user()->notifications()->latest()->take(5)->get();
-        $this->hasUnread = $this->notifications->contains(function ($notification) {
-            return is_null($notification->read_at);
-        });
-    }
-
     public function render()
     {
-        return view('livewire.layout.navigation');
-    }
-
-    public function reloadNotifs()
-    {
-        $this->notifications = auth()->user()->notifications()->latest()->take(5)->get();
-        $this->hasUnread = $this->notifications->contains(function ($notification) {
-            return is_null($notification->read_at);
-        });
+        return view('livewire.layout.navigation', [
+            'notifications' => auth()->user()?->notifications()->latest()->take(5)->get(),
+            'hasUnread' => auth()->user()?->notifications->whereNull('read_at')->count(),
+        ]);
     }
 
     public function logout(Logout $logout) {
@@ -40,9 +24,5 @@ class Navigation extends Component
 
     public function markAsRead(Notification $notification) {
         $notification->markAsRead();
-        $this->notifications = auth()->user()->notifications()->latest()->take(5)->get();
-        $this->hasUnread = $this->notifications->contains(function ($notif) {
-            return is_null($notif->read_at);
-        });
     }
 }
