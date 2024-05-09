@@ -1,3 +1,3 @@
 <x-app-layout>
-    <livewire:registrar.users/>
+    <livewire:registrar.users :search="$userId ? $userId : null"/>
 </x-app-layout>

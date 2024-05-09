@@ -11,9 +11,11 @@ class RegistrarsController extends Controller
         return view('registrar.index');
     }
 
-    public function users()
+    public function users(Request $request)
     {
-        return view('registrar.users');
+        $userId = $request->query('user_id');
+
+        return view('registrar.users', ['userId' => $userId]);
     }
     
     public function documents()
@@ -33,8 +35,10 @@ class RegistrarsController extends Controller
         return view('registrar.schedules');
     }
     
-    public function notifications()
+    public function notifications(Request $request)
     {
-        return view('registrar.notifications');
+        $referenceNo = $request->query('reference_no');
+
+        return view('registrar.notifications', ['referenceNo' => $referenceNo]);
     }
 }
