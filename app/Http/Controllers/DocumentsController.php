@@ -44,6 +44,8 @@ class DocumentsController extends Controller
             'price' => $request->input('price'),
         ]);
 
+        $document->updateLogs();
+
         $document->processes()->sync($request->input('processes'));
 
         $request->session()->flash('status', 'document-created');

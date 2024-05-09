@@ -10,6 +10,7 @@ use App\Http\Controllers\{
     CheckoutController,
     BlockedDatesController,
     ScheduleController,
+    AdminsController,
 };
 
 use Illuminate\Support\Facades\Route;
@@ -74,6 +75,11 @@ Route::middleware(['auth', 'verified', 'role:admin,requester'])
     Route::get('/requester/requests', [RequestersController::class, 'requests'])->name('requester.requests');
     Route::get('/requester/notifications', [RequestersController::class, 'notifications'])->name('requester.notifications');
 });
+
+
+Route::get('/system-logs', function () {
+    return view('system-logs');
+})->middleware(['auth', 'verified', 'role:admin'])->name('system.logs');
 
 Route::get('/waiting-for-confirmation', function () {
     return view('waiting-for-confirmation');

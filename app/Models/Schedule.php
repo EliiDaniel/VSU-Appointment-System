@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Schedule extends Model
 {
@@ -17,4 +18,17 @@ class Schedule extends Model
         'min_time',
         'max_time',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updating(function ($schedule) {
+            SystemLog::today()->appendActivity([
+                'type' => 'schedule',
+                'time' => Carbon::now(),
+                'description' => "Schedule Settings Updated by User ID No: " . auth()->user()->id,
+            ]);
+        });
+    }
 }

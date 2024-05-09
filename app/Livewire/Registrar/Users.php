@@ -34,6 +34,10 @@ class Users extends Component
         ]);
     }
     
+    public function deleteUser(User $user){
+        $user->delete();
+    }
+    
     public function showUser(User $user){
         $this->selectedUser = $user;
 
@@ -45,7 +49,6 @@ class Users extends Component
         $this->sortBy = ($this->sortBy === $col) ? $this->sortBy : $col;
     }
 
-    //Updates on page when shown entries is updated
     public function updatedShownEntries()
     {
         $this->resetPage();

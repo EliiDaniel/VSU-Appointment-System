@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification as NotificationEmail;
 use App\Notifications\RequestStatusUpdate;
+use Carbon\Carbon;
 
 class Request extends Model
 {
@@ -53,6 +54,13 @@ class Request extends Model
                 if (in_array($request->status, ['Payment Approval', 'Awaiting Payment'])) {
                     $request->sendEmailNotificationsToCashiers();
                 }
+
+                SystemLog::today()->appendActivity([
+                    'type' => 'request',
+                    'time' => Carbon::now(),
+                    'description' => "Request No: " . $request->id . " updated to $request->status, by User ID No: " . auth()->user()->id,
+                ]);
+
                 $request->sendEmailNotifications();
             }
 
@@ -66,11 +74,22 @@ class Request extends Model
                     if ($request->user->hasVerifiedEmail()) {
                         NotificationEmail::route('mail', $request->user->email)->notify(new RequestStatusUpdate(url('/requester/requests/?tracking_code=' . $request->tracking_code), "You have successfully filed a new request with tracking code $request->tracking_code,now pending for approval."));
                     }
+
+                    SystemLog::today()->appendActivity([
+                        'type' => 'request',
+                        'time' => Carbon::now(),
+                        'description' => "New Request by User ID: " . $request->user->id,
+                    ]);
                 }
 
                 $request->sendEmailNotificationsToRegistrars();
 
                 if ($request->verified_email) {
+                    SystemLog::today()->appendActivity([
+                        'type' => 'request',
+                        'time' => Carbon::now(),
+                        'description' => "New Request by: " . $request->verified_email->email,
+                    ]);
                     NotificationEmail::route('mail', $request->verified_email->email)->notify(new RequestStatusUpdate(url('?tracking_code=' . $request->tracking_code), "You have successfully filed a new request with tracking code $request->tracking_code,now pending for approval."));
                 }
             }

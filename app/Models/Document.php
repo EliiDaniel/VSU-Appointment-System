@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Document extends Model
 {
@@ -13,6 +14,36 @@ class Document extends Model
         'name',
         'price',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($document) {
+            SystemLog::today()->appendActivity([
+                'type' => 'document',
+                'time' => Carbon::now(),
+                'description' => "New Document Created $document->name by User ID No: " . auth()->user()->id,
+            ]);
+        });
+
+        static::deleting(function ($document) {
+            SystemLog::today()->appendActivity([
+                'type' => 'document',
+                'time' => Carbon::now(),
+                'description' => "Document $document->name deleted by User ID No: " . auth()->user()->id,
+            ]);
+        });
+    }
+
+    public function updateLogs()
+    {
+        SystemLog::today()->appendActivity([
+            'type' => 'document',
+            'time' => Carbon::now(),
+            'description' => "Document $this->name Updated by User ID No: " . auth()->user()->id,
+        ]);
+    }
 
     public function processes()
     {
