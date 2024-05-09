@@ -45,6 +45,10 @@ class Notifications extends Component
         $this->dispatch('open-modal', 'notification-modal');
     }
 
+    public function deleteNotification(Notification $notification){
+        $notification->delete();
+    }
+
     public function setSortBy($col){
         $this->sortDir = ($this->sortBy === $col) ? (($this->sortDir == 'DESC') ? 'ASC' : 'DESC') : 'ASC';
         $this->sortBy = ($this->sortBy === $col) ? $this->sortBy : $col;

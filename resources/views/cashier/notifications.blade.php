@@ -1,3 +1,3 @@
 <x-app-layout>
-    <livewire:cashier.notifications/>
+    <livewire:cashier.notifications :search="$referenceNo ? $referenceNo : null"/>
 </x-app-layout>

@@ -18,8 +18,10 @@ class CashiersController extends Controller
         return view('cashier.requests', ['trackingCode' => $trackingCode]);
     }
     
-    public function notifications()
+    public function notifications(Request $request)
     {
-        return view('cashier.notifications');
+        $referenceNo = $request->query('reference_no');
+
+        return view('cashier.notifications', ['referenceNo' => $referenceNo]);
     }
 }

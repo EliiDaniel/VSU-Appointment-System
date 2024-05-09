@@ -18,8 +18,11 @@ class RequestersController extends Controller
         return view('requester.requests', ['trackingCode' => $trackingCode]);
     }
     
-    public function notifications()
+    public function notifications(Request $request)
     {
-        return view('requester.notifications');
+        $referenceNo = $request->query('reference_no');
+        $title = $request->query('title');
+
+        return view('requester.notifications', ['referenceNo' => $referenceNo, 'title' => $title]);
     }
 }

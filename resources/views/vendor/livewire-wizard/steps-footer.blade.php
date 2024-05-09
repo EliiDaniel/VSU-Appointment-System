@@ -18,11 +18,11 @@
             </div>
         @endif
     @else
-        <x-button primary type="submit" spinner="submit" :label="__('Submit')"/>
+        <x-button primary type="submit" spinner="submit" :label="__('Submit')" @click="disableClose = false"/>
     @endif
 
     @if(session()->has('transaction_complete'))
-        <div class="text-green-600 animate-jump animate-once animate-ease-in-out" x-init="disableClose = true"> 
+        <div class="text-green-600 animate-jump animate-once animate-ease-in-out" x-init="disableClose = true; window.onbeforeunload = function() { { if (disableClose) return true; } }"> 
             {{ session('transaction_complete') }}
         </div>
     @endif

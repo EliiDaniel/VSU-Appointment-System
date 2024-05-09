@@ -53,7 +53,8 @@
                                 class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm">
                                 <option value="">All</option>
                                 <option value="request">Request</option>
-                                <option value="user">User</option>
+                                <option value="transaction">Transactions</option>
+                                <option value="user">Account</option>
                             </select>
                         </div>
                     </div>
@@ -97,9 +98,11 @@
                                         {{ $notification->title }}</th>
                                     <td class="px-4 py-3 flex items-center gap-2">
                                         @if (json_decode($notification->content)[0] === 'request')
-                                            #{{ json_decode($notification->content)[1] }} Status: {{ json_decode($notification->content)[2] }} 
+                                            #{{ json_decode($notification->content)[1] }} Status: {{ json_decode($notification->content)[2] }}
                                         @elseif (json_decode($notification->content)[0] === 'transaction')
-                                            Checkeout ID: {{ json_decode($notification->content)[1] }}, Reference No: {{ json_decode($notification->content)[2] }} 
+                                            Checkeout ID: {{ json_decode($notification->content)[1] }}, Reference No: {{ json_decode($notification->content)[2] }}
+                                        @elseif (json_decode($notification->content)[0] === 'user')
+                                            Account Role Confirmation
                                         @endif
                                     </td>
                                     <td class="px-4 py-3">{{ $notification->read_at }}</td>
@@ -109,7 +112,7 @@
                                             <x-secondary-button wire:click="viewNotification({{ $notification }})">
                                                 {{ __('View') }}
                                             </x-secondary-button>
-                                            <x-danger-button>
+                                            <x-danger-button wire:click="deleteNotification({{ $notification }})" wire:confirm="Are you sure you want to cancel notification?">
                                                 {{ __('Delete') }}
                                             </x-danger-button>
                                         </div>
