@@ -97,9 +97,11 @@
                                         {{ $notification->title }}</th>
                                     <td class="px-4 py-3 flex items-center gap-2">
                                         @if (json_decode($notification->content)[0] === 'request')
-                                            #{{ json_decode($notification->content)[1] }} Status: {{ json_decode($notification->content)[2] }} 
+                                            #{{ json_decode($notification->content)[1] }} Status: {{ json_decode($notification->content)[2] }}
                                         @elseif (json_decode($notification->content)[0] === 'transaction')
-                                            Checkeout ID: {{ json_decode($notification->content)[1] }}, Reference No: {{ json_decode($notification->content)[2] }} 
+                                            Checkeout ID: {{ json_decode($notification->content)[1] }}, Reference No: {{ json_decode($notification->content)[2] }}
+                                        @elseif (json_decode($notification->content)[0] === 'user')
+                                            Account Role Confirmation
                                         @endif
                                     </td>
                                     <td class="px-4 py-3">{{ $notification->read_at }}</td>

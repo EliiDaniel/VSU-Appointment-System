@@ -26,7 +26,11 @@
                 </div>
             </div>
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden sm:flex sm:items-center sm:ms-6 gap-2">
+                <x-nav-link href="{{ url('/verify-email') }}" x-show="{{ !auth()->user()->hasVerifiedEmail() ? 'true' : 'false' }}" class="text-center animate-bounce animate-ease-linear">
+                    {{ __('Verify Email') }}
+                </x-nav-link>
+
                 <x-dropdown align="right" width="64">
                     <x-slot name="trigger">
                         @if (!$hasUnread)
@@ -193,11 +197,3 @@
         </div>
     </div>
 </nav>
-
-@script
-    <script>
-        setInterval(() => {
-            $wire.reloadNotifs();
-        }, 1000);
-    </script>
-@endscript
