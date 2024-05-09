@@ -53,7 +53,8 @@
                                 class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm">
                                 <option value="">All</option>
                                 <option value="request">Request</option>
-                                <option value="user">User</option>
+                                <option value="transaction">Transactions</option>
+                                <option value="user">Account</option>
                             </select>
                         </div>
                     </div>
@@ -111,7 +112,7 @@
                                             <x-secondary-button wire:click="viewNotification({{ $notification }})">
                                                 {{ __('View') }}
                                             </x-secondary-button>
-                                            <x-danger-button>
+                                            <x-danger-button wire:click="deleteNotification({{ $notification }})" wire:confirm="Are you sure you want to cancel notification?">
                                                 {{ __('Delete') }}
                                             </x-danger-button>
                                         </div>

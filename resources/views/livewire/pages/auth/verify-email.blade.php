@@ -1,6 +1,4 @@
 <?php
-
-use App\Livewire\Actions\Logout;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -21,12 +19,6 @@ $sendVerification = function () {
     Session::flash('status', 'verification-link-sent');
 };
 
-$logout = function (Logout $logout) {
-    $logout();
-
-    $this->redirect('/', navigate: true);
-};
-
 ?>
 
 <div>            
@@ -43,13 +35,9 @@ $logout = function (Logout $logout) {
         </div>
     @endif
 
-    <div class="mt-4 flex items-center justify-between">
+    <div class="mt-4 flex items-center justify-center">
         <x-primary-button wire:click="sendVerification">
             {{ __('Resend Verification Email') }}
         </x-primary-button>
-
-        <button wire:click="logout" type="submit" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 dark:focus:ring-offset-gray-800">
-            {{ __('Log Out') }}
-        </button>
     </div>
 </div>
