@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('dashboard') }}" wire:ignore>
                         <x-application-logo maxWidth="xs" class="block w-auto fill-current text-gray-800 dark:text-gray-200 " />
                     </a>
                 </div>
@@ -13,13 +13,13 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     @if(auth()->user()->isAdmin())
-                        <x-nav-link :href="route('registrar.dashboard')" :active="request()->routeIs('registrar*')" wire:ignore wire:navigate>
+                        <x-nav-link :href="route('registrar.dashboard')" :active="request()->routeIs('registrar*')" wire:ignore>
                             {{ __('Registrar') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('cashier.dashboard')" :active="request()->routeIs('cashier*')" wire:ignore wire:navigate>
+                        <x-nav-link :href="route('cashier.dashboard')" :active="request()->routeIs('cashier*')" wire:ignore>
                             {{ __('Cashier') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('requester.dashboard')" :active="request()->routeIs('requester*')" wire:ignore wire:navigate>
+                        <x-nav-link :href="route('requester.dashboard')" :active="request()->routeIs('requester*')" wire:ignore>
                             {{ __('Requesters') }}
                         </x-nav-link>
                     @endif
@@ -27,7 +27,7 @@
             </div>
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6 gap-2">
-                <x-nav-link href="{{ url('/verify-email') }}" x-show="{{ !auth()->user()->hasVerifiedEmail() ? 'true' : 'false' }}" class="text-center animate-bounce animate-ease-linear">
+                <x-nav-link wire:ignore href="{{ url('/verify-email') }}" x-show="{{ !auth()->user()->hasVerifiedEmail() ? 'true' : 'false' }}" class="text-center animate-bounce animate-ease-linear">
                     {{ __('Verify Email') }}
                 </x-nav-link>
 
@@ -197,13 +197,13 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             @if(auth()->user()->isAdmin())
-                <x-responsive-nav-link :href="route('registrar.dashboard')" :active="request()->routeIs('registrar*')">
+                <x-responsive-nav-link :href="route('registrar.dashboard')" wire:ignore :active="request()->routeIs('registrar*')">
                     {{ __('Registrar') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('cashier.dashboard')" :active="request()->routeIs('cashier*')">
+                <x-responsive-nav-link :href="route('cashier.dashboard')" wire:ignore :active="request()->routeIs('cashier*')">
                     {{ __('Cashier') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('requester.dashboard')" :active="request()->routeIs('requester*')">
+                <x-responsive-nav-link :href="route('requester.dashboard')" wire:ignore :active="request()->routeIs('requester*')">
                     {{ __('Requester') }}
                 </x-responsive-nav-link>
             @endif

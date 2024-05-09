@@ -77,17 +77,17 @@
                 <table class="w-full text-xs text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-4 py-3">Type</th>
-                            <th scope="col" class="px-4 py-3">Time</th>
-                            <th scope="col" class="px-4 py-3">Description</th>
+                            <th scope="col" class="px-3 py-2">Type</th>
+                            <th scope="col" class="px-3 py-2">Time</th>
+                            <th scope="col" class="px-3 py-2">Description</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (json_decode($selectedLog->activity) as $logInfo)
                             <tr wire:key="{{ $log->id }}" class="border-b dark:border-gray-700">
-                                <td class="px-4 py-3 whitespace-normal">{{ $logInfo->type }}</td>
-                                <td class="px-4 py-3 whitespace-normal">{{ $logInfo->time }}</td>
-                                <td class="px-4 py-3 whitespace-normal">{{ $logInfo->description }}</td>
+                                <td class="py-1 px-3">{{ $logInfo->type }}</td>
+                                <td class="py-1 px-3">{{ $logInfo->time }}</td>
+                                <td class="py-1 px-3">{{ $logInfo->description }}</td>
                             </tr>
                         @endforeach
                     </tbody>
