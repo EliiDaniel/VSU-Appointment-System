@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Luigel\Paymongo\Facades\Paymongo;
 use Illuminate\Support\Facades\Notification as NotificationEmail;
 use App\Notifications\PaymentComplete;
+use Carbon\Carbon;
 
 class Transaction extends Model
 {
@@ -37,6 +38,12 @@ class Transaction extends Model
                 $email = Paymongo::checkout()->find($transaction->checkout_id)->getData()['billing']['email'];
                 NotificationEmail::route('mail', $email)->notify(new PaymentComplete($reference));
             }
+
+            SystemLog::today()->appendActivity([
+                'type' => 'transaction',
+                'time' => Carbon::now(),
+                'description' => "Transaction Created, Reference No: $reference",
+            ]);
 
             $transaction->sendEmailNotificationsToCashiers($reference);
         });

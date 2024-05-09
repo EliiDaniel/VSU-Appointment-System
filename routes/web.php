@@ -75,6 +75,11 @@ Route::middleware(['auth', 'verified', 'role:admin,requester'])
     Route::get('/requester/notifications', [RequestersController::class, 'notifications'])->name('requester.notifications');
 });
 
+
+Route::get('/system-logs', function () {
+    return view('system-logs');
+})->middleware(['auth', 'verified', 'role:admin'])->name('system.logs');
+
 Route::get('/waiting-for-confirmation', function () {
     return view('waiting-for-confirmation');
 })->middleware(['auth', 'verified', 'role:confirmation'])->name('waiting-for-confirmation');

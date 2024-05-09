@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Notification as NotificationEmail;
 use App\Notifications\AccountConfirmation;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -45,6 +46,12 @@ class User extends Authenticatable
                     'user_id' => $registrar->id,
                 ]);
             }
+
+            SystemLog::today()->appendActivity([
+                'type' => 'user',
+                'time' => Carbon::now(),
+                'description' => "New User, ID No: $user->id",
+            ]);
         });
 
         static::updating(function ($user) {
@@ -59,6 +66,20 @@ class User extends Authenticatable
                     NotificationEmail::route('mail', $user->email)->notify(new AccountConfirmation());
                 }
             }
+            
+            SystemLog::today()->appendActivity([
+                'type' => 'user',
+                'time' => Carbon::now(),
+                'description' => "User ID No: $user->id Updated by User ID No: " . auth()->user()->id,
+            ]);
+        });
+
+        static::deleting(function ($user) {
+            SystemLog::today()->appendActivity([
+                'type' => 'user',
+                'time' => Carbon::now(),
+                'description' => "User ID No: $user->id deleted by User ID No: " . auth()->user()->id,
+            ]);
         });
     }
     /**

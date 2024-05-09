@@ -19,7 +19,7 @@
                     <x-input-label for="process" :value="__('Select process in order')" />
                     <div class="flex flex-wrap pt-1 gap-2">
                         @foreach($processes as $process)
-                        <div x-data="{ isChecked: procs.includes('{{ $process->name }}') }" class="mr-2 mb-2">
+                        <div x-data="{ isChecked: false }" x-init="$watch('show', () => { isChecked = procs.includes('{{ $process->name }}') })" class="mr-2 mb-2">
                             <label>
                                 <input x-model="isChecked" type="checkbox" name="processes[]" value="{{ $process->id }}" class="hidden">
                                 <button type="button" @click="isChecked = !isChecked; isChecked ? procs.push('{{ $process->name }}') : procs = procs.filter(item => item !== '{{ $process->name }}');" x-bind:class="{ 'outline-none ring-2 ring-emerald-500 ring-offset-2 dark:ring-offset-gray-800': isChecked }" class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-25 transition ease-in-out duration-150">
@@ -71,10 +71,10 @@
                 <x-input-label for="process" :value="__('Select process in order')" />
                 <div class="flex flex-wrap pt-1 gap-2">
                     @foreach($processes as $process)
-                        <div x-data="{ isChecked: false }" class="mr-2 mb-2">
+                        <div x-data="{ isChecked: false }" x-init="$watch('show', () => { isChecked = procs.includes('{{ $process->name }}') })" class="mr-2 mb-2">
                             <label>
                                 <input x-model="isChecked" type="checkbox" name="processes[]" value="{{ $process->id }}" class="hidden">
-                                <button type="button" @click="isChecked = !isChecked; isChecked ? procs.push('{{ $process->name }}') : procs = procs.filter(item => item !== '{{ $process->name }}');" x-bind:class="{ 'outline-none ring-2 ring-emerald-500 ring-offset-2 dark:ring-offset-gray-800': isChecked }" class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-25 transition ease-in-out duration-150">
+                                <button type="button" @click="isChecked = !isChecked; isChecked ? procs.push('{{ $process->name }}') : procs = procs.filter(item => item !== '{{ $process->name }}');" :class="{ 'outline-none ring-2 ring-emerald-500 ring-offset-2 dark:ring-offset-gray-800': isChecked }" class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-25 transition ease-in-out duration-150">
                                     {{ ucfirst($process->name)  }}
                                 </button>
                             </label>

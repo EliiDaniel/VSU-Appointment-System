@@ -14,6 +14,27 @@ class BlockedDate extends Model
         'date',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($blocked_date) {
+            SystemLog::today()->appendActivity([
+                'type' => 'blocked_date',
+                'time' => Carbon::now(),
+                'description' => "New Blocked Date Created, ID No: $blocked_date->id, by User ID No: " . auth()->user()->id,
+            ]);
+        });
+
+        static::deleting(function ($blocked_date) {
+            SystemLog::today()->appendActivity([
+                'type' => 'blocked_date',
+                'time' => Carbon::now(),
+                'description' => "Blocked Date ID No: $blocked_date->id deleted by User ID No: " . auth()->user()->id,
+            ]);
+        });
+    }
+
     public static function getFormattedBlockedDates($minDate, $maxDate)
     {
         $minDate = Carbon::parse($minDate);
