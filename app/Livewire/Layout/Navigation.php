@@ -31,7 +31,7 @@ class Navigation extends Component
             return is_null($notification->read_at);
         });
     }
-    
+
     public function logout(Logout $logout) {
         $logout();
 
