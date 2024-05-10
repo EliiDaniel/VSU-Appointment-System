@@ -15,7 +15,7 @@ class Schedules extends Component
     public $shownEntries = 5;
     public $sortBy = 'id';
     public $sortDir = 'ASC';
-    public $title = 'view-document';
+    public $title = 'view-schedule';
     public Schedule $schedule;
     public $minTime;
     public $maxTime;

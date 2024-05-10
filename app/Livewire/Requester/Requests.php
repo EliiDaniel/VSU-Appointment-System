@@ -15,7 +15,7 @@ class Requests extends Component
     public $search = '';
     public $shownEntries = 5;
     public $sortBy = 'appointment_date';
-    public $sortDir = 'ASC';
+    public $sortDir = 'DESC';
     public $statuses = ['Pending Approval', 'In Progress', 'Payment Approval', 'Awaiting Payment', 'Ready for Collection', 'Completed', 'Canceled'];
     public $status = '';
     public $type = '';

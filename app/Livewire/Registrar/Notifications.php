@@ -15,7 +15,7 @@ class Notifications extends Component
     public $type = '';
     public $shownEntries = 5;
     public $sortBy = 'id';
-    public $sortDir = 'ASC';
+    public $sortDir = 'DESC';
     public ?Notification $selectedNotification;
 
     public function render()

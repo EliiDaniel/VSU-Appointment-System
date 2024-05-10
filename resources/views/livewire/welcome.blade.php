@@ -5,22 +5,35 @@
         </a>
 
         @if (!auth()->user())
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden rounded-lg mx-auto">
-                <form wire:submit.prevent="submitForm">
-                    <div>
-                        <x-input-label for="tracking" :value="__('Tracking Code')" />
-                        <x-text-input wire:model="trackingNumber" class="block mt-1 w-full" type="text" name="tracking" required autofocus autocomplete="off" />
-                    </div>
 
-                    <div class="grid grid-cols-2 sm:flex items-center justify-between mt-4 gap-4">
-                        <x-secondary-button wire:click="createRequest" class="h-full">
-                            {{ __('Request Documents') }}
-                        </x-secondary-button>
-                        <x-primary-button class="h-full">
-                            {{ __('Track Request') }}
-                        </x-primary-button>
+        
+            <div class="relative flex max-w-lg mx-auto items-center justify-center mt-6 bg-transparent">
+                    <div class="absolute top-0 left-0 -translate-x-6 -translate-y-6 animate-pulse animate-infinite animate-duration-[2500ms] animate-ease-in-out">
+                        <div class="w-28 md:w-36 h-28 md:h-36 bg-gradient-to-br from-emerald-900 to-emerald-500 rounded-full animate-updown shadow-[rgba(0,0,0,0.5)_0px_0px_200px_10px] dark:shadow-green-600"></div>
                     </div>
-                </form>
+                    <div class="absolute bottom-0 right-0 translate-x-6 translate-y-6 animate-pulse animate-infinite animate-duration-[4300ms] animate-ease-in-out">
+                        <div class="w-28 md:w-36 h-28 md:h-36 bg-gradient-to-tl from-emerald-900 to-emerald-500 rounded-full animate-downup shadow-[rgba(0,0,0,0.5)_0px_0px_200px_10px] dark:shadow-green-600"></div>
+                    </div>
+                    
+                    <div class="flex justify-center items-center w-full mx-6 my-4 backdrop-blur-xl transition-all duration-300 ease-in-out ">
+                        <div class="px-6 py-4 bg-white dark:bg-gray-800 w-full rounded-lg">
+                        <form wire:submit.prevent="submitForm">
+                            <div>
+                                <x-input-label for="tracking" :value="__('Tracking Code')" />
+                                <x-text-input wire:model="trackingNumber" class="block mt-1 w-full" type="text" name="tracking" required autofocus autocomplete="off" />
+                            </div>
+
+                            <div class="grid grid-cols-2 sm:flex items-center justify-between mt-4 gap-4">
+                                <x-secondary-button wire:click="createRequest" class="h-full">
+                                    {{ __('Request Documents') }}
+                                </x-secondary-button>
+                                <x-primary-button class="h-full">
+                                    {{ __('Track Request') }}
+                                </x-primary-button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
             
             <x-modal name="tracking-modal" maxWidth="2xl" prompt="prompt" disabledClose="disableClose">

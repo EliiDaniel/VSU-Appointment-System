@@ -24,7 +24,7 @@
             <div x-data="{ open: false }" class="flex">
                 @if (auth()->user()->role !== "confirmation" && !request()->routeIs('profile*'))
                 <div class="w-12 xl:w-64 mt-0" @mouseover="open = true" @mouseleave="open = false">
-                    <header class="bg-white dark:bg-gray-800 shadow w-12 xl:w-64 hover:w-64 fixed top-[65px] z-[40] h-screen hover:px-8 py-6 xl:px-8 transition-all duration-75 ease-in-out overflow-hidden">
+                    <header class="bg-white dark:bg-gray-800 w-12 xl:w-64 hover:w-64 fixed top-[65px] z-[40] h-screen hover:px-8 py-6 xl:px-8 transition-all duration-75 ease-in-out overflow-hidden shadow-[rgba(0,0,0,0.5)_-10px_-20px_40px_0px] shadow-green-500/50">
                         <livewire:layout.sidenav />
                     </header>
                 </div>

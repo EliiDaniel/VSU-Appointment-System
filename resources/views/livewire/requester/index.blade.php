@@ -1,14 +1,14 @@
 <div class="text-gray-900 dark:text-gray-100">
-    <div class="hidden md:block mx-auto text-center bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden pt-8">
+    <div class="hidden md:block mx-auto text-center bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden pt-8 font-semibold tracking-widest">
         <div class="text-3xl leading-5">
             AVAILABLE DOCUMENTS
         </div>
 
-        <div class="text-gray-600 dark:text-gray-400">
+        <div class="text-gray-500 dark:text-gray-400 font-medium tracking-normal">
             List of docs that are available to request
         </div>
 
-        <div class="mt-4 bg-gradient-to-tl from-10% from-teal-600 to-99.99% to-yellow-500 min-w-full grid grid-cols-3 gap-1 text-white font-semibold text-lg p-4">
+        <div class="mt-4 bg-gradient-to-tl from-10% from-teal-600 to-lime-500 min-w-full grid grid-cols-3 gap-1 text-white font-semibold text-lg p-4">
             @foreach ($documents as $document)
                 <div class="flex items-center justify-center p-2">
                     {{$document->name}}
@@ -23,12 +23,12 @@
                 <div class="absolute inset-0 overflow-hidden rounded-lg">
                         <div class="-top-8 absolute inset-0 bg-gradient-to-tl from-teal-400 to-yellow-200 scale-0 origin-center transition-transform duration-700 group-hover:scale-150 rounded-full"></div>
                     </div>
-                    <div class="absolute top-0 left-0 -translate-x-6 -translate-y-6">
-                        <div class="w-28 md:w-36 h-28 md:h-36 bg-gradient-to-br from-emerald-900 to-emerald-500 rounded-full animate-updown"></div>
+                    <div class="absolute top-0 left-0 -translate-x-6 -translate-y-6 animate-pulse animate-infinite animate-duration-[5000ms] animate-ease-in-out">
+                        <div class="w-28 md:w-36 h-28 md:h-36 bg-gradient-to-br from-emerald-900 to-emerald-500 rounded-full animate-updown shadow-[rgba(0,0,0,0.5)_0px_0px_200px_10px] dark:shadow-green-600"></div>
                     </div>
 
-                    <div class="absolute bottom-0 right-0 translate-x-6 translate-y-6">
-                        <div class="w-28 md:w-36 h-28 md:h-36 bg-gradient-to-tl from-emerald-900 to-emerald-500 rounded-full animate-downup"></div>
+                    <div class="absolute bottom-0 right-0 translate-x-6 translate-y-6 animate-pulse animate-infinite animate-duration-[2500ms] animate-ease-in-out">
+                        <div class="w-28 md:w-36 h-28 md:h-36 bg-gradient-to-tl from-emerald-900 to-emerald-500 rounded-full animate-downup shadow-[rgba(0,0,0,0.5)_0px_0px_200px_10px] dark:shadow-green-600"></div>
                     </div>
                     <div class="flex justify-center items-center min-h-80 md:min-h-96 max-w-60 md:min-w-72 md:max-w-72 backdrop-blur-xl rounded-lg group-hover:backdrop-blur-none transition-all duration-300 ease-in-out ">
                         <div>
@@ -58,12 +58,12 @@
                 <div class="absolute inset-0 overflow-hidden rounded-lg">
                         <div class="-top-8 absolute inset-0 bg-gradient-to-tl from-teal-400 to-yellow-200 scale-0 origin-center transition-transform duration-700 group-hover:scale-150 rounded-full"></div>
                     </div>
-                    <div class="absolute top-0 left-0 -translate-x-6 -translate-y-6">
-                        <div class="w-28 md:w-36 h-28 md:h-36 bg-gradient-to-br from-emerald-900 to-emerald-500 rounded-full animate-updown"></div>
+                    <div class="absolute top-0 left-0 -translate-x-6 -translate-y-6 animate-pulse animate-infinite animate-duration-[2500ms] animate-ease-in-out">
+                        <div class="w-28 md:w-36 h-28 md:h-36 bg-gradient-to-br from-emerald-900 to-emerald-500 rounded-full animate-updown shadow-[rgba(0,0,0,0.5)_0px_0px_200px_10px] dark:shadow-green-600"></div>
                     </div>
 
-                    <div class="absolute bottom-0 right-0 translate-x-6 translate-y-6">
-                        <div class="w-28 md:w-36 h-28 md:h-36 bg-gradient-to-tl from-emerald-900 to-emerald-500 rounded-full animate-downup"></div>
+                    <div class="absolute bottom-0 right-0 translate-x-6 translate-y-6 animate-pulse animate-infinite animate-duration-[5000ms] animate-ease-in-out">
+                        <div class="w-28 md:w-36 h-28 md:h-36 bg-gradient-to-tl from-emerald-900 to-emerald-500 rounded-full animate-downup shadow-[rgba(0,0,0,0.5)_0px_0px_200px_10px] dark:shadow-green-600"></div>
                     </div>
                     <div class="flex justify-center items-center min-h-80 md:min-h-96 max-w-60 md:min-w-72 md:max-w-72 backdrop-blur-lg rounded-lg group-hover:backdrop-blur-none transition-all duration-300 ease-in-out ">
                         <div>

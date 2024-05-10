@@ -92,19 +92,19 @@
         @if($selectedRequest->status !== 'Canceled')
             @if($selectedRequest->status === 'Pending Approval')
                 <div class="flex items-center justify-end">
-                    <x-primary-button class="ms-4 mb-4 mr-4" wire:click="approveRequest()" wire:confirm="Are you sure you want to approve request?">
+                    <x-primary-button class="ms-4 mb-4 mr-4" wire:click="approveRequest()" wire:confirm="Are you sure you want to approve request?" wire:loading.attr="disabled">
                         {{ __('Approve') }}
                     </x-primary-button>
                 </div>
             @elseif($selectedRequest->status === 'Ready for Collection')
                 <div class="flex items-center justify-end">
-                    <x-primary-button class="ms-4 mb-4 mr-4" wire:click="completeRequest()" @click="$dispatch('confirm-close')">
+                    <x-primary-button class="ms-4 mb-4 mr-4" wire:click="completeRequest()" @click="$dispatch('confirm-close')" wire:loading.attr="disabled">
                         {{ __('Complete Request') }}
                     </x-primary-button>
                 </div>
             @else
                 <div class="flex items-center justify-end">
-                    <x-primary-button class="ms-4 mb-4 mr-4" @click="$dispatch('confirm-close')">
+                    <x-primary-button class="ms-4 mb-4 mr-4" @click="$dispatch('confirm-close')" wire:loading.attr="disabled">
                         {{ __('Done') }}
                     </x-primary-button>
                 </div>
