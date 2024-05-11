@@ -1,6 +1,6 @@
 <div>
     <section>
-        <div class="mx-auto" wire:poll>
+        <div class="mx-auto" wire:poll.visble>
             <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden" x-data="{ selectedRole: '{{ $selectedUser->role }}' }">
                 <div class="flex items-center justify-between p-4">
                     <div class="flex">

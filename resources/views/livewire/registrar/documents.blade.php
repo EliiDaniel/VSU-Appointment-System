@@ -1,5 +1,5 @@
 <div>
-    <section wire:poll x-data="{ procs: {{ isset($selectedDocument) ? $selectedDocument->processes->pluck('name') : '[]' }} }">     
+    <section wire:poll.visble x-data="{ procs: {{ isset($selectedDocument) ? $selectedDocument->processes->pluck('name') : '[]' }} }">     
         <div class="mx-auto">
             <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
                 <div class="flex items-center justify-between p-4">

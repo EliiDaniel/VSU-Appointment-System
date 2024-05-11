@@ -28,7 +28,6 @@
                                 ?
                             </button>
                         </div>
-
                     </div>
                     <div class="my-4 space-y-2">
                         @foreach ($selectedRequest->documents as $document)
@@ -67,24 +66,29 @@
             
             <x-modal-second name="view-document" maxWidth="lg">
                 @if(isset($selectedDocument))
-                    <div class="flex flex-wrap p-6 justify-center">
-                    @foreach($selectedDocument->processes as $process)
-                        <div class="flex items-center pt-1">
-                            @if (!$loop->first)
-                                <span class="px-1 animate-jump animate-once animate-ease-in-out">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                    </svg>
-                                </span>
-                            @endif
-                            
-                            <button {{ in_array($selectedRequest->status, ['Pending Approval' ,'Canceled', 'Completed']) ? 'disabled' : '' }} :class="{ 'p-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm ring-emerald-500 ring-offset-2 dark:ring-offset-gray-800 transition ease-in-out duration-75': true, 'ring-2 animate-jump animate-once animate-ease-in-out': {{ in_array($process->pivot->document_process_id, $completedProcesses->toArray()) ? 'true' : 'false' }} }" wire:click="modifyProcess({{ $process->pivot->document_process_id }})" wire:confirm="Are you sure you want mark this step as {{ in_array($process->pivot->document_process_id, $completedProcesses->toArray()) ? 'unfinished' : 'complete'}}?">
-                                {{ $process->name }}
-                            </button>
-
+                <div class="p-6" wire:poll.visible.10s>
+                    <div class="flex flex-wrap justify-center">
+                        @foreach($selectedDocument->processes as $process)
+                            <div class="flex items-center pt-1">
+                                @if (!$loop->first)
+                                    <span class="px-1 animate-jump animate-once animate-ease-in-out">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                        </svg>
+                                    </span>
+                                @endif
+                                <input type="checkbox" id="process-{{$loop->index}}" wire:model="completedProcesses" value="{{ $process->pivot->document_process_id }}" class="hidden peer"/>
+                                <label for="process-{{$loop->index}}" class="cursor-pointer peer-checked:outline-none peer-checked:ring-2 peer-checked:ring-emerald-500 peer-checked:ring-offset-2 dark:peer-checked:ring-offset-gray-800 inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-25 transition ease-in-out duration-150">
+                                    {{$process->name}}
+                                </label>
+                            </div>
+                        @endforeach
                         </div>
-                    @endforeach
+                    <div class="flex items-center justify-end">
+                        <x-button primary type="submit" spinner="modifyDocProcess" :label="__('update')" wire:click="modifyDocProcess()"/>
                     </div>
+                </div>
+                    
                 @endif
             </x-modal-second>
         </div>
@@ -92,13 +96,13 @@
         @if($selectedRequest->status !== 'Canceled')
             @if($selectedRequest->status === 'Pending Approval')
                 <div class="flex items-center justify-end">
-                    <x-primary-button class="ms-4 mb-4 mr-4" wire:click="approveRequest()" wire:confirm="Are you sure you want to approve request?">
+                    <x-primary-button class="ms-4 mb-4 mr-4" wire:click.prefetch="approveRequest()" wire:confirm="Are you sure you want to approve request?">
                         {{ __('Approve') }}
                     </x-primary-button>
                 </div>
             @elseif($selectedRequest->status === 'Ready for Collection')
                 <div class="flex items-center justify-end">
-                    <x-primary-button class="ms-4 mb-4 mr-4" wire:click="completeRequest()" @click="$dispatch('confirm-close')">
+                    <x-primary-button class="ms-4 mb-4 mr-4" wire:click.prefetch="completeRequest()" @click="$dispatch('confirm-close')">
                         {{ __('Complete Request') }}
                     </x-primary-button>
                 </div>
