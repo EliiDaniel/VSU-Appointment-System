@@ -1,5 +1,5 @@
 <div>
-    <div class="mx-auto mb-4" wire:poll>
+    <div class="mx-auto mb-4" wire:poll.visble>
         <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden p-4 flex">
             <div class="w-full md:grid md:grid-cols-10 gap-4 text-gray-900 dark:text-gray-100">
                 <div class="col-span-9 space-y-4">

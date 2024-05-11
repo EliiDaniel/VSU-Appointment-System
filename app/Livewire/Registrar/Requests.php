@@ -86,20 +86,25 @@ class Requests extends Component
         $this->sortBy = ($this->sortBy === $col) ? $this->sortBy : $col;
     }
 
-    public function modifyProcess($documentProcess)
+    public function modifyDocProcess()
     {
-        $docProcess = RequestDocumentProcess::exists($this->pivotId, $documentProcess);
-        if ($docProcess) {
-            $docProcess->delete();
-        } else {
+        $pivotId = $this->pivotId;
+        RequestDocumentProcess::where('request_document_id', $pivotId)
+            ->whereNotIn('document_process_id', $this->completedProcesses)
+            ->delete();
+
+        $missingProcess = collect($this->completedProcesses)->diff(
+            RequestDocumentProcess::where('request_document_id', $pivotId)
+                ->pluck('document_process_id')
+        );
+        $missingProcess->each(function ($id) use ($pivotId) {
             RequestDocumentProcess::create([
                 'request_document_id' => $this->pivotId,
-                'document_process_id' => $documentProcess,
+                'document_process_id' => $id,
             ]);
-        }
+        });
 
         $this->selectedRequest->areAllDocumentsCompleted();
-        $this->completedProcesses = RequestDocumentProcess::where('request_document_id', $this->pivotId)->pluck('document_process_id');
     }
 
     public function approveRequest()
