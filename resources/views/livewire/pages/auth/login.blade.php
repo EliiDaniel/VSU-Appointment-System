@@ -18,7 +18,7 @@ $login = function () {
 
     Session::regenerate();
 
-    $this->redirectIntended(default: RouteServiceProvider::HOME, navigate: true);
+    $this->redirectIntended(default: RouteServiceProvider::HOME, navigate: false);
 };
 
 ?>

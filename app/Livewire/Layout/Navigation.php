@@ -19,7 +19,7 @@ class Navigation extends Component
     public function logout(Logout $logout) {
         $logout();
 
-        $this->redirect('/', navigate: true);
+        $this->redirect('/', navigate: false);
     }
 
     public function markAsRead(Notification $notification) {
