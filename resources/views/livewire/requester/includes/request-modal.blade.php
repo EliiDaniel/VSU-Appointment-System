@@ -30,7 +30,7 @@
                             </svg>
                         </div>
                         <div class="ml-2 my-4">
-                            <span class="mr-2">●</span>{{ $selectedRequest->payment_type === 'Walk in' ? 'Walk in' : 'Online, Reference No: ' . $selectedRequest->transaction->referenceNo() }}
+                            <span class="mr-2">●</span>{{ $selectedRequest->payment_type === 'Walk in' ? 'Walk in' : 'Online, Reference No: ' . $selectedRequest->transaction->reference_no }}
                         </div>
                     </div>
                     <div>
