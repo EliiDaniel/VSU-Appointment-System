@@ -173,6 +173,7 @@ class NoAccountRequestForm extends WizardComponent
                 session()->flash('transaction_complete', 'Transaction Complete');
                 $this->transaction = Transaction::firstOrCreate([
                     'checkout_id' => $checkout->getData()['id'],
+                    'reference_no' => $checkout->getData()['reference_number'],
                 ]);
             }
         }

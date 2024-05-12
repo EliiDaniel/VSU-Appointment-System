@@ -31,7 +31,8 @@ class AppointmentDate extends Step
         foreach ($this->getLivewire()->selected_docs as $doc) {
             $syncData[] = [
                 'document_id' => $doc->id,
-                'quantity' => $state['quantities'][$doc->id]
+                'quantity' => $state['quantities'][$doc->id],
+                'price' => $doc->price
             ];
         }
 

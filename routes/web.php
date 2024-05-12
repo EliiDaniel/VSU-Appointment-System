@@ -64,6 +64,7 @@ Route::middleware(['auth', 'verified', 'role:admin,cashier'])
         Route::get('/cashier', [CashiersController::class, 'index'])->name('cashier.dashboard');
         Route::get('/cashier/dashboard', [CashiersController::class, 'index'])->name('cashier.dashboard');
         Route::get('/cashier/requests', [CashiersController::class, 'requests'])->name('cashier.requests');
+        Route::get('/cashier/transactions', [CashiersController::class, 'transactions'])->name('cashier.transactions');
         Route::get('/cashier/notifications', [CashiersController::class, 'notifications'])->name('cashier.notifications');
     });
 
