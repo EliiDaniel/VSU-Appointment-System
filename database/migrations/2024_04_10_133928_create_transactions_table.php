@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('request_id')->nullable();
             $table->string('checkout_id');
+            $table->string('reference_no');
             $table->timestamps();
 
             $table->foreign('request_id')->references('id')->on('requests')->onDelete('cascade');

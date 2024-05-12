@@ -152,7 +152,7 @@ class Request extends Model
 
     public function documents()
     {
-        return $this->belongsToMany(Document::class, 'request_documents')->withPivot('id', 'document_id', 'quantity', 'completed_at');
+        return $this->belongsToMany(Document::class, 'request_documents')->withPivot('id', 'document_id', 'quantity', 'price', 'completed_at');
     }
 
     public function isDocumentComplete($pivotId)

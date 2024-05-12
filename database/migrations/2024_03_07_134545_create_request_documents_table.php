@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('request_id');
             $table->unsignedBigInteger('document_id');
             $table->unsignedInteger('quantity');
+            $table->decimal('price', 8, 2)->default(0);
             $table->dateTime('completed_at')->nullable();
             $table->foreign('request_id')->references('id')->on('requests')->onDelete('cascade');
             $table->foreign('document_id')->references('id')->on('documents')->onDelete('cascade');
