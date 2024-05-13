@@ -25,9 +25,11 @@ class Requests extends Component
     public ?Document $selectedDocument;
     public $completedProcesses = [];
     public $pivotId;
+    public $firstTime = false;
 
     public function mount()
     {
+        $this->firstTime = auth()->user()->first_time_login;
         if (Request::count() > 0) {
             $this->selectedRequest = Request::first();
         }
@@ -88,6 +90,10 @@ class Requests extends Component
         $this->completedProcesses = RequestDocumentProcess::where('request_document_id', $pivotId)->pluck('document_process_id');
 
         $this->dispatch('open-modal', 'view-document');
+    }
+
+    public function firstTimeLogin(){
+        auth()->user()->update(['first_time_login' => false]);
     }
 
     public function setSortBy($col){

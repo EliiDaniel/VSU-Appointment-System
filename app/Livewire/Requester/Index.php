@@ -9,6 +9,12 @@ use App\Models\Document;
 class Index extends Component
 {
     public $title = 'create-request';
+    public $firstTime = false;
+
+    public function mount()
+    {
+        $this->firstTime = auth()->user()->first_time_login;
+    }
 
     public function render()
     {
@@ -20,5 +26,9 @@ class Index extends Component
     
     public function createRequest(){
         $this->dispatch('open-modal', 'request-modal');
+    }
+    
+    public function firstTimeLogin(){
+        auth()->user()->update(['first_time_login' => false]);
     }
 }

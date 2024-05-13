@@ -1,4 +1,9 @@
 <div x-data="{disableClose: false}">
+    @if ($firstTime)
+    <x-modal-second name="request-guide" show="true" x-init="$wire.firstTimeLogin()">
+        guide here on how to file a request
+    </x-modal-second>
+    @endif
     <x-modal name="request-modal" maxWidth="2xl" prompt="$wire.title !== 'filters' && $wire.title !== 'view-request'" disabledClose="disableClose">
         <div class="p-6 text-gray-900 dark:text-gray-100" x-show="$wire.title === 'create-request'">
             <livewire:requester.wizards.request-form :documents="$documents" :re-dir="$dir"/>
