@@ -17,6 +17,7 @@ class RequestForm extends WizardComponent
 {
     public $dateConfigs;
     public $documents;
+    public $types;
     public $reDir;
     public $checkout;
     public $selected_docs;

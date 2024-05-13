@@ -1,7 +1,13 @@
 <div x-data="{disableClose: false}">
+    @if (auth()->user()->first_time_login)
+    <x-modal-second name="request-guide" show="true">
+        guide here on how to file a request
+        <span x-init="$wire.firstTimeLogin()"></span>
+    </x-modal-second>
+    @endif
     <x-modal name="request-modal" maxWidth="2xl" prompt="$wire.title !== 'filters' && $wire.title !== 'view-request'" disabledClose="disableClose">
         <div class="p-6 text-gray-900 dark:text-gray-100" x-show="$wire.title === 'create-request'">
-            <livewire:requester.wizards.request-form :documents="$documents" :re-dir="$dir"/>
+            <livewire:requester.wizards.request-form :documents="$documents" :types="$document_types" :re-dir="$dir"/>
         </div>
 
         @if(isset($selectedRequest))
@@ -30,7 +36,7 @@
                             </svg>
                         </div>
                         <div class="ml-2 my-4">
-                            <span class="mr-2">●</span>{{ $selectedRequest->payment_type === 'Walk in' ? 'Walk in' : 'Online, Reference No: ' . $selectedRequest->transaction->referenceNo() }}
+                            <span class="mr-2">●</span>{{ $selectedRequest->payment_type === 'Walk in' ? 'Walk in' : 'Online, Reference No: ' . $selectedRequest->transaction->reference_no }}
                         </div>
                     </div>
                     <div>

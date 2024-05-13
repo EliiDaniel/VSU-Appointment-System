@@ -35,10 +35,10 @@
                     </div>
                 </div>
             </div>
-            
+
             <x-modal name="tracking-modal" maxWidth="2xl" prompt="prompt" disabledClose="disableClose">
                 <div class="p-6 text-gray-900 dark:text-gray-100" x-show="$wire.title === 'create-request'">
-                    <livewire:wizards.no-account-request-form :documents="$documents" :re-dir="$dir" :verified-email="$email"/>
+                    <livewire:wizards.no-account-request-form :documents="$documents" :types="$document_types" :re-dir="$dir" :verified-email="$email"/>
                 </div>
 
             @if(isset($request))
@@ -67,7 +67,7 @@
                                 </svg>
                             </div>
                             <div class="ml-2 my-4">
-                                <span class="mr-2">●</span>{{ $request->payment_type === 'Walk in' ? 'Walk in' : 'Online, Reference No: ' . $request->transaction->referenceNo() }}
+                                <span class="mr-2">●</span>{{ $request->payment_type === 'Walk in' ? 'Walk in' : 'Online, Reference No: ' . $request->transaction->reference_no }}
                             </div>
                         </div>
                         <div>

@@ -13,6 +13,7 @@ class Document extends Model
     protected $fillable = [
         'name',
         'price',
+        'document_type_id',
     ];
 
     protected static function boot()
@@ -53,6 +54,11 @@ class Document extends Model
     public function requests()
     {
         return $this->belongsToMany(Request::class, 'request_documents')->withPivot('completed_at');
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(DocumentType::class, 'document_type_id');
     }
 
     public function scopeSearch($query, $value){

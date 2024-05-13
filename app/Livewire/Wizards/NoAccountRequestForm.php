@@ -21,6 +21,7 @@ class NoAccountRequestForm extends WizardComponent
 {
     public $dateConfigs;
     public $documents;
+    public $types;
     public $reDir;
     public $verifiedEmail;
     public $checkout;

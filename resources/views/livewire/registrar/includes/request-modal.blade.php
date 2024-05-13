@@ -36,7 +36,7 @@
                         </svg>
                     </div>
                     <div class="ml-2 my-4">
-                        <span class="mr-2">●</span>{{ $selectedRequest->payment_type === 'Walk in' ? 'Walk in' : 'Online, Reference No: ' . $selectedRequest->transaction->referenceNo() }}
+                        <span class="mr-2">●</span>{{ $selectedRequest->payment_type === 'Walk in' ? 'Walk in' : 'Online, Reference No: ' . $selectedRequest->transaction->reference_no }}
                     </div>
                 </div>
                 <div>
@@ -89,7 +89,7 @@
             <x-modal-second name="view-document" maxWidth="lg">
                 @if(isset($selectedDocument))
                 <div class="p-6" wire:poll.visible.10s>
-                    <div class="flex flex-wrap justify-center">
+                    <div class="flex flex-wrap justify-center gap-2">
                         @foreach($selectedDocument->processes as $process)
                             <div class="flex items-center pt-1">
                                 @if (!$loop->first)
@@ -99,7 +99,11 @@
                                         </svg>
                                     </span>
                                 @endif
-                                <input type="checkbox" id="process-{{$loop->index}}" wire:model="completedProcesses" value="{{ $process->pivot->document_process_id }}" class="hidden peer"/>
+                                @if ($selectedRequest->status === 'In Progress')
+                                    <input type="checkbox" id="process-{{$loop->index}}" wire:model="completedProcesses" value="{{ $process->pivot->document_process_id }}" class="hidden peer"/>
+                                @else
+                                    <input disabled type="checkbox" id="process-{{$loop->index}}" wire:model="completedProcesses" value="{{ $process->pivot->document_process_id }}" class="hidden peer"/>
+                                @endif
                                 <label for="process-{{$loop->index}}" class="cursor-pointer peer-checked:outline-none peer-checked:ring-2 peer-checked:ring-emerald-500 peer-checked:ring-offset-2 dark:peer-checked:ring-offset-gray-800 inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-25 transition ease-in-out duration-150">
                                     {{$process->name}}
                                 </label>
@@ -107,7 +111,9 @@
                         @endforeach
                         </div>
                     <div class="flex items-center justify-end">
-                        <x-button primary type="submit" spinner="modifyDocProcess" :label="__('update')" wire:click="modifyDocProcess()"/>
+                        @if ($selectedRequest->status === 'In Progress')
+                            <x-button primary type="submit" spinner="modifyDocProcess" :label="__('update')" wire:click="modifyDocProcess()"/>
+                        @endif
                     </div>
                 </div>
                     
