@@ -20,11 +20,26 @@
                                 placeholder="Search" required="">
                         </div>
                     </div>
-                    <div class="flex space-x-3">
-                        <div class="px-3">
-                            <div class="flex ">
-                                <div class="flex space-x-4 items-center">
-                                    <label class="text-sm font-medium text-gray-900 dark:text-gray-100">Show</label>
+                    <div class="flex gap-2 justify-end">
+                        <div class="flex gap-2">
+                            <div class="flex">
+                                <div class="flex gap-2 items-center">
+                                    <label class="text-sm font-medium text-gray-900 dark:text-gray-100">Type:</label>
+                                    <select
+                                        wire:model.live="type"
+                                        class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm">
+                                        <option value="">All</option>
+                                        @foreach($document_types as $type)
+                                        <option value="{{$type->id}}">{{ $type->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <div class="flex">
+                                <div class="flex gap-2 items-center">
+                                    <label class="text-sm font-medium text-gray-900 dark:text-gray-100">Show:</label>
                                     <select
                                         wire:model.live="shownEntries"
                                         class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-500 dark:focus:border-emerald-600 focus:ring-emerald-500 dark:focus:ring-emerald-600 rounded-md shadow-sm">
@@ -52,7 +67,7 @@
                                         </span>
                                     </div>
                                 </th>
-                                <th scope="col" class="px-4 py-3 w-1/5 {{ $sortBy == 'name' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200" wire:click="setSortBy('name')">
+                                <th scope="col" class="px-4 py-3 w-1/6 {{ $sortBy == 'name' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200" wire:click="setSortBy('name')">
                                     <div class="flex items-center justify-between">
                                         name
                                         <span>
@@ -62,7 +77,8 @@
                                         </span>
                                     </div>
                                 </th>
-                                <th scope="col" class="px-4 py-3 w-1/5 {{ $sortBy == 'price' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200" wire:click="setSortBy('price')">
+                                <th scope="col" class="px-4 py-3 w-1/6">Type</th>
+                                <th scope="col" class="px-4 py-3 w-1/6 {{ $sortBy == 'price' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200" wire:click="setSortBy('price')">
                                     <div class="flex items-center justify-between">
                                         price
                                         <span>
@@ -72,7 +88,7 @@
                                         </span>
                                     </div>
                                 </th>
-                                <th scope="col" class="px-4 py-3 w-1/5 {{ $sortBy == 'created_at' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200" wire:click="setSortBy('created_at')">
+                                <th scope="col" class="px-4 py-3 w-1/6 {{ $sortBy == 'created_at' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200" wire:click="setSortBy('created_at')">
                                     <div class="flex items-center justify-between">
                                         created
                                         <span>
@@ -82,7 +98,7 @@
                                         </span>
                                     </div>
                                 </th>
-                                <th scope="col" class="px-4 py-3 w-1/5 {{ $sortBy == 'updated_at' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200" wire:click="setSortBy('updated_at')">
+                                <th scope="col" class="px-4 py-3 w-1/6 {{ $sortBy == 'updated_at' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200" wire:click="setSortBy('updated_at')">
                                     <div class="flex items-center justify-between">
                                         last updated
                                         <span>
@@ -92,7 +108,7 @@
                                         </span>
                                     </div>
                                 </th>
-                                <th scope="col" class="px-4 py-3 w-1/5">Actions</th>
+                                <th scope="col" class="px-4 py-3 w-1/6">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -102,6 +118,7 @@
                                     <th scope="row"
                                         class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $document->name }}</th>
+                                    <td class="px-4 py-3">{{ $document->type->name }}</td>
                                     <td class="px-4 py-3">{{ $document->price }}</td>
                                     <td class="px-4 py-3">{{ $document->created_at }}</td>
                                     <td class="px-4 py-3">{{ $document->updated_at }}</td>
@@ -140,6 +157,9 @@
                     <x-slot name="content">
                         <x-dropdown-link wire:click="createProcess()">
                             {{ __('Process') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link wire:click="createDocumentType()">
+                            {{ __('Document Type') }}
                         </x-dropdown-link>
                         <x-dropdown-link wire:click="createDocument()" @click="procs = []">
                             {{ __('Document') }}

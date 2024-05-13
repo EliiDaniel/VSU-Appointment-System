@@ -28,20 +28,4 @@ class Handler extends ExceptionHandler
             //
         });
     }
-
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $exception
-     * @return \Illuminate\Http\Response
-     *
-     * @throws \Throwable
-     */
-    public function render($request, Throwable $exception)
-    {
-        if ($exception instanceof TokenMismatchException) {
-            return redirect('/');
-        }
-    }
 }

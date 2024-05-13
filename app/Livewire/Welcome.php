@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Request;
 use App\Models\Document;
+use App\Models\DocumentType;
 use App\Models\RequestDocumentProcess;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Notification;
@@ -29,6 +30,7 @@ class Welcome extends Component
     {
         return view('livewire.welcome',[
             'documents' => Document::all(),
+            'document_types' => DocumentType::all(),
             'dir' => '/',
         ]);
     }

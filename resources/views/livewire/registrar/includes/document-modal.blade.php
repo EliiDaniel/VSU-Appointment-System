@@ -14,6 +14,16 @@
                     <x-input-label for="price" :value="__('Price')" />
                     <x-text-input id="price" name="price" type="number" class="mt-1 block w-full" value="{{ old('price', $selectedDocument->price) }}" required autocomplete="price" />
                 </div>
+
+                <div>
+                    <x-input-label for="type" :value="__('Type')" />
+                    <select id="type" name="type" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                            <option value="" disabled selected>Select Type</option>
+                            @foreach($document_types as $type)
+                                <option value="{{ $type->id }}" {{ $selectedDocument->document_type_id == $type->id ? 'selected' : '' }}>{{ ucfirst($type->name) }}</option>
+                            @endforeach
+                    </select>
+                </div>
                 
                 <div class="text-gray-700 dark:text-gray-300 whitespace-nowrap">
                     <x-input-label for="process" :value="__('Select process in order')" />
@@ -66,7 +76,17 @@
                 <x-input-label for="price" :value="__('Price')" />
                 <x-text-input id="price" name="price" type="number" value="0" class="mt-1 block w-full" required autocomplete="price" />
             </div>
-        
+
+            <div class="mt-4">
+                <x-input-label for="type" :value="__('Type')" />
+                <select id="type" name="type" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                        <option value="" disabled selected>Select Type</option>
+                        @foreach($document_types as $type)
+                            <option value="{{ $type->id }}">{{ ucfirst($type->name) }}</option>
+                        @endforeach
+                </select>
+            </div>
+
             <div class="text-gray-700 dark:text-gray-300 mt-4">
                 <x-input-label for="process" :value="__('Select process in order')" />
                 <div class="flex flex-wrap pt-1 gap-2">
@@ -107,6 +127,24 @@
 
     <div class="p-6" x-show="$wire.title === 'create-process'">
         <form method="post" action="{{ route('create.process') }}">
+            @csrf
+            @method('patch')
+
+            <div class="mt-4">
+                <x-input-label for="name" :value="__('Name')" />
+                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
+            </div>
+
+            <div class="flex items-center justify-end mt-4">
+                <x-primary-button class="ms-4">
+                    {{ __('Create') }}
+                </x-primary-button>
+            </div>
+        </form>
+    </div>
+
+    <div class="p-6" x-show="$wire.title === 'create-document-type'">
+        <form method="post" action="{{ route('create.type') }}">
             @csrf
             @method('patch')
 

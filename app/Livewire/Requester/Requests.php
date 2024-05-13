@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Request;
 use App\Models\Document;
+use App\Models\DocumentType;
 use App\Models\RequestDocumentProcess;
 
 class Requests extends Component
@@ -54,6 +55,7 @@ class Requests extends Component
                         ->orderBy($this->sortBy, $this->sortDir)
                         ->paginate($this->shownEntries),
             'documents' => Document::all(),
+            'document_types' => DocumentType::all(),
             'dir' => 'requester.requests',
         ]);
     }
