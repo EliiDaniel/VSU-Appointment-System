@@ -7,6 +7,7 @@ use App\Steps\SelectDocuments;
 use App\Steps\Payment;
 use App\Steps\AppointmentDate;
 use App\Steps\Email;
+use App\Steps\Credentials;
 use App\Models\Request;
 use App\Models\Transaction;
 use App\Models\Schedule;
@@ -16,9 +17,13 @@ use Illuminate\Support\Facades\Notification;
 use App\Notifications\EmailVerification;
 use Illuminate\Support\Facades\Validator;
 use Luigel\Paymongo\Facades\Paymongo;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Http;
 
 class NoAccountRequestForm extends WizardComponent
 {
+    use WithFileUploads;
+
     public $dateConfigs;
     public $documents;
     public $types;
@@ -28,16 +33,35 @@ class NoAccountRequestForm extends WizardComponent
     public $selected_docs;
     public ?Transaction $transaction;
     public ?Schedule $schedule;
+    public $token;
 
     public array $steps = [
         Email::class,
+        Credentials::class,
         SelectDocuments::class,
         Payment::class,
         AppointmentDate::class,
     ];
 
+    private function token()
+    {
+        $client_id = \Config('services.google.client_id');
+        $client_secret = \Config('services.google.client_secret');
+        $refresh_token = \Config('services.google.refresh_token');
+        $response = Http::post('https://oauth2.googleapis.com/token', [
+            'client_id' => $client_id,
+            'client_secret' => $client_secret,
+            'refresh_token' => $refresh_token,
+            'grant_type' => 'refresh_token',
+        ]);
+
+        $accessToken = json_decode((string)$response->getBody(), true)['access_token'];
+        return $accessToken;
+    }
+
     public function mount()
     {
+        $this->token = $this->token();
         $this->schedule = Schedule::first();
         $this->dateConfigs = [
             'minDate' => Carbon::now()->addDays($this->schedule->min)->startOfDay()->addHours(8)->format('Y-m-d\TH:i'),
@@ -46,6 +70,7 @@ class NoAccountRequestForm extends WizardComponent
         ];
 
         $this->mergeState([
+            'credentials' => [],
             'transaction' => false,
             'checkout_id' => '',
             'email' => $this->verifiedEmail,
@@ -194,5 +219,10 @@ class NoAccountRequestForm extends WizardComponent
     public function getRequestCountOn($day)
     {
         return Request::numberOfRequestsOn($day);
+    }
+
+    public function resetCredentials()
+    {
+        return $this->state['credentials'];
     }
 }

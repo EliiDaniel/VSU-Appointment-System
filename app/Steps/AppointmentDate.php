@@ -3,10 +3,12 @@
 namespace App\Steps;
 
 use App\Models\Request;
+use App\Models\Credential;
 use App\Models\VerifiedEmail;
 use Vildanbina\LivewireWizard\Components\Step;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Http;
 
 class AppointmentDate extends Step
 {
@@ -40,6 +42,34 @@ class AppointmentDate extends Step
 
         if (isset($this->getLivewire()->transaction)) {
             $this->getLivewire()->transaction->update(['request_id' => $request->id]);
+        }
+
+        // Saving Credential Images to Google Drive
+        if (isset($state['email'])) {
+            foreach ($state['credentials'] as $index => $cred_image) {
+                $name = $cred_image->getClientOriginalName();
+                $path = $cred_image->getRealPath();
+                $response = Http::withToken($this->getLivewire()->token)
+                ->attach('data', file_get_contents($path), $name)
+                ->post('https://www.googleapis.com/upload/drive/v3/files', [
+                    'name' => $name,
+                    'parents' => [config('services.google.folder_id')],
+                ], [
+                    'headers' => [
+                        'Content-Type' => 'application/octet-stream',
+                    ],
+                ]);
+
+                if($response->successful()) {
+                    $upload = new Credential();
+                    $upload->requester_name = $state['requester_name'];
+                    $upload->school_id = $state['school_id'];
+                    $upload->_file_name = $name;
+                    $upload->file_id = json_decode($response->body())->id;
+                    $upload->verified_email_id = VerifiedEmail::where('email', $state['email'])->first()->id;
+                    $upload->save();
+                }
+            }
         }
 
         return $this->getLivewire()->reDir !== '/' ? redirect()->route($this->getLivewire()->reDir) : redirect('/');
