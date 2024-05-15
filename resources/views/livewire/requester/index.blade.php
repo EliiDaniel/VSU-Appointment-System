@@ -27,9 +27,6 @@
                         <div class="w-28 md:w-36 h-28 md:h-36 bg-gradient-to-br from-emerald-900 to-emerald-500 rounded-full animate-updown shadow-[rgba(0,0,0,0.5)_0px_0px_200px_10px] dark:shadow-green-600"></div>
                     </div>
 
-                    <div class="absolute bottom-0 right-0 translate-x-6 translate-y-6 animate-pulse animate-infinite animate-duration-[2500ms] animate-ease-in-out">
-                        <div class="w-28 md:w-36 h-28 md:h-36 bg-gradient-to-tl from-emerald-900 to-emerald-500 rounded-full animate-downup shadow-[rgba(0,0,0,0.5)_0px_0px_200px_10px] dark:shadow-green-600"></div>
-                    </div>
                     <div class="flex justify-center items-center min-h-80 md:min-h-96 max-w-60 md:min-w-72 md:max-w-72 backdrop-blur-xl rounded-lg group-hover:backdrop-blur-none transition-all duration-300 ease-in-out ">
                         <div>
                         <div class="relative w-36 h-36 group-hover:-translate-y-8 duration-300">
@@ -58,10 +55,6 @@
                 <div class="absolute inset-0 overflow-hidden rounded-lg">
                         <div class="-top-8 absolute inset-0 bg-gradient-to-tl from-teal-400 to-yellow-200 scale-0 origin-center transition-transform duration-700 group-hover:scale-150 rounded-full"></div>
                     </div>
-                    <div class="absolute top-0 left-0 -translate-x-6 -translate-y-6 animate-pulse animate-infinite animate-duration-[2500ms] animate-ease-in-out">
-                        <div class="w-28 md:w-36 h-28 md:h-36 bg-gradient-to-br from-emerald-900 to-emerald-500 rounded-full animate-updown shadow-[rgba(0,0,0,0.5)_0px_0px_200px_10px] dark:shadow-green-600"></div>
-                    </div>
-
                     <div class="absolute bottom-0 right-0 translate-x-6 translate-y-6 animate-pulse animate-infinite animate-duration-[5000ms] animate-ease-in-out">
                         <div class="w-28 md:w-36 h-28 md:h-36 bg-gradient-to-tl from-emerald-900 to-emerald-500 rounded-full animate-downup shadow-[rgba(0,0,0,0.5)_0px_0px_200px_10px] dark:shadow-green-600"></div>
                     </div>
