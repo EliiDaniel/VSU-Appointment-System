@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->enum('role', ['admin', 'registrar', 'cashier', 'requester', 'confirmation'])->default('confirmation');
-            $table->boolean('first_time_login')->default(true);
         });
     }
 
@@ -24,7 +23,6 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('role');
-            $table->dropColumn('first_time_login');
         });
     }
 };

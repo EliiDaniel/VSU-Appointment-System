@@ -4,7 +4,10 @@ namespace App\Livewire\Registrar;
 
 use Livewire\Component;
 use App\Models\User;
+use App\Models\Credential;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class Users extends Component
 {
@@ -32,6 +35,28 @@ class Users extends Component
                         ->orderBy($this->sortBy, $this->sortDir)
                         ->paginate($this->shownEntries),
         ]);
+    }
+
+    public function downloadCredentials()
+    {
+        $credentials = Credential::where('user_id', $this->selectedUser->id)->get();
+
+        foreach ($credentials as $credential) {
+            $ext = pathinfo($credential->file_name, PATHINFO_EXTENSION);
+
+            $response = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . app('googleAccessToken'), 
+                ])->get("https://www.googleapis.com/drive/v3/files/{$credential->file_id}?alt=media");
+
+            if ($response->successful()) {
+                // Ensure the directory exists
+                $filePath = 'downloads/' . $credential->file_name . '.' . $ext;
+                
+                Storage::put($filePath, $response->body());
+
+                return Storage::download($filePath);
+            }
+        }
     }
     
     public function deleteUser(User $user){

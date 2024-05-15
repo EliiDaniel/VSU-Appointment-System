@@ -23,8 +23,4 @@ class Index extends Component
     public function createRequest(){
         $this->dispatch('open-modal', 'request-modal');
     }
-    
-    public function firstTimeLogin(){
-        auth()->user()->update(['first_time_login' => false]);
-    }
 }

@@ -64,7 +64,13 @@
         @laravelPWA
     </head>
     <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div class="min-h-screen bg-gray-100 dark:bg-gray-900 relative overflow-hidden">
+            <div class="absolute top-14 -right-20 -translate-x-6 -translate-y-6 animate-pulse animate-infinite animate-duration-[2500ms] animate-ease-in-out">
+                <div class="w-28 md:w-36 h-28 md:h-36 bg-gradient-to-br from-emerald-900 to-emerald-500 rounded-full animate-updown shadow-[rgba(0,0,0,0.5)_0px_0px_200px_10px] dark:shadow-green-600"></div>
+            </div>
+            <div class="absolute -bottom-16 left-12 xl:left-60 -translate-x-6 -translate-y-6 animate-pulse animate-infinite animate-duration-[2500ms] animate-ease-in-out">
+                <div class="w-28 md:w-36 h-28 md:h-36 bg-gradient-to-br from-emerald-900 to-emerald-500 rounded-full animate-updown shadow-[rgba(0,0,0,0.5)_0px_0px_200px_10px] dark:shadow-green-600"></div>
+            </div>
             <livewire:layout.navigation />
 
             <!-- Page Side Navigation -->
@@ -77,7 +83,8 @@
                 </div>
                 @endif
                 <!-- Page Content -->
-                <main class="mt-[65px] h-auto {{ auth()->user()->role ? 'flex-1 w-full mx-auto min-w-0 py-6 px-4 sm:px-6 lg:px-8' : '' }}">
+
+                <main class="relative mt-[65px] h-auto {{ auth()->user()->role ? 'flex-1 w-full mx-auto min-w-0 py-6 px-4 sm:px-6 lg:px-8' : '' }}">
                     {{ $slot }}
                 </main>
             </div>

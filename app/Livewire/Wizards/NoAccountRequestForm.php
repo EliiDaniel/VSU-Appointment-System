@@ -7,6 +7,7 @@ use App\Steps\SelectDocuments;
 use App\Steps\Payment;
 use App\Steps\AppointmentDate;
 use App\Steps\Email;
+use App\Steps\Credentials;
 use App\Models\Request;
 use App\Models\Transaction;
 use App\Models\Schedule;
@@ -16,9 +17,13 @@ use Illuminate\Support\Facades\Notification;
 use App\Notifications\EmailVerification;
 use Illuminate\Support\Facades\Validator;
 use Luigel\Paymongo\Facades\Paymongo;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Http;
 
 class NoAccountRequestForm extends WizardComponent
 {
+    use WithFileUploads;
+
     public $dateConfigs;
     public $documents;
     public $types;
@@ -31,6 +36,7 @@ class NoAccountRequestForm extends WizardComponent
 
     public array $steps = [
         Email::class,
+        Credentials::class,
         SelectDocuments::class,
         Payment::class,
         AppointmentDate::class,
@@ -46,6 +52,7 @@ class NoAccountRequestForm extends WizardComponent
         ];
 
         $this->mergeState([
+            'credentials' => [],
             'transaction' => false,
             'checkout_id' => '',
             'email' => $this->verifiedEmail,
@@ -194,5 +201,10 @@ class NoAccountRequestForm extends WizardComponent
     public function getRequestCountOn($day)
     {
         return Request::numberOfRequestsOn($day);
+    }
+
+    public function resetCredentials()
+    {
+        return $this->state['credentials'];
     }
 }

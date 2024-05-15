@@ -58,6 +58,10 @@
         </script>
 
         <!-- Scripts -->
+        <script src="https://unpkg.com/filepond@4.30.0/dist/filepond.min.js"></script>
+        <script src="https://unpkg.com/filepond-plugin-image-preview@4.6.3/dist/filepond-plugin-image-preview.min.js"></script>
+        <link href="https://unpkg.com/filepond/dist/filepond.min.css" rel="stylesheet">
+        <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css" rel="stylesheet">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased ">
@@ -79,14 +83,28 @@
             @if (Route::has('login'))
                 <livewire:welcome.navigation />
             @endif
-                <div>
+            <div class="w-full mx-auto {{ request()->routeIs('register') ? 'sm:grid grid-cols-2' : '' }}" >
+                <div class="flex items-center justify-center">
                     <a href="/" wire:navigate>
                         <x-application-logo maxWidth="2xl" class="w-20 h-20 fill-current text-gray-500" />
                     </a>
                 </div>
-                    <div class="w-full mx-auto sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden rounded-lg dark:shadow-[rgba(0,0,0,0.5)_0px_0px_200px_10px] dark:shadow-green-600/50">
-                        {{ $slot }}
+                
+                <div class="flex justify-center w-full -mt-14 sm:mt-0">
+                    <div class="relative w-full sm:max-w-md bg-transparent">
+                        <div class="absolute top-0 left-0 -translate-x-6 -translate-y-6 animate-pulse animate-infinite animate-duration-[2500ms] animate-ease-in-out">
+                            <div class="w-28 md:w-36 h-28 md:h-36 bg-gradient-to-br from-emerald-900 to-emerald-500 rounded-full animate-updown shadow-[rgba(0,0,0,0.5)_0px_0px_200px_10px] dark:shadow-green-600"></div>
+                        </div>
+                        <div class="absolute bottom-0 right-0 translate-x-6 translate-y-6 animate-pulse animate-infinite animate-duration-[4300ms] animate-ease-in-out">
+                            <div class="w-28 md:w-36 h-28 md:h-36 bg-gradient-to-tl from-emerald-900 to-emerald-500 rounded-full animate-downup shadow-[rgba(0,0,0,0.5)_0px_0px_200px_10px] dark:shadow-green-600"></div>
+                        </div>
+
+                        <div class="w-full backdrop-blur-xl mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden rounded-lg dark:shadow-[rgba(0,0,0,0.5)_0px_0px_200px_10px] dark:shadow-green-600/20">
+                            {{ $slot }}
+                        </div>
                     </div>
+                </div>
+                </div>
             </div>
         </div>
         @endif
