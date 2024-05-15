@@ -14,11 +14,11 @@
 }
 
 .filepond--panel .filepond--panel-root {
-    @apply cursor-pointer shadow-sm bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-500 rounded-md;
+    @apply cursor-pointer shadow-sm bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-500 rounded-md min-h-60;
 }
 
 .filepond--drop-label label{
-    @apply cursor-pointer bg-transparent text-gray-700 dark:text-gray-300;
+    @apply cursor-pointer bg-transparent text-gray-700 dark:text-gray-300 min-h-60;
 }
 
 .filepond--file-action-button {
