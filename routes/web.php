@@ -43,6 +43,7 @@ Route::middleware(['auth', 'verified', 'role:admin,registrar'])
         Route::get('/registrar/documents', [RegistrarsController::class, 'documents'])->name('registrar.documents');
         Route::get('/registrar/schedules', [RegistrarsController::class, 'schedules'])->name('registrar.schedules');
         Route::get('/registrar/notifications', [RegistrarsController::class, 'notifications'])->name('registrar.notifications');
+        Route::get('/registrar/exports', [RegistrarsController::class, 'exports'])->name('registrar.exports');
 
         // Users
         Route::patch('/users/{id}', [UsersController::class, 'update'])->name('update.user');
