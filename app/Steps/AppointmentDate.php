@@ -9,6 +9,8 @@ use Vildanbina\LivewireWizard\Components\Step;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\MimeType;
 
 class AppointmentDate extends Step
 {
@@ -49,23 +51,50 @@ class AppointmentDate extends Step
             foreach ($state['credentials'] as $index => $cred_image) {
                 $name = $cred_image->getClientOriginalName();
                 $path = $cred_image->getRealPath();
-                $response = Http::withToken($this->getLivewire()->token)
-                ->attach('data', file_get_contents($path), $name)
-                ->post('https://www.googleapis.com/upload/drive/v3/files', [
-                    'name' => $name,
-                    'parents' => [config('services.google.folder_id')],
-                ], [
-                    'headers' => [
-                        'Content-Type' => 'application/octet-stream',
+            
+                // Ensure the file name is properly encoded
+                $name = utf8_encode($name);
+            
+                // Create a Guzzle client
+                $client = new Client();
+            
+                // Prepare the multipart form data
+                $multipart = [
+                    [
+                        'name'     => 'metadata',
+                        'contents' => json_encode([
+                            'name' => $name,
+                            'parents' => [config('services.google.folder_id')]
+                        ]),
+                        'headers'  => [
+                            'Content-Type' => 'application/json; charset=UTF-8',
+                        ],
                     ],
+                    [
+                        'name'     => 'file',
+                        'contents' => fopen($path, 'r'),
+                        'filename' => $name,
+                        'headers'  => [
+                            'Content-Type' => MimeType::fromFilename($name) ?: 'application/octet-stream',
+                        ],
+                    ],
+                ];
+            
+                // Send the request
+                $response = $client->post('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $this->getLivewire()->token,
+                    ],
+                    'multipart' => $multipart,
                 ]);
-
-                if($response->successful()) {
+            
+                if ($response->getStatusCode() === 200) {
+                    $responseBody = json_decode($response->getBody(), true);
                     $upload = new Credential();
                     $upload->requester_name = $state['requester_name'];
                     $upload->school_id = $state['school_id'];
-                    $upload->_file_name = $name;
-                    $upload->file_id = json_decode($response->body())->id;
+                    $upload->file_name = $name;
+                    $upload->file_id = $responseBody['id'];
                     $upload->verified_email_id = VerifiedEmail::where('email', $state['email'])->first()->id;
                     $upload->save();
                 }
