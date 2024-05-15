@@ -83,7 +83,7 @@ class AppointmentDate extends Step
                 // Send the request
                 $response = $client->post('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', [
                     'headers' => [
-                        'Authorization' => 'Bearer ' . $this->getLivewire()->token,
+                        'Authorization' => 'Bearer ' . app('googleAccessToken'),
                     ],
                     'multipart' => $multipart,
                 ]);

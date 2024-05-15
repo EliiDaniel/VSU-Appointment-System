@@ -30,7 +30,7 @@ class User extends Authenticatable
         'email',
         'role',
         'password',
-        'first_time_login',
+        'school_id',
     ];
 
     protected static function boot()

@@ -34,7 +34,9 @@ class Credentials extends Step
                 'state.credentials' => __('Invalid Credential(s) input'),
                 'state.requester_name' => __('Name Cannot Be Empty'),
                 'state.school_id' => __('ID Cannot Be Empty'),
-                'state.credentials.*' =>  __('Files must be images'),
+                'state.credentials.*.image' => 'Each credential must be an image file.',
+                'stete.credentials.*.mimes' => 'Each credential must be a valid image format (jpeg, png, jpg, gif, svg).',
+                'state.credentials.*.max' => 'Each credential may not be greater than :max kilobytes.',
             ],
         ];
     }

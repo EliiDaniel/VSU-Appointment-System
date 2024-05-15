@@ -33,7 +33,6 @@ class NoAccountRequestForm extends WizardComponent
     public $selected_docs;
     public ?Transaction $transaction;
     public ?Schedule $schedule;
-    public $token;
 
     public array $steps = [
         Email::class,
@@ -43,25 +42,8 @@ class NoAccountRequestForm extends WizardComponent
         AppointmentDate::class,
     ];
 
-    private function token()
-    {
-        $client_id = \Config('services.google.client_id');
-        $client_secret = \Config('services.google.client_secret');
-        $refresh_token = \Config('services.google.refresh_token');
-        $response = Http::post('https://oauth2.googleapis.com/token', [
-            'client_id' => $client_id,
-            'client_secret' => $client_secret,
-            'refresh_token' => $refresh_token,
-            'grant_type' => 'refresh_token',
-        ]);
-
-        $accessToken = json_decode((string)$response->getBody(), true)['access_token'];
-        return $accessToken;
-    }
-
     public function mount()
     {
-        $this->token = $this->token();
         $this->schedule = Schedule::first();
         $this->dateConfigs = [
             'minDate' => Carbon::now()->addDays($this->schedule->min)->startOfDay()->addHours(8)->format('Y-m-d\TH:i'),

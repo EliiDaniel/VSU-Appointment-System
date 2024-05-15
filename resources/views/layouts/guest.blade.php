@@ -88,7 +88,7 @@
                         <x-application-logo maxWidth="2xl" class="w-20 h-20 fill-current text-gray-500" />
                     </a>
                 </div>
-                <div class="w-full mx-auto {{ request()->routeIs('register') ? '' : 'sm:max-w-md' }} mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden rounded-lg dark:shadow-[rgba(0,0,0,0.5)_0px_0px_200px_10px] dark:shadow-green-600/50">
+                <div class="w-full mx-auto sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden rounded-lg dark:shadow-[rgba(0,0,0,0.5)_0px_0px_200px_10px] dark:shadow-green-600/50">
                     {{ $slot }}
                 </div>
             </div>

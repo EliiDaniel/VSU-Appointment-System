@@ -30,22 +30,6 @@ class Requests extends Component
     public $completedProcesses = [];
     public $pivotId;
 
-    private function token()
-    {
-        $client_id = \Config('services.google.client_id');
-        $client_secret = \Config('services.google.client_secret');
-        $refresh_token = \Config('services.google.refresh_token');
-        $response = Http::post('https://oauth2.googleapis.com/token', [
-            'client_id' => $client_id,
-            'client_secret' => $client_secret,
-            'refresh_token' => $refresh_token,
-            'grant_type' => 'refresh_token',
-        ]);
-
-        $accessToken = json_decode((string)$response->getBody(), true)['access_token'];
-        return $accessToken;
-    }
-
     public function mount()
     {
         if (Request::count() > 0) {
@@ -133,7 +117,7 @@ class Requests extends Component
             $ext = pathinfo($credential->file_name, PATHINFO_EXTENSION);
 
             $response = Http::withHeaders([
-                    'Authorization' => 'Bearer ' . $this->token(), 
+                    'Authorization' => 'Bearer ' . app('googleAccessToken'), 
                 ])->get("https://www.googleapis.com/drive/v3/files/{$credential->file_id}?alt=media");
 
             if ($response->successful()) {
