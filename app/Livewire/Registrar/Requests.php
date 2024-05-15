@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Registrar;
 
+use App\Models\Credential;
 use Livewire\Component;
 use App\Models\Request;
 use App\Models\Document;
-use App\Models\DocumentProcess;
 use App\Models\RequestDocumentProcess;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class Requests extends Component
 {
@@ -27,6 +29,22 @@ class Requests extends Component
     public ?Document $selectedDocument;
     public $completedProcesses = [];
     public $pivotId;
+
+    private function token()
+    {
+        $client_id = \Config('services.google.client_id');
+        $client_secret = \Config('services.google.client_secret');
+        $refresh_token = \Config('services.google.refresh_token');
+        $response = Http::post('https://oauth2.googleapis.com/token', [
+            'client_id' => $client_id,
+            'client_secret' => $client_secret,
+            'refresh_token' => $refresh_token,
+            'grant_type' => 'refresh_token',
+        ]);
+
+        $accessToken = json_decode((string)$response->getBody(), true)['access_token'];
+        return $accessToken;
+    }
 
     public function mount()
     {
@@ -105,6 +123,28 @@ class Requests extends Component
         });
 
         $this->selectedRequest->areAllDocumentsCompleted();
+    }
+
+    public function downloadCredentials()
+    {
+        $credentials = Credential::where('verified_email_id', $this->selectedRequest->verified_email->id)->get();
+
+        foreach ($credentials as $credential) {
+            $ext = pathinfo($credential->file_name, PATHINFO_EXTENSION);
+
+            $response = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . $this->token(), 
+                ])->get("https://www.googleapis.com/drive/v3/files/{$credential->file_id}?alt=media");
+
+            if ($response->successful()) {
+                // Ensure the directory exists
+                $filePath = 'downloads/' . $credential->file_name . '.' . $ext;
+                
+                Storage::put($filePath, $response->body());
+
+                return Storage::download($filePath);
+            }
+        }
     }
 
     public function approveRequest()
