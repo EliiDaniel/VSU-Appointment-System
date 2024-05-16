@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Cashier;
 
+use App\Exports\TransactionsDataExport;
 use Livewire\Component;
 use App\Models\Request;
 use App\Models\Notification;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
 {
@@ -13,9 +15,16 @@ class Index extends Component
     public $monthLabels;
     public $documents;
     public $documentLabels;
+    public $export = [];
 
     public function mount()
     {
+        $this->export = ([
+            'transactions' => ([
+                'start' => null,
+                'end' => null,
+            ]),
+        ]);
         $this->earnings = Request::whereNotNull('paid_at')->get()->groupBy(function ($request) {
             return $request->created_at->format('F Y');
         })->map(function ($group) {
@@ -53,5 +62,17 @@ class Index extends Component
             'forApprovalCount' => Request::whereIn('status', ['Payment Approval', 'Awaiting Payment'])->count(),
             'notificationsCount' => Notification::where('user_id', auth()->user()->id)->count(),
         ]);
+    }
+
+    public function exportTransactions(){
+        
+        $validated = $this->validate([
+            'export.transactions.start' => ['required','date'],
+            'export.transactions.end' => ['required','date', 'after:export.transactions.start'],
+        ], [
+            'export.transactions.start' => 'Start date required',
+            'export.transactions.end' => 'End date required and must be later than start',
+        ]);
+        return Excel::download(new TransactionsDataExport($validated['export']['transactions']['start'], $validated['export']['transactions']['end']), 'transactions-data' . '-' . $validated['export']['transactions']['start'] . '--' . $validated['export']['transactions']['end'] . '.xlsx');
     }
 }

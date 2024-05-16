@@ -125,15 +125,15 @@
                     </div>
                 </div>
                 <div class="col-span-2 w-full grid grid-rows-2 gap-4">
-                    <div class="min-w-96 mx-auto w-full min-h-full bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg py-8">
+                    <div class="min-w-96 mx-auto w-full min-h-full bg-white dark:bg-gray-800 overflow-hidden shadow-md sm:rounded-lg py-8">
                         <canvas id="users-chart" class="p-2" style="min-height: 250px; min-width: 250px;max-height: 300px; max-width: 100%"></canvas>
                     </div>
-                    <div class="min-w-96 mx-auto w-full px-6 min-h-full bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg py-8">
+                    <div class="min-w-96 mx-auto w-full px-6 min-h-full bg-white dark:bg-gray-800 overflow-hidden shadow-md sm:rounded-lg py-8">
                         <canvas id="requests-statistics-chart" class="p-2" style="min-height: 250px; min-width: 250px;max-height: 500px; max-width: 100%"></canvas>
                     </div>
                 </div>
             </div>
-            <div class="min-w-96 min-h-56 max-w-[800px] max-h-[800px] flex justify-center bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg py-8">
+            <div class="min-w-96 min-h-56 max-w-[800px] max-h-[800px] flex justify-center bg-white dark:bg-gray-800 overflow-hidden shadow-md sm:rounded-lg py-8">
                 <canvas id="requests-chart" class="p-2" style="min-height: 250px; min-width: 250px;max-height: 800px; max-width: 100%"></canvas>
             </div>
         </div>

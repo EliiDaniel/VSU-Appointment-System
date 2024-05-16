@@ -41,4 +41,9 @@ class RegistrarsController extends Controller
 
         return view('registrar.notifications', ['referenceNo' => $referenceNo]);
     }
+    
+    public function exports()
+    {
+        return view('registrar.exports');
+    }
 }

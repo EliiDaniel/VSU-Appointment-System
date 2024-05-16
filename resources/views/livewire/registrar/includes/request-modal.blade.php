@@ -13,8 +13,23 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                         </svg>
                     </div>
-                    <div class="ml-2 my-4">
-                        <span class="mr-2">●</span>{{ $selectedRequest->user ? $selectedRequest->user->name : $selectedRequest->verified_email->email }}
+                    <div class="flex ml-2 my-4">
+                        @if ($selectedRequest->user)
+                            ●
+                            <div class="ml-2 flex items-center gap-1">
+                                {{ $selectedRequest->user->name }}
+                                @if ($selectedRequest->user->role !== 'confirmation')
+                                    <span class="text-blue-500 flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                                        </svg>
+                                        <span class="text-xs uppercase tracking-widest font-semibold">verified</span>
+                                    </span>
+                                @endif
+                            </div>
+                        @else
+                            <span class="mr-2">●</span>{{ $selectedRequest->verified_email->email }}
+                        @endif
                     </div>
                 </div>
                 <div>
@@ -123,7 +138,7 @@
 
         <div class="flex justify-between">
             <div class="flex items-center justify-start">
-                @if (!$selectedRequest->user)
+                @if (!$selectedRequest->user || $selectedRequest->user?->role === 'confirmation')
                 <x-secondary-button class="ms-4 mb-4 mr-4 border-none" wire:click="downloadCredentials()">
                     <div class="flex gap-2 items-center text-green-600">
                         Credentials 

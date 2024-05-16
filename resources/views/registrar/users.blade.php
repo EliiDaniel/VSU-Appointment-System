@@ -1,3 +1,3 @@
 <x-app-layout>
-    <livewire:registrar.users :search="$userId ? $userId : null"/>
+    <livewire:registrar.users :search="isset($userId) ? $userId : null"/>
 </x-app-layout>

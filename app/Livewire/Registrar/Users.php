@@ -58,7 +58,7 @@ class Users extends Component
             }
         }
     }
-    
+
     public function deleteUser(User $user){
         $user->delete();
     }
