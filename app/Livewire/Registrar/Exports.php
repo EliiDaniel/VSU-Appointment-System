@@ -16,4 +16,8 @@ class Exports extends Component
     public function exportUsers(){
         return Excel::download(new UsersDataExport, 'users-data.xlsx');
     }
+
+    public function exportRequests(){
+        return Excel::download(new UsersDataExport, 'requests-data.xlsx');
+    }
 }
