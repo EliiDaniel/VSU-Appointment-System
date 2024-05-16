@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Export</title>
+    <title>Users Export</title>
 </head>
 <body>
     <div>
@@ -14,7 +14,12 @@
         <thead>
             <tr>
                 <th colspan="5" style="font-size: 25px; font-weight: bold; text-align: center;" valign="middle">
-                    VSU Appointment System User Data
+                    VSU Appointment System Users Data
+                </th>
+            </tr>
+            <tr>
+                <th colspan="5" style="font-size: 12px; font-weight: bold; text-align: center;" valign="middle">
+                    {{ $start->format('Y-m-d') . ' - ' . $end->format('Y-m-d') }}
                 </th>
             </tr>
             <tr>

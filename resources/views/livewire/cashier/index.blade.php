@@ -38,14 +38,52 @@
             </div>
         </div>
 
-        <div class="block lg:grid grid-cols-2 gap-8 py-6">
-            <div class="lg:grid grid-rows-2 gap-4">
-                <div class="mx-auto w-full min-w-96 min-h-full bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg py-8">
+        <div class="block lg:grid grid-cols-2 gap-4 lg:gap-8 py-6">
+            <div class="flex flex-col lg:grid grid-rows-2 gap-4">
+                <div wire:ignore class="mx-auto w-full min-w-96 min-h-full bg-white dark:bg-gray-800 overflow-hidden shadow-md rounded-lg py-8">
                     <canvas id="earnings-chart" class="p-2" style="min-height: 250px; min-width: 250px;max-height: 300px; max-width: 100%"></canvas>
+                </div>
+                <div class="relative flex flex-col w-full items-center justify-center p-4 px-8 shadow-md rounded-md bg-white dark:bg-gray-800 sm:rounded-lg">
+                    <h1 class="font-extrabold text-3xl tracking-widest text-transparent bg-gradient-to-r from-green-500 via-blue-500 to-red-500 bg-clip-text">TRANSACTIONS EXPORT</h1>
+                    <form wire:submit.prevent="exportTransactions()" class="mt-4">
+                        <div class="w-full">
+                            <div class="md:flex justify-between gap-10">
+                                <div class="w-full">
+                                    <x-datetime-picker
+                                    label="Start Date"
+                                    without-tips="true"
+                                    wire:model.live="export.transactions.start"
+                                    :timezone="'Asia/Manila'"
+                                    without-time
+                                    :clearable="true"
+                                    />
+                                    <x-input-error :messages="$errors->get('export.transactions.start')" class="mt-2" />
+                                </div>
+                                <div class="mt-4 md:mt-0 w-full">
+                                    <x-datetime-picker
+                                    label="End Date"
+                                    without-tips="true"
+                                    :min="$export['transactions']['start']"
+                                    wire:model.live="export.transactions.end"
+                                    :timezone="'Asia/Manila'"
+                                    without-time
+                                    :clearable="true"
+                                    />
+                                    <x-input-error :messages="$errors->get('export.transactions.end')" class="mt-2" />
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="flex items-center justify-center gap-4 mt-4 md:mt-10">
+                            <x-primary-button>
+                                EXPORT
+                            </x-primary-button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
-            <div class="mt-8 lg:mt-0 w-full min-w-96 min-h-56 max-w-full max-h-[800px] flex justify-center bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg py-8">
+            <div wire:ignore class="mt-4 lg:mt-0 w-full min-w-96 min-h-56 max-w-full max-h-[800px] flex justify-center bg-white dark:bg-gray-800 overflow-hidden shadow-md rounded-lg py-8">
                 <canvas id="request-documents-chart" class="p-2" style="min-height: 250px; min-width: 250px;max-height: 800px; max-width: 100%"></canvas>
             </div>
         </div>
