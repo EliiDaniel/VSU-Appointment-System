@@ -71,4 +71,8 @@ class Welcome extends Component
     {
         Notification::route('mail', $this->email)->notify(new EmailVerification(url('/verify-email/' . urlencode($this->email))));
     }
+
+    public function cancelRequest(Request $request){
+        $request->cancel();
+    }
 }

@@ -55,11 +55,19 @@ class Request extends Model
                     $request->sendEmailNotificationsToCashiers();
                 }
 
-                SystemLog::today()->appendActivity([
-                    'type' => 'request',
-                    'time' => Carbon::now(),
-                    'description' => "Request No: " . $request->id . " updated to $request->status, by User ID No: " . auth()->user()->id,
-                ]);
+                if (auth()->user() !== $request->user) {
+                    SystemLog::today()->appendActivity([
+                        'type' => 'request',
+                        'time' => Carbon::now(),
+                        'description' => "Request No: " . $request->id . " updated to $request->status, by User ID No: " . auth()->user()->id,
+                    ]);
+                } else {
+                    SystemLog::today()->appendActivity([
+                        'type' => 'request',
+                        'time' => Carbon::now(),
+                        'description' => "Request No: " . $request->id . " updated to $request->status, by Requester " . auth()->user()?->id,
+                    ]);
+                }
 
                 $request->sendEmailNotifications();
             }
@@ -182,12 +190,8 @@ class Request extends Model
 
     public function cancel()
     {
-        if (Gate::allows('cancel-request') && !$this->canceled_at && !$this->approved_at) {
             $this->update(['canceled_at' => date('Y-m-d H:i:s'), 'status' => 'Canceled']);
             return response()->json(['message' => 'Request canceled successfully'], 200);
-        } else {
-            abort(403, 'Unauthorized action.');
-        }
     }
 
     public function approve()

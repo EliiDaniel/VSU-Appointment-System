@@ -137,6 +137,12 @@
                             </div>
                         @endif
                     </x-modal-second>
+                    
+                    <div class="flex items-center justify-end">
+                        <x-danger-button x-show="!{{ $request->approved_at ? 'true' : 'false' }}" wire:click="cancelRequest({{ $request }})" wire:confirm="Are you sure you want to cancel request?" disabled="{{ $request->canceled_at ? 'true' : false }}">
+                            {{ __(  $request->canceled_at ? 'Canceled' : 'Cancel') }}
+                        </x-danger-button>
+                    </div>
                 </div>
 
             @else
