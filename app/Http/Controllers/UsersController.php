@@ -23,7 +23,7 @@ class UsersController extends Controller
             'role' => $request->input('role'),
         ]);
 
-        $request->session()->flash('status', 'user-updated');
+        $request->session()->flash('status', 'User Updated');
 
         return redirect()->back();
     }

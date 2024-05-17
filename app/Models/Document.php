@@ -14,6 +14,7 @@ class Document extends Model
         'name',
         'price',
         'document_type_id',
+        'soft_copy_available',
     ];
 
     protected static function boot()
