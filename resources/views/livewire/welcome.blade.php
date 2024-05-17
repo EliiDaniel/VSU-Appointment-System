@@ -40,7 +40,7 @@
                 </div>
 
             @if(isset($request))
-                <div class="p-6 text-gray-900 dark:text-gray-100" x-show="$wire.title === 'view-request'">
+                <div class="p-6 text-gray-900 dark:text-gray-100" x-show="$wire.title === 'view-request'" wire:poll.visible>
                     <div class="text-lg flex items-center justify-between">
                         <span class="text-gray-600 dark:text-gray-400">Status: {{ $request->status }}</span>
                         <span class="text-gray-600 dark:text-gray-400 whitespace-nowrap">Request #{{ $request->tracking_code }}</span>
