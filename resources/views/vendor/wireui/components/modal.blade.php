@@ -32,7 +32,33 @@
     })"
     x-on:open-modal.window="$event.detail == '{{ $name }}' ? show = true : null"
     x-on:close-modal.window="$event.detail == '{{ $name }}' ? show = false : null"
-    x-on:confirm-close.window="!{{ $disabledClose }} ? (confirm('Are you sure you want to close?') ? show = false : null) : alert('Transaction Completed, Unable to close modal!')"
+    x-on:confirm-approve.window="
+        window.$wireui.confirmDialog({
+            title: 'Approve Request?',
+            icon: 'warning',
+            method: $wire.approveRequest()
+        })"
+    x-on:confirm-complete.window="
+        window.$wireui.confirmDialog({
+            title: 'Complete Request?',
+            icon: 'warning',
+            method: $wire.completeRequest()
+        })"
+    x-on:confirm-close.window="!{{ $disabledClose }} ? (
+        window.$wireui.confirmDialog({
+            title: 'Are you sure?',
+            description: 'Do you really want to close this modal?',
+            icon: 'warning',
+            accept: {
+                label: 'Yes, close it',
+                execute: () => {
+                    show = false;
+                }
+            },
+            reject: {
+                label: 'No, keep it open'
+            }
+        }) ) : alert('Transaction Completed, Unable to close modal!')"
     x-on:disabled-close.window="alert('Unable to close modal, payment already made!')"
     x-on:close.stop="{{ $prompt }} ? $dispatch('confirm-close') : show = false"
     x-on:keydown.escape.window="{{ $prompt }} ? $dispatch('confirm-close') : show = false"

@@ -8,10 +8,12 @@ use App\Models\Credential;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use WireUi\Traits\Actions;
 
 class Users extends Component
 {
     use WithPagination;
+    use Actions;
 
     public $role = '';
     public $search = '';
@@ -25,6 +27,13 @@ class Users extends Component
         $this->selectedUser = User::first();
     }
 
+    public function userUpdated()
+    {
+        $this->notification([
+            'title'       => 'User updated!',
+            'icon'        => 'success'
+        ]);
+    }
     public function render()
     {
         return view('livewire.registrar.users', [
@@ -61,6 +70,10 @@ class Users extends Component
 
     public function deleteUser(User $user){
         $user->delete();
+        $this->notification([
+            'title'       => 'User deleted!',
+            'icon'        => 'success'
+        ]);
     }
     
     public function showUser(User $user){

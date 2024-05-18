@@ -87,6 +87,11 @@
                 <main class="relative mt-[65px] h-auto {{ auth()->user()->role ? 'flex-1 w-full mx-auto min-w-0 py-6 px-4 sm:px-6 lg:px-8' : '' }}">
                     {{ $slot }}
                 </main>
+                
+                <div wire:ignore>
+                    <x-notifications />
+                    <x-dialog z-index="z-50" blur="xs" align="center" />
+                </div>
             </div>
         </div>
     </body>

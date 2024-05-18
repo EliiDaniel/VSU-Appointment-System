@@ -93,3 +93,11 @@
 [data-filepond-item-state='processing-complete'] .filepond--item-panel {
     background-color: green;
 }
+
+.dialog-reject-btn button {
+    @apply bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-800 hover:bg-gray-700 dark:hover:bg-white;
+}
+
+.dialog-accept-btn button {
+    @apply  text-gray-800 bg-amber-400 hover:bg-amber-500 dark:bg-amber-500 dark:hover:bg-amber-400;
+}

@@ -127,7 +127,12 @@
                                         <x-secondary-button wire:click="showUser({{ $user }})" @click="selectedRole = '{{ $user->role }}'">
                                             {{ __('View') }}
                                         </x-secondary-button>
-                                        <x-danger-button wire:click="deleteUser({{ $user }})" wire:confirm="Are you sure you want to delete {{ $user->name }}?">
+                                        <x-danger-button wire:ignore x-on:confirm="{
+                                            title: 'Sure Delete?',
+                                            icon: 'warning',
+                                            method: 'deleteUser',
+                                            params: {{ $user }}
+                                        }">
                                             {{ __('Delete') }}
                                         </x-danger-button>
                                     </td>

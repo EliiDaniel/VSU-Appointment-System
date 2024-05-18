@@ -153,5 +153,9 @@
             @endif
             </x-modal>
         @endif
+        
+        @if (session('status'))
+            <div wire:ignore x-init="() => $wire.sessionNotif('{{ session('status') }}')"></div>
+        @endif
     </div>
 </div>

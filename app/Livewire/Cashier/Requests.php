@@ -81,7 +81,7 @@ class Requests extends Component
         $this->dispatch('open-modal', 'view-document');
     }
 
-    public function approvePayment(){
+    public function approveRequest(){
         $this->selectedRequest->approvePayment();
     }
 

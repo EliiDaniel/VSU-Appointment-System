@@ -8,7 +8,7 @@
         <template x-for="notification in notifications" :key="`notification-${notification.id}`">
             <div class="max-w-sm w-full bg-white shadow-lg rounded-lg ring-1 ring-black
                         ring-opacity-5 relative overflow-hidden pointer-events-auto
-                        dark:bg-secondary-800 dark:border dark:border-secondary-700"
+                        dark:bg-gray-800 dark:border dark:border-gray-700"
                  :class="{ 'flex': notification.rightButtons }"
                  :id="`notification.${notification.id}`"
                  x-transition:enter="transform ease-out duration-300 transition"
@@ -16,7 +16,7 @@
                  x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
                  x-on:mouseenter="pauseNotification(notification)"
                  x-on:mouseleave="resumeNotification(notification)">
-                <div class="bg-secondary-300 dark:bg-secondary-600 rounded-full transition-all duration-150 ease-linear absolute top-0 left-0"
+                <div class="bg-gray-300 dark:bg-gray-600 rounded-full transition-all duration-150 ease-linear absolute top-0 left-0"
                      style="height: 2px; width: 100%;"
                      :id="`timeout.bar.${notification.id}`"
                      x-show="Boolean(notification.timer) && notification.progressbar !== false">
@@ -49,11 +49,11 @@
                         <div class="w-0 flex-1 pt-0.5" :class="{
                                 'ml-3': Boolean(notification.icon || notification.img)
                             }">
-                            <p class="text-sm font-medium text-secondary-900 dark:text-secondary-400"
+                            <p class="text-sm font-medium text-gray-900 dark:text-gray-400"
                                x-show="notification.title"
                                x-html="notification.title">
                             </p>
-                            <p class="mt-1 text-sm text-secondary-500"
+                            <p class="mt-1 text-sm text-gray-500"
                                x-show="notification.description"
                                x-html="notification.description">
                             </p>
@@ -63,7 +63,7 @@
                                 <div class="mt-3 flex gap-x-3">
                                     <button class="rounded-md text-sm font-medium focus:outline-none"
                                             :class="{
-                                            'bg-white dark:bg-transparent text-primary-600 hover:text-primary-500': !Boolean($wireui.dataGet(notification, 'accept.style')),
+                                            'bg-white dark:bg-transparent text-gray-600 hover:text-gray-500': !Boolean($wireui.dataGet(notification, 'accept.style')),
                                             [$wireui.dataGet(notification, 'accept.style')]: Boolean($wireui.dataGet(notification, 'accept.style')),
                                             'px-3 py-2 border shadow-sm': Boolean($wireui.dataGet(notification, 'accept.solid')),
                                         }"
@@ -74,9 +74,9 @@
 
                                     <button class="rounded-md text-sm font-medium focus:outline-none"
                                             :class="{
-                                            'bg-white dark:bg-transparent text-secondary-700 dark:text-secondary-600 hover:text-secondary-500': !Boolean($wireui.dataGet(notification, 'reject.style')),
+                                            'bg-white dark:bg-transparent text-gray-700 dark:text-gray-600 hover:text-gray-500': !Boolean($wireui.dataGet(notification, 'reject.style')),
                                             [$wireui.dataGet(notification, 'reject.style')]: Boolean($wireui.dataGet(notification, 'reject.style')),
-                                            'px-3 py-2 border border-secondary-300 shadow-sm': Boolean($wireui.dataGet(notification, 'accept.solid')),
+                                            'px-3 py-2 border border-gray-300 shadow-sm': Boolean($wireui.dataGet(notification, 'accept.solid')),
                                         }"
                                             x-on:click="reject(notification)"
                                             x-show="$wireui.dataGet(notification, 'reject.label')"
@@ -90,7 +90,7 @@
                             <!-- accept button -->
                             <button class="mr-4 shrink-0 rounded-md text-sm font-medium focus:outline-none"
                                     :class="{
-                                    'text-primary-600 hover:text-primary-500': !Boolean($wireui.dataGet(notification, 'accept.style')),
+                                    'text-gray-600 hover:text-gray-500': !Boolean($wireui.dataGet(notification, 'accept.style')),
                                     [$wireui.dataGet(notification, 'accept.style')]: Boolean($wireui.dataGet(notification, 'accept.style'))
                                 }"
                                     x-on:click="accept(notification)"
@@ -99,7 +99,7 @@
                             </button>
 
                             <!-- close button -->
-                            <button class="rounded-md inline-flex text-secondary-400 hover:text-secondary-500 focus:outline-none"
+                            <button class="rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none"
                                     x-show="notification.closeButton"
                                     x-on:click="closeNotification(notification)">
                                 <span class="sr-only">Close</span>
@@ -115,15 +115,15 @@
 
                 <!-- right actions buttons -->
                 <template x-if="notification.rightButtons">
-                    <div class="flex flex-col border-l border-secondary-200 dark:border-secondary-700">
+                    <div class="flex flex-col border-l border-gray-200 dark:border-gray-700">
                         <template x-if="notification.accept">
                             <div class="h-0 flex-1 flex" :class="{
-                                'border-b border-secondary-200 dark:border-secondary-700': notification.reject
+                                'border-b border-gray-200 dark:border-gray-700': notification.reject
                             }">
                                 <button class="w-full rounded-none rounded-tr-lg px-4 py-3 flex items-center
                                                justify-center text-sm font-medium focus:outline-none"
                                         :class="{
-                                        'text-primary-600 hover:text-primary-500 hover:bg-secondary-50 dark:hover:bg-secondary-700': !Boolean(notification.accept.style),
+                                        'text-gray-600 hover:text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700': !Boolean(notification.accept.style),
                                         [notification.accept.style]: Boolean(notification.accept.style),
                                         'rounded-br-lg': !Boolean(notification.reject),
                                     }"
@@ -138,7 +138,7 @@
                                 <button class="w-full rounded-none rounded-br-lg px-4 py-3 flex items-center
                                                 justify-center text-sm font-medium focus:outline-none"
                                         :class="{
-                                        'text-secondary-700 hover:text-secondary-500 dark:text-secondary-600 hover:bg-secondary-50 dark:hover:bg-secondary-700': !Boolean(notification.reject.style),
+                                        'text-gray-700 hover:text-gray-500 dark:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700': !Boolean(notification.reject.style),
                                         [notification.reject.style]: Boolean(notification.reject.style),
                                         'rounded-tr-lg': !Boolean(notification.accept),
                                     }"

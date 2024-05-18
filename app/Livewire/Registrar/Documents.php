@@ -7,10 +7,12 @@ use App\Models\Document;
 use App\Models\DocumentProcess;
 use App\Models\DocumentType;
 use Livewire\WithPagination;
+use WireUi\Traits\Actions;
 
 class Documents extends Component
 {
     use WithPagination;
+    use Actions;
 
     public $search = '';
     public $title = 'view-document';
@@ -25,6 +27,14 @@ class Documents extends Component
         if (Document::count() > 0) {
             $this->selectedDocument = Document::first();
         }
+    }
+
+    public function sessionNotif($session)
+    {
+        $this->notification([
+            'title'       => $session,
+            'icon'        => 'success'
+        ]);
     }
 
     public function render()

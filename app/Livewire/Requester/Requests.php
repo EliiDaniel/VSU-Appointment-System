@@ -8,10 +8,12 @@ use App\Models\Request;
 use App\Models\Document;
 use App\Models\DocumentType;
 use App\Models\RequestDocumentProcess;
+use WireUi\Traits\Actions;
 
 class Requests extends Component
 {
     use WithPagination;
+    use Actions;
 
     public $search = '';
     public $shownEntries = 5;
@@ -34,6 +36,14 @@ class Requests extends Component
         if (Request::count() > 0) {
             $this->selectedRequest = Request::first();
         }
+    }
+
+    public function sessionNotif($session)
+    {
+        $this->notification([
+            'title'       => $session,
+            'icon'        => 'success'
+        ]);
     }
 
     public function render()
@@ -83,7 +93,21 @@ class Requests extends Component
     }
 
     public function cancelRequest(Request $request){
+        $this->dialog()->confirm([
+            'title'       => 'Are you sure you want to cancel your request?',
+            'icon'        => 'warning',
+            'method'      => 'cancelConfirmed',
+            'params'      => $request,
+        ]);
+    }
+
+    public function cancelConfirmed(Request $request)
+    {
         $request->cancel();
+        $this->notification([
+            'title'       => 'Request canceled successfully!',
+            'icon'        => 'success'
+        ]);
     }
 
     public function viewDocumentProcess(Document $document, $pivotId){

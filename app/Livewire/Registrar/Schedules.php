@@ -6,10 +6,12 @@ use Livewire\Component;
 use App\Models\Schedule;
 use App\Models\BlockedDate;
 use Livewire\WithPagination;
+use WireUi\Traits\Actions;
 
 class Schedules extends Component
 {
     use WithPagination;
+    use Actions;
 
     public $search = '';
     public $shownEntries = 5;
@@ -41,6 +43,14 @@ class Schedules extends Component
     
     }
 
+    public function sessionNotif($session)
+    {
+        $this->notification([
+            'title'       => $session,
+            'icon'        => 'success'
+        ]);
+    }
+
     public function render()
     {
         return view('livewire.registrar.schedules', [
@@ -70,6 +80,10 @@ class Schedules extends Component
     
     public function deleteBlockedDate(BlockedDate $blocked_date){
         $blocked_date->delete();
+        $this->notification([
+            'title'       => 'Blocked Date deleted!',
+            'icon'        => 'success'
+        ]);
     }
     
     public function updatedShownEntries()

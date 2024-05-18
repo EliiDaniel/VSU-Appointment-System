@@ -6,8 +6,8 @@
     x-on:keydown.escape.window="handleEscape"
     style="display: none"
     x-cloak>
-    <div class="fixed inset-0 bg-secondary-400 bg-opacity-60 transform transition-opacity
-        {{ $dialog }}-backdrop @if ($blur) {{ $blur }} @endif dark:bg-secondary-700 dark:bg-opacity-60"
+    <div class="fixed inset-0 bg-gray-400 bg-opacity-60 transform transition-opacity
+        {{ $dialog }}-backdrop @if ($blur) {{ $blur }} @endif dark:bg-gray-700 dark:bg-opacity-60"
         x-show="show"
         x-on:click="dismiss"
         x-transition:enter="ease-out duration-300"
@@ -28,19 +28,19 @@
         x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         x-on:mouseenter="pauseTimeout"
         x-on:mouseleave="resumeTimeout">
-        <div class="relative shadow-md bg-white dark:bg-secondary-800 rounded-xl space-y-4 p-4"
+        <div class="relative shadow-md bg-white dark:bg-gray-800 rounded-xl space-y-4 p-4"
             :class="{
                 'sm:p-5 sm:pt-7': style === 'center',
                 'sm:p-0 sm:pt-1': style === 'inline',
             }">
-            <div class="bg-secondary-300 dark:bg-secondary-600 rounded-full transition-all duration-150 ease-linear absolute top-0 left-0"
+            <div class="bg-gray-300 dark:bg-gray-600 rounded-full transition-all duration-150 ease-linear absolute top-0 left-0"
                 style="height: 2px; width: 100%;"
                 x-ref="progressbar"
                 x-show="dialog && dialog.progressbar && dialog.timeout">
             </div>
 
             <div x-show="dialog && dialog.closeButton" class="absolute right-2 -top-2">
-                <button class="{{ $dialog }}-button-close focus:outline-none p-1 focus:ring-2 focus:ring-secondary-200 rounded-full text-secondary-300"
+                <button class="{{ $dialog }}-button-close focus:outline-none p-1 focus:ring-2 focus:ring-gray-200 rounded-full text-gray-300"
                     x-on:click="close"
                     type="button">
                     <span class="sr-only">close</span>
@@ -60,13 +60,13 @@
                 </div>
 
                 <div class="mt-4 w-full" :class="{ 'sm:mt-5': style === 'center' }">
-                    <h3 class="text-lg leading-6 font-medium text-secondary-900 dark:text-secondary-400 text-center"
+                    <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400 text-center"
                         :class="{ 'sm:text-left': style === 'inline' }"
                         @unless($title) x-ref="title" @endunless>
                         {{ $title }}
                     </h3>
 
-                    <p class="mt-2 text-sm text-secondary-500 text-center"
+                    <p class="mt-2 text-sm text-gray-500 text-center"
                         :class="{ 'sm:text-left': style === 'inline' }"
                         @unless($description) x-ref="description" @endunless>
                         {{ $description }}
@@ -79,11 +79,11 @@
             <div class="grid grid-cols-1 gap-y-2 sm:gap-x-3 rounded-b-xl"
                 :class="{
                     'sm:grid-cols-2 sm:gap-y-0': style === 'center',
-                    'sm:p-4 sm:bg-secondary-100 sm:dark:bg-secondary-800 sm:grid-cols-none sm:flex sm:justify-end': style === 'inline',
+                    'sm:p-4 sm:bg-gray-100 sm:dark:bg-gray-800 sm:grid-cols-none sm:flex sm:justify-end': style === 'inline',
                 }"
                 x-show="dialog && (dialog.accept || dialog.reject)">
-                <div x-show="dialog && dialog.accept" class="sm:order-last" x-ref="accept"></div>
-                <div x-show="dialog && dialog.reject" x-ref="reject"></div>
+                <div x-show="dialog && dialog.accept" class="sm:order-last dialog-accept-btn" x-ref="accept"></div>
+                <div x-show="dialog && dialog.reject" class="dialog-reject-btn" x-ref="reject"></div>
             </div>
 
             <div class="flex justify-center"
