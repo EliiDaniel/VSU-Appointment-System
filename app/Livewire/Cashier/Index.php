@@ -73,6 +73,7 @@ class Index extends Component
             'export.transactions.start' => 'Start date required',
             'export.transactions.end' => 'End date required and must be later than start',
         ]);
+        session()->flash('status', 'Transactions Data Exported');
         return Excel::download(new TransactionsDataExport($validated['export']['transactions']['start'], $validated['export']['transactions']['end']), 'transactions-data' . '-' . $validated['export']['transactions']['start'] . '--' . $validated['export']['transactions']['end'] . '.xlsx');
     }
 }

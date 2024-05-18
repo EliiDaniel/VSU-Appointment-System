@@ -18,11 +18,18 @@
                 <div>
                     <x-input-label for="type" :value="__('Type')" />
                     <select id="type" name="type" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                            <option value="" disabled selected>Select Type</option>
                             @foreach($document_types as $type)
                                 <option value="{{ $type->id }}" {{ $selectedDocument->document_type_id == $type->id ? 'selected' : '' }}>{{ ucfirst($type->name) }}</option>
                             @endforeach
                     </select>
+                </div>
+
+                <div>
+                    <div class="whitespace-nowrap">
+                        <label class="text-gray-900 dark:text-gray-200">
+                            <input id="soft_copy_available" name="soft_copy_available" checked="{{$selectedDocument->soft_copy_available}}" type="checkbox" class="h-4 w-4 text-emerald-600 dark:text-emerald-400 border-gray-300 dark:border-gray-700 focus:ring-emerald-500 dark:focus:ring-emerald-600 bg-white dark:bg-gray-900 rounded"> Available in Soft Copy
+                        </label>
+                    </div>
                 </div>
                 
                 <div class="text-gray-700 dark:text-gray-300 whitespace-nowrap">
@@ -80,11 +87,18 @@
             <div class="mt-4">
                 <x-input-label for="type" :value="__('Type')" />
                 <select id="type" name="type" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                        <option value="" disabled selected>Select Type</option>
                         @foreach($document_types as $type)
                             <option value="{{ $type->id }}">{{ ucfirst($type->name) }}</option>
                         @endforeach
                 </select>
+            </div>
+
+            <div class="mt-4">
+                <div class="whitespace-nowrap">
+                    <label class="text-gray-900 dark:text-gray-200">
+                        <input id="soft_copy_available" name="soft_copy_available" type="checkbox" class="h-4 w-4 text-emerald-600 dark:text-emerald-400 border-gray-300 dark:border-gray-700 focus:ring-emerald-500 dark:focus:ring-emerald-600 bg-white dark:bg-gray-900 rounded"> Available in Soft Copy
+                    </label>
+                </div>
             </div>
 
             <div class="text-gray-700 dark:text-gray-300 mt-4">
@@ -162,8 +176,8 @@
     </div>
 </x-modal>
 
-@if (session('status') === 'document-updated')
-    <div 
+@if (session('status'))
+    <div wire:ignore
         x-data="{ show: true }"
         x-show="show"
         x-transition
@@ -171,7 +185,7 @@
         class="fixed top-4 right-4 bg-green-300 text-gray-700 dark:bg-green-700 dark:text-gray-300 pl-3 pr-20 py-3 rounded-lg z-50 opacity-75 hover:opacity-100 ease-in-out duration-200"
         role="alert"
     >
-        <span class="block sm:inline tracking-widest font-extrabold text-sm">{{ __('Successfully updated!') }}</span>
+        <span class="block sm:inline tracking-widest font-extrabold text-sm">{{ __(session('status')) }}</span>
         <span class="absolute top-0 bottom-0 right-0 pt-[9.80px] pr-3 cursor-pointer" @click="show = false">
             <svg class="fill-current h-6 w-5 text-gray-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 1.697l-2.651-2.65-2.65 2.65a1.2 1.2 0 1 1-1.697-1.697l2.65-2.651-2.65-2.65a1.2 1.2 0 1 1 1.697-1.697l2.651 2.65 2.65-2.65a1.2 1.2 0 1 1 1.697 1.697l-2.65 2.651 2.65 2.65z"/></svg>
         </span>

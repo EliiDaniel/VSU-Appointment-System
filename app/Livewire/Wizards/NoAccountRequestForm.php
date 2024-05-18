@@ -139,6 +139,7 @@ class NoAccountRequestForm extends WizardComponent
                 'description' => 'My checkout session description',
                 'line_items' => $line_items,
                 'payment_method_types' => [
+                    'card',
                     'gcash',
                     'grab_pay', 
                     'paymaya'

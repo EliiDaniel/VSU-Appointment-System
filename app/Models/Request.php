@@ -55,11 +55,19 @@ class Request extends Model
                     $request->sendEmailNotificationsToCashiers();
                 }
 
-                SystemLog::today()->appendActivity([
-                    'type' => 'request',
-                    'time' => Carbon::now(),
-                    'description' => "Request No: " . $request->id . " updated to $request->status, by User ID No: " . auth()->user()->id,
-                ]);
+                if (auth()->user() !== $request->user) {
+                    SystemLog::today()->appendActivity([
+                        'type' => 'request',
+                        'time' => Carbon::now(),
+                        'description' => "Request No: " . $request->id . " updated to $request->status, by User ID No: " . auth()->user()->id,
+                    ]);
+                } else {
+                    SystemLog::today()->appendActivity([
+                        'type' => 'request',
+                        'time' => Carbon::now(),
+                        'description' => "Request No: " . $request->id . " updated to $request->status, by Requester " . auth()->user()?->id,
+                    ]);
+                }
 
                 $request->sendEmailNotifications();
             }
@@ -171,6 +179,7 @@ class Request extends Model
             }
         }
 
+        session()->flash('status', 'Request Documents Completed');
         $this->update(['status' => $this->paid_at ? 'Ready for Collection' : ($this->transaction ? 'Payment Approval' : 'Awaiting Payment')]);
         return 'true';
     }
@@ -182,18 +191,15 @@ class Request extends Model
 
     public function cancel()
     {
-        if (Gate::allows('cancel-request') && !$this->canceled_at && !$this->approved_at) {
-            $this->update(['canceled_at' => date('Y-m-d H:i:s'), 'status' => 'Canceled']);
-            return response()->json(['message' => 'Request canceled successfully'], 200);
-        } else {
-            abort(403, 'Unauthorized action.');
-        }
+        $this->update(['canceled_at' => date('Y-m-d H:i:s'), 'status' => 'Canceled']);
+        session()->flash('status', 'Request Canceled');
     }
 
     public function approve()
     {
         if (Gate::allows('approve-request') && !$this->approved_at) {
             $this->update(['approved_at' => date('Y-m-d H:i:s'), 'status' => 'In Progress']);
+            session()->flash('status', 'Request Approved');
             return response()->json(['message' => 'Request approved successfully'], 200);
         } else {
             abort(403, 'Unauthorized action.');
@@ -204,6 +210,7 @@ class Request extends Model
     {
         if (Gate::allows('approve-request-payment') && !$this->paid_at) {
             $this->update(['paid_at' => date('Y-m-d H:i:s'), 'status' => 'Ready for Collection']);
+            session()->flash('status', 'Request Payment Approved');
             return response()->json(['message' => 'Request approved successfully'], 200);
         } else {
             abort(403, 'Unauthorized action.');
@@ -214,6 +221,7 @@ class Request extends Model
     {
         if (Gate::allows('complete-request') && !$this->completed_at) {
             $this->update(['completed_at' => date('Y-m-d H:i:s'), 'status' => 'Completed']);
+            session()->flash('status', 'Request Completed');
             return response()->json(['message' => 'Request approved successfully'], 200);
         } else {
             abort(403, 'Unauthorized action.');

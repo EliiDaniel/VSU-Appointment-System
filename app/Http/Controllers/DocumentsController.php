@@ -22,11 +22,12 @@ class DocumentsController extends Controller
             'name' => $request->input('name'),
             'price' => $request->input('price'),
             'document_type_id' => $request->input('type'),
+            'soft_copy_available' => $request->has('soft_copy_available'),
         ]);
 
         $document->processes()->sync($request->input('processes'));
 
-        $request->session()->flash('status', 'document-created');
+        $request->session()->flash('status', 'Document Created');
 
         return redirect()->back();
     }
@@ -45,13 +46,14 @@ class DocumentsController extends Controller
             'name' => $request->input('name'),
             'price' => $request->input('price'),
             'document_type_id' => $request->input('type'),
+            'soft_copy_available' => $request->has('soft_copy_available'),
         ]);
 
         $document->updateLogs();
 
         $document->processes()->sync($request->input('processes'));
 
-        $request->session()->flash('status', 'document-created');
+        $request->session()->flash('status', 'Document Updated');
 
         return redirect()->back();
     }
@@ -66,7 +68,7 @@ class DocumentsController extends Controller
             'name' => $request->input('name'),
         ]);
 
-        $request->session()->flash('status', 'process-created');
+        $request->session()->flash('status', 'Process Created');
 
         return redirect()->back();
     }
@@ -81,7 +83,7 @@ class DocumentsController extends Controller
             'name' => $request->input('name'),
         ]);
 
-        $request->session()->flash('status', 'process-created');
+        $request->session()->flash('status', 'Document Type Created');
 
         return redirect()->back();
     }
