@@ -42,7 +42,7 @@ class Welcome extends Component
         return view('livewire.welcome',[
             'documents' => Document::all(),
             'document_types' => DocumentType::all(),
-            'dir' => '/',
+            'dir' => 'tracking-modal',
         ]);
     }
 

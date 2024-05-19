@@ -30,6 +30,7 @@
 
             <div wire:ignore>
                 <x-notifications />
+                <x-dialog z-index="z-50" blur="xs" align="center" />
             </div>
         </div>
     </body>

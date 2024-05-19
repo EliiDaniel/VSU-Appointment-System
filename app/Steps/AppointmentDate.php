@@ -102,7 +102,12 @@ class AppointmentDate extends Step
         }
 
         session()->flash('status', 'Request Filed Successfully');
-        return $this->getLivewire()->reDir !== '/' ? redirect()->route($this->getLivewire()->reDir) : redirect('/');
+        $this->getLivewire()->notification([
+            'title'       => 'Request filed successfully!',
+            'icon'        => 'success'
+        ]);
+
+        $this->getLivewire()->dispatch('close-modal', $this->getLivewire()->reDir);
     }
 
     public function validate()

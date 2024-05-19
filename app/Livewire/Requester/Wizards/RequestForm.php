@@ -12,9 +12,12 @@ use App\Models\Schedule;
 use App\Models\BlockedDate;
 use Carbon\Carbon;
 use Luigel\Paymongo\Facades\Paymongo;
+use WireUi\Traits\Actions;
 
 class RequestForm extends WizardComponent
 {
+    use Actions;
+
     public $dateConfigs;
     public $documents;
     public $types;

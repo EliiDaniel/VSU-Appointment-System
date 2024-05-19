@@ -19,10 +19,12 @@ use Illuminate\Support\Facades\Validator;
 use Luigel\Paymongo\Facades\Paymongo;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Http;
+use WireUi\Traits\Actions;
 
 class NoAccountRequestForm extends WizardComponent
 {
     use WithFileUploads;
+    use Actions;
 
     public $dateConfigs;
     public $documents;

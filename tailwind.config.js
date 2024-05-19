@@ -36,6 +36,7 @@ export default {
                 'downup': 'downup 2s ease-in infinite alternate-reverse',
             },
             colors: {
+                positive: colors.green,
                 negative: colors.red,
                 warning: colors.amber,
                 info: colors.blue
