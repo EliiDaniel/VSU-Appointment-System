@@ -95,17 +95,17 @@
             @csrf
             @method('patch')
 
-                <x-datetime-picker
-                    name="date"
-                    without-tips="true"
-                    label="Choose a date to block"
-                    placeholder="Blocked Date"
-                    wire:model="state.block_date"
-                    :timezone="'Asia/Manila'"
-                    display-format="YYYY-MM-DD"
-                    :min="now()"
-                    without-time="true"
-                />
+            <x-datetime-picker
+                name="date"
+                without-tips="true"
+                label="Choose a date to block"
+                placeholder="Blocked Date"
+                wire:model="state.block_date"
+                :timezone="'Asia/Manila'"
+                display-format="YYYY-MM-DD"
+                :min="now()"
+                without-time="true"
+            />
 
             <div class="flex items-center justify-end gap-4">
                 <x-primary-button>{{ __('Create') }}</x-primary-button>

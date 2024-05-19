@@ -7,9 +7,11 @@ use App\Exports\RequestsDataExport;
 use App\Exports\UsersDataExport;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
+use WireUi\Traits\Actions;
 
 class Exports extends Component
 {
+    use Actions;
     public $export = [];
 
     public function mount()
@@ -44,7 +46,11 @@ class Exports extends Component
             'export.users.start' => 'Start date required',
             'export.users.end' => 'End date required and must be later than start',
         ]);
-        session()->flash('status', 'Users Data Exported');
+
+        $this->notification([
+            'title'       => 'Users data downloading!',
+            'icon'        => 'success'
+        ]);
         return Excel::download(new UsersDataExport($validated['export']['users']['start'], $validated['export']['users']['end']), 'users-data' . '-' . $validated['export']['users']['start'] . '--' . $validated['export']['users']['end'] . '.xlsx');
     }
 
@@ -57,7 +63,11 @@ class Exports extends Component
             'export.requests.start' => 'Start date required',
             'export.requests.end' => 'End date required and must be later than start',
         ]);
-        session()->flash('status', 'Requests Data Exported');
+
+        $this->notification([
+            'title'       => 'Requests data downloading!',
+            'icon'        => 'success'
+        ]);
         return Excel::download(new RequestsDataExport($validated['export']['requests']['start'], $validated['export']['requests']['end']), 'requests-data' . '-' . $validated['export']['requests']['start'] . '--' . $validated['export']['requests']['end'] . '.xlsx');
     }
 
@@ -70,7 +80,11 @@ class Exports extends Component
             'export.documents.start' => 'Start date required',
             'export.documents.end' => 'End date required and must be later than start',
         ]);
-        session()->flash('status', 'Documents Data Exported');
+
+        $this->notification([
+            'title'       => 'Documents data downloading!',
+            'icon'        => 'success'
+        ]);
         return Excel::download(new DocumentsDataExport($validated['export']['documents']['start'], $validated['export']['documents']['end']), 'documents-data' . '-' . $validated['export']['documents']['start'] . '--' . $validated['export']['documents']['end'] . '.xlsx');
     }
 }

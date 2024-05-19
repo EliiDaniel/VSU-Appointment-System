@@ -156,6 +156,10 @@ class RequestForm extends WizardComponent
             if(isset($checkout->getData()['paid_at'])){
                 $this->state['transaction'] = true;
                 session()->flash('transaction_complete', 'Transaction Complete');
+                $this->notification([
+                    'title'       => 'Transaction successful!',
+                    'icon'        => 'success'
+                ]);
                 $this->transaction = Transaction::firstOrCreate([
                     'checkout_id' => $checkout->getData()['id'],
                     'reference_no' => $checkout->getData()['reference_number'],

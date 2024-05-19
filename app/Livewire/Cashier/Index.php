@@ -8,9 +8,12 @@ use App\Models\Request;
 use App\Models\Notification;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
+use WireUi\Traits\Actions;
 
 class Index extends Component
 {
+    use Actions;
+
     public $earnings;
     public $monthLabels;
     public $documents;
@@ -73,7 +76,11 @@ class Index extends Component
             'export.transactions.start' => 'Start date required',
             'export.transactions.end' => 'End date required and must be later than start',
         ]);
-        session()->flash('status', 'Transactions Data Exported');
+
+        $this->notification([
+            'title'       => 'Transactions data downloading!',
+            'icon'        => 'success'
+        ]);
         return Excel::download(new TransactionsDataExport($validated['export']['transactions']['start'], $validated['export']['transactions']['end']), 'transactions-data' . '-' . $validated['export']['transactions']['start'] . '--' . $validated['export']['transactions']['end'] . '.xlsx');
     }
 }
