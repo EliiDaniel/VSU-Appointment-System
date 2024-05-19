@@ -91,23 +91,21 @@
 
     
     <div class="p-6 text-gray-900 dark:text-gray-100" x-show="$wire.title === 'create-blocked-date'">
-        <form method="post" action="{{ route('create.blocked-date') }}" class="space-y-6">
+        <form wire:submit.prevent="blockDate" class="space-y-6">
             @csrf
             @method('patch')
 
-            <div>
                 <x-datetime-picker
                     name="date"
                     without-tips="true"
-                    label="Appointment Date"
+                    label="Choose a date to block"
                     placeholder="Blocked Date"
+                    wire:model="state.block_date"
                     :timezone="'Asia/Manila'"
                     display-format="YYYY-MM-DD"
-                    wire:model="blockedDate"
                     :min="now()"
                     without-time="true"
                 />
-            </div>
 
             <div class="flex items-center justify-end gap-4">
                 <x-primary-button>{{ __('Create') }}</x-primary-button>

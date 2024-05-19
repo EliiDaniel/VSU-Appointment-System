@@ -57,34 +57,4 @@ class DocumentsController extends Controller
 
         return redirect()->back();
     }
-
-    public function createProcess(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255|unique:document_processes',
-        ]);
-
-        $supplier_type = DocumentProcess::create([
-            'name' => $request->input('name'),
-        ]);
-
-        $request->session()->flash('status', 'Process Created');
-
-        return redirect()->back();
-    }
-
-    public function createType(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255|unique:document_types',
-        ]);
-
-        $supplier_type = DocumentType::create([
-            'name' => $request->input('name'),
-        ]);
-
-        $request->session()->flash('status', 'Document Type Created');
-
-        return redirect()->back();
-    }
 }

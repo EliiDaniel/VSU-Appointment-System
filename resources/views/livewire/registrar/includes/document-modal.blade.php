@@ -85,7 +85,22 @@
     @endif
 
     <div class="p-6" x-show="$wire.title === 'create-document'">
-        <form method="post" action="{{ route('create.document') }}">
+        <form x-data="{ openConfirmDialog() {
+            window.$wireui.confirmDialog({
+                title: 'Are you sure?',
+                description: 'Do you really want to create document?',
+                icon: 'warning',
+                accept: {
+                    label: 'confirm',
+                    execute: () => {
+                        this.$refs.form.submit();
+                    }
+                },
+                reject: {
+                    label: 'No, cancel'
+                }
+            });
+        }}" @submit.prevent="openConfirmDialog" x-ref="form" method="post" action="{{ route('create.document') }}">
             @csrf
             @method('patch')
 
@@ -155,13 +170,13 @@
     </div>
 
     <div class="p-6" x-show="$wire.title === 'create-process'">
-        <form method="post" action="{{ route('create.process') }}">
+        <form wire:submit.prevent="createDocProcess">
             @csrf
             @method('patch')
 
             <div class="mt-4">
                 <x-input-label for="name" :value="__('Name')" />
-                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
+                <x-text-input id="name" wire:model="state.process_name" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
             </div>
 
             <div class="flex items-center justify-end mt-4">
@@ -173,13 +188,13 @@
     </div>
 
     <div class="p-6" x-show="$wire.title === 'create-document-type'">
-        <form method="post" action="{{ route('create.type') }}">
+        <form wire:submit.prevent="createType">
             @csrf
             @method('patch')
 
             <div class="mt-4">
                 <x-input-label for="name" :value="__('Name')" />
-                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
+                <x-text-input id="name" wire:model="state.document_type" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
             </div>
 
             <div class="flex items-center justify-end mt-4">

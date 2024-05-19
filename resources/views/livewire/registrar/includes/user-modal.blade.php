@@ -1,45 +1,28 @@
 @if($selectedUser)
     <x-modal name="view-user" prompt="true" disabledClose="false" maxWidth="xl">
         <div class="p-6">
-            <form x-data="{ openConfirmDialog() {
-                window.$wireui.confirmDialog({
-                    title: 'Are you sure?',
-                    description: 'Do you really want to update {{ $selectedUser->name }}?',
-                    icon: 'warning',
-                    accept: {
-                        label: 'Yes, update it',
-                        execute: () => {
-                            this.$refs.form.submit();
-                        }
-                    },
-                    reject: {
-                        label: 'No, cancel'
-                    }
-                })
-            }}" @submit.prevent="openConfirmDialog" x-ref="form" method="post" action="{{ route('update.user', ['id' => $selectedUser->id]) }}" class="space-y-6">
+            <form wire:submit.prevent="update" class="space-y-6">
                 @csrf
                 @method('patch')
 
                 <div>
                     <x-input-label for="name" :value="__('Name')" />
-                    <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" value="{{ old('name', $selectedUser->name) }}" required autofocus autocomplete="name" />
+                    <x-text-input id="name" name="name" wire:model="user_state.name" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
                 </div>
 
                 <div>
                     <x-input-label for="email" :value="__('Email')" />
-                    <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" value="{{ old('email', $selectedUser->email) }}" required autocomplete="email" />
+                    <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" wire:model="user_state.email"  required autocomplete="email" />
                 </div>
                 
                 <div>
                     <x-input-label for="role" :value="__('Role')" />
                     <div class="flex flex-wrap justify-evenly gap-x-2">
                         @foreach(['admin', 'registrar', 'cashier', 'requester', 'confirmation'] as $role)
-                            <div :class="{ 'my-1 min-w-28 max-w-32 sm:max-w-28 flex-1 items-center border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm ring-green-600 transition ease-in-out duration-150': true, 'ring-[3px] animate-jump animate-once animate-duration-300': selectedRole === '{{ $role }}' }" x-on:click="selectedRole = '{{ $role }}'">
-                                <label class="block w-full text-center py-3">
-                                    <input type="radio" name="role" value="{{ $role }}" class="hidden" x-model="selectedRole">
-                                    {{ ucfirst($role) }}
+                                <label for="{{$role}}" class="cursor-pointer my-1 min-w-28 max-w-32 sm:max-w-28 flex-1 items-center border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm ring-green-600 transition ease-in-out duration-150 has-[:checked]:ring-[3px] has-[:checked]:animate-jump has-[:checked]:animate-once has-[:checked]:animate-duration-300 block w-full text-center py-3">
+                                    {{ucfirst($role)}}
+                                    <input type="radio" id="{{$role}}" wire:model="user_state.role" value="{{ $role }}" class="hidden"/>
                                 </label>
-                            </div>
                         @endforeach
                     </div>
                 </div>
@@ -60,8 +43,4 @@
             </form>
         </div>
     </x-modal>
-@endif
-
-@if (session('status'))
-    <div wire:ignore x-init="() => $wire.userUpdated(); "></div>
 @endif

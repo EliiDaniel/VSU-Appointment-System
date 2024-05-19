@@ -23,7 +23,8 @@ class Schedules extends Component
     public $maxTime;
     public $blockedDate;
     public $selectedDays;
-    public $dayNames ;
+    public $dayNames;
+    public $state;
 
     public function mount()
     {
@@ -40,13 +41,40 @@ class Schedules extends Component
             6 => 'Saturday',
             7 => 'Sunday',
         ];
-    
+        $this->state = ([
+            'block_date' => null,
+        ]);
     }
 
     public function sessionNotif($session)
     {
         $this->notification([
             'title'       => $session,
+            'icon'        => 'success'
+        ]);
+    }
+
+    public function blockDate()
+    {
+        $this->validate([
+            'state.block_date' => 'required|date',
+        ]);
+
+        $this->dialog()->confirm([
+            'title'       => 'Add new blocked date?',
+            'icon'        => 'warning',
+            'method'      => 'confirmCreateBlockDate',
+        ]);
+    }
+
+    public function confirmCreateBlockDate()
+    {
+        BlockedDate::create([
+            'date' => $this->state['block_date'],
+        ]);
+
+        $this->notification([
+            'title'       => 'Blocked date successfully!',
             'icon'        => 'success'
         ]);
     }
