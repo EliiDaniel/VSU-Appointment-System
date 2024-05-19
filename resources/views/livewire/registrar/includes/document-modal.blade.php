@@ -1,7 +1,22 @@
 <x-modal name="document-modal" prompt="true" disabledClose="false" maxWidth="xl">
     @if($selectedDocument)
         <div class="p-6" x-show="$wire.title === 'view-document'">
-            <form method="post" action="{{ route('update.document', ['id' => $selectedDocument->id]) }}" class="space-y-6" onsubmit="return confirm('Are you sure you want to update {{ $selectedDocument->name }}?');">
+            <form x-data="{ openConfirmDialog() {
+                window.$wireui.confirmDialog({
+                    title: 'Are you sure?',
+                    description: 'Do you really want to update document?',
+                    icon: 'warning',
+                    accept: {
+                        label: 'Yes, update it',
+                        execute: () => {
+                            this.$refs.form.submit();
+                        }
+                    },
+                    reject: {
+                        label: 'No, cancel'
+                    }
+                });
+            }}" @submit.prevent="openConfirmDialog" x-ref="form" method="post" action="{{ route('update.document', ['id' => $selectedDocument->id]) }}" class="space-y-6">
                 @csrf
                 @method('patch')
 
@@ -70,7 +85,22 @@
     @endif
 
     <div class="p-6" x-show="$wire.title === 'create-document'">
-        <form method="post" action="{{ route('create.document') }}">
+        <form x-data="{ openConfirmDialog() {
+            window.$wireui.confirmDialog({
+                title: 'Are you sure?',
+                description: 'Do you really want to create document?',
+                icon: 'warning',
+                accept: {
+                    label: 'confirm',
+                    execute: () => {
+                        this.$refs.form.submit();
+                    }
+                },
+                reject: {
+                    label: 'No, cancel'
+                }
+            });
+        }}" @submit.prevent="openConfirmDialog" x-ref="form" method="post" action="{{ route('create.document') }}">
             @csrf
             @method('patch')
 
@@ -140,13 +170,13 @@
     </div>
 
     <div class="p-6" x-show="$wire.title === 'create-process'">
-        <form method="post" action="{{ route('create.process') }}">
+        <form wire:submit.prevent="createDocProcess">
             @csrf
             @method('patch')
 
             <div class="mt-4">
                 <x-input-label for="name" :value="__('Name')" />
-                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
+                <x-text-input id="name" wire:model="state.process_name" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
             </div>
 
             <div class="flex items-center justify-end mt-4">
@@ -158,13 +188,13 @@
     </div>
 
     <div class="p-6" x-show="$wire.title === 'create-document-type'">
-        <form method="post" action="{{ route('create.type') }}">
+        <form wire:submit.prevent="createType">
             @csrf
             @method('patch')
 
             <div class="mt-4">
                 <x-input-label for="name" :value="__('Name')" />
-                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
+                <x-text-input id="name" wire:model="state.document_type" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
             </div>
 
             <div class="flex items-center justify-end mt-4">
@@ -177,17 +207,5 @@
 </x-modal>
 
 @if (session('status'))
-    <div wire:ignore
-        x-data="{ show: true }"
-        x-show="show"
-        x-transition
-        x-init="setTimeout(() => show = false, 4000)"
-        class="fixed top-4 right-4 bg-green-300 text-gray-700 dark:bg-green-700 dark:text-gray-300 pl-3 pr-20 py-3 rounded-lg z-50 opacity-75 hover:opacity-100 ease-in-out duration-200"
-        role="alert"
-    >
-        <span class="block sm:inline tracking-widest font-extrabold text-sm">{{ __(session('status')) }}</span>
-        <span class="absolute top-0 bottom-0 right-0 pt-[9.80px] pr-3 cursor-pointer" @click="show = false">
-            <svg class="fill-current h-6 w-5 text-gray-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 1.697l-2.651-2.65-2.65 2.65a1.2 1.2 0 1 1-1.697-1.697l2.65-2.651-2.65-2.65a1.2 1.2 0 1 1 1.697-1.697l2.651 2.65 2.65-2.65a1.2 1.2 0 1 1 1.697 1.697l-2.65 2.651 2.65 2.65z"/></svg>
-        </span>
-    </div>
+    <div wire:ignore x-init="() => $wire.sessionNotif('{{ session('status') }}')"></div>
 @endif

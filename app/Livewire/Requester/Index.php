@@ -16,7 +16,7 @@ class Index extends Component
         return view('livewire.requester.index', [
             'documents' => Document::all(),
             'document_types' => DocumentType::all(),
-            'dir' => 'requester.requests',
+            'dir' => 'request-modal',
         ]);
     }
     

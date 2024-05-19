@@ -8,12 +8,14 @@ use App\Models\Request;
 use App\Models\Document;
 use App\Models\RequestDocumentProcess;
 use Livewire\WithPagination;
+use WireUi\Traits\Actions;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
 class Requests extends Component
 {
     use WithPagination;
+    use Actions;
 
     public $search = '';
     public $shownEntries = 5;
@@ -106,6 +108,11 @@ class Requests extends Component
             ]);
         });
 
+        $this->notification([
+            'title'       => $this->selectedDocument->name . ' updated!',
+            'icon'        => 'success'
+        ]);
+
         $this->selectedRequest->areAllDocumentsCompleted();
     }
 
@@ -126,6 +133,11 @@ class Requests extends Component
                 
                 Storage::put($filePath, $response->body());
 
+                $this->notification([
+                    'title'       => 'Credentials downloading!',
+                    'icon'        => 'success'
+                ]);
+
                 return Storage::download($filePath);
             }
         }
@@ -134,11 +146,21 @@ class Requests extends Component
     public function approveRequest()
     {
         $this->selectedRequest->approve();
+
+        $this->notification([
+            'title'       => 'Request approved!',
+            'icon'        => 'success'
+        ]);
     }
 
     public function completeRequest()
     {
         $this->selectedRequest->complete();
+
+        $this->notification([
+            'title'       => 'Request completed!',
+            'icon'        => 'success'
+        ]);
     }
 
     public function updatedShownEntries()

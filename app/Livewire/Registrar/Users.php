@@ -8,10 +8,12 @@ use App\Models\Credential;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use WireUi\Traits\Actions;
 
 class Users extends Component
 {
     use WithPagination;
+    use Actions;
 
     public $role = '';
     public $search = '';
@@ -19,12 +21,26 @@ class Users extends Component
     public $sortBy = 'id';
     public $sortDir = 'ASC';
     public User $selectedUser;
+    public $user_state = [];
 
     public function mount()
     {
         $this->selectedUser = User::first();
+        
+        $this->user_state = ([
+            'name' => null,
+            'email' => null,
+            'role' => null,
+        ]);
     }
 
+    public function userUpdated()
+    {
+        $this->notification([
+            'title'       => 'User updated!',
+            'icon'        => 'success'
+        ]);
+    }
     public function render()
     {
         return view('livewire.registrar.users', [
@@ -34,6 +50,36 @@ class Users extends Component
                         })
                         ->orderBy($this->sortBy, $this->sortDir)
                         ->paginate($this->shownEntries),
+        ]);
+    }
+
+    public function update()
+    {
+        $this->validate([
+            'user_state.name' => 'required|string|max:255',
+            'user_state.email' => 'required|string|email|max:255|unique:users,email,' . $this->selectedUser->id,
+        ]);
+
+        $this->dialog()->confirm([
+            'title'       => 'Are you Sure?',
+            'description' => 'Update user information?',
+            'icon'        => 'warning',
+            'acceptLabel' => 'Yes, save it',
+            'method'      => 'confirmUpdate',
+        ]);
+    }
+
+    public function confirmUpdate()
+    {
+        $this->selectedUser->update([
+            'name' => $this->user_state['name'],
+            'email' => $this->user_state['email'],
+            'role' => $this->user_state['role'],
+        ]);
+
+        $this->notification([
+            'title'       => 'User updated!',
+            'icon'        => 'success'
         ]);
     }
 
@@ -61,10 +107,20 @@ class Users extends Component
 
     public function deleteUser(User $user){
         $user->delete();
+        $this->notification([
+            'title'       => 'User deleted!',
+            'icon'        => 'success'
+        ]);
     }
     
     public function showUser(User $user){
         $this->selectedUser = $user;
+        
+        $this->user_state = ([
+            'name' => $user->name,
+            'email' => $user->email,
+            'role' => $user->role,
+        ]);
 
         $this->dispatch('open-modal', 'view-user');
     }

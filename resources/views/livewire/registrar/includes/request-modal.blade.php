@@ -114,7 +114,7 @@
             
             <x-modal-second name="view-document" maxWidth="lg">
                 @if(isset($selectedDocument))
-                <div class="p-6" wire:poll.visible.10s>
+                <div class="p-6 flex flex-col gap-4" wire:poll.visible.10s>
                     <div class="flex flex-wrap justify-center gap-2">
                         @foreach($selectedDocument->processes as $process)
                             <div class="flex items-center pt-1">
@@ -136,9 +136,13 @@
                             </div>
                         @endforeach
                         </div>
-                    <div class="flex items-center justify-end">
+                    <div class="flex items-center justify-end -mb-2 -mr-2">
                         @if ($selectedRequest->status === 'In Progress')
-                            <x-button primary type="submit" spinner="modifyDocProcess" :label="__('update')" wire:click="modifyDocProcess()"/>
+                            <x-button primary type="submit" spinner="modifyDocProcess" :label="__('update')" wire:ignore x-on:confirm="{
+                                title: 'Update?',
+                                icon: 'warning',
+                                method: 'modifyDocProcess',
+                            }"/>
                         @endif
                     </div>
                 </div>
@@ -160,22 +164,23 @@
                 </x-secondary-button>
                 @endif
             </div>
+
             @if($selectedRequest->status !== 'Canceled')
                 @if($selectedRequest->status === 'Pending Approval')
-                        <div class="flex items-center justify-end">
-                            <x-primary-button class="ms-4 mb-4 mr-4" wire:click.prefetch="approveRequest()" wire:confirm="Are you sure you want to approve request?">
-                                {{ __('Approve') }}
-                            </x-primary-button>
-                        </div>
+                    <div class="flex items-center justify-end">
+                        <x-primary-button class="ms-4 mb-4 mr-4" @click="$dispatch('confirm-approve')">
+                            {{ __('Approve') }}
+                        </x-primary-button>
+                    </div>
                 @elseif($selectedRequest->status === 'Ready for Collection')
                     <div class="flex items-center justify-end">
-                        <x-primary-button class="ms-4 mb-4 mr-4" wire:click.prefetch="completeRequest()" @click="$dispatch('confirm-close')">
+                        <x-primary-button class="ms-4 mb-4 mr-4" @click="$dispatch('confirm-complete')">
                             {{ __('Complete Request') }}
                         </x-primary-button>
                     </div>
                 @else
                     <div class="flex items-center justify-end">
-                        <x-primary-button class="ms-4 mb-4 mr-4" @click="$dispatch('confirm-close')">
+                        <x-primary-button class="ms-4 mb-4 mr-4" @click="show = false">
                             {{ __('Done') }}
                         </x-primary-button>
                     </div>
@@ -223,20 +228,3 @@
             </div>
         @endif
 </x-modal>
-
-@if (session('status'))
-    <div
-        wire:ignore
-        x-data="{ show: true }"
-        x-show="show"
-        x-transition
-        x-init="setTimeout(() => show = false, 4000)"
-        class="fixed top-4 right-4 bg-green-300 text-gray-700 dark:bg-green-700 dark:text-gray-300 pl-3 pr-20 py-3 rounded-lg z-50 opacity-75 hover:opacity-100 ease-in-out duration-200"
-        role="alert"
-    >
-        <span class="block sm:inline tracking-widest font-extrabold text-sm">{{ __(session('status')) }}</span>
-        <span class="absolute top-0 bottom-0 right-0 pt-[9.80px] pr-3 cursor-pointer" @click="show = false">
-            <svg class="fill-current h-6 w-5 text-gray-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 1.697l-2.651-2.65-2.65 2.65a1.2 1.2 0 1 1-1.697-1.697l2.65-2.651-2.65-2.65a1.2 1.2 0 1 1 1.697-1.697l2.651 2.65 2.65-2.65a1.2 1.2 0 1 1 1.697 1.697l-2.65 2.651 2.65 2.65z"/></svg>
-        </span>
-    </div>
-@endif

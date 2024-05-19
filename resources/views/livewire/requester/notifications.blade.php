@@ -112,7 +112,12 @@
                                             <x-secondary-button wire:click="viewNotification({{ $notification }})">
                                                 {{ __('View') }}
                                             </x-secondary-button>
-                                            <x-danger-button wire:click="deleteNotification({{ $notification }})" wire:confirm="Are you sure you want to cancel notification?">
+                                            <x-danger-button wire:ignore x-on:confirm="{
+                                                title: 'Sure Delete?',
+                                                icon: 'warning',
+                                                method: 'deleteNotification',
+                                                params: {{ $notification }}
+                                            }">
                                                 {{ __('Delete') }}
                                             </x-danger-button>
                                         </div>

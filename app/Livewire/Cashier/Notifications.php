@@ -5,10 +5,12 @@ namespace App\Livewire\Cashier;
 use Livewire\Component;
 use App\Models\Notification;
 use Livewire\WithPagination;
+use WireUi\Traits\Actions;
 
 class Notifications extends Component
 {
     use WithPagination;
+    use Actions;
 
     public $search = '';
     public $read = '';
@@ -47,7 +49,12 @@ class Notifications extends Component
 
     public function deleteNotification(Notification $notification){
         $notification->delete();
+        $this->notification([
+            'title'       => 'Notification deleted!',
+            'icon'        => 'success'
+        ]);
     }
+
 
     public function setSortBy($col){
         $this->sortDir = ($this->sortBy === $col) ? (($this->sortDir == 'DESC') ? 'ASC' : 'DESC') : 'ASC';

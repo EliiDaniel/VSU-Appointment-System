@@ -167,7 +167,12 @@
                                     <td class="px-4 py-3">{{ $blocked_date->created_at }}</td>
                                     <td class="px-4 py-3">{{ $blocked_date->updated_at }}</td>
                                     <td class="px-4 py-3 flex items-center gap-2">
-                                        <x-danger-button wire:click="deleteBlockedDate({{ $blocked_date }})" wire:confirm="Are you sure you want to delete blocked date on {{ $blocked_date->date }}?">
+                                        <x-danger-button wire:ignore x-on:confirm="{
+                                            title: 'Are you sure you want to delete blocked date on {{ $blocked_date->date }}?',
+                                            icon: 'warning',
+                                            method: 'deleteBlockedDate',
+                                            params: {{ $blocked_date }}
+                                        }">
                                             {{ __('Delete') }}
                                         </x-danger-button>
                                     </td>

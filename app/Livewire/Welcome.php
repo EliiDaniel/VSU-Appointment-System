@@ -10,9 +10,12 @@ use App\Models\RequestDocumentProcess;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\EmailVerification;
+use WireUi\Traits\Actions;
 
 class Welcome extends Component
 {
+    use Actions;
+
     public ?Request $request;
     public ?Document $selectedDocument;
     public $pivotId;
@@ -26,12 +29,20 @@ class Welcome extends Component
         $this->email = session('verified_email');
     }
 
+    public function sessionNotif($session)
+    {
+        $this->notification([
+            'title'       => $session,
+            'icon'        => 'success'
+        ]);
+    }
+
     public function render()
     {
         return view('livewire.welcome',[
             'documents' => Document::all(),
             'document_types' => DocumentType::all(),
-            'dir' => '/',
+            'dir' => 'tracking-modal',
         ]);
     }
 

@@ -126,7 +126,12 @@
                                         <x-secondary-button wire:click="showDocument({{ $document }})" @click="procs = {{ $document->processes->pluck('name') }}">
                                             {{ __('View') }}
                                         </x-secondary-button>
-                                        <x-danger-button wire:click="deleteDocument({{ $document }})" wire:confirm="Are you sure you want to delete {{ $document->name }}?">
+                                        <x-danger-button wire:ignore x-on:confirm="{
+                                            title: `Are you sure you want to delete {{ $document->name }}?`,
+                                            icon: 'warning',
+                                            method: 'deleteDocument',
+                                            params: {{ $document }}
+                                        }">
                                             {{ __('Delete') }}
                                         </x-danger-button>
                                     </td>

@@ -133,7 +133,7 @@
                     </div>
                 </div>
             </div>
-            <div class="min-w-96 min-h-56 max-w-[800px] max-h-[800px] flex justify-center bg-white dark:bg-gray-800 overflow-hidden shadow-md sm:rounded-lg py-8">
+            <div class="min-w-96 min-h-56 w-full flex justify-center bg-white dark:bg-gray-800 overflow-hidden shadow-md sm:rounded-lg py-8">
                 <canvas id="requests-chart" class="p-2" style="min-height: 250px; min-width: 250px;max-height: 800px; max-width: 100%"></canvas>
             </div>
         </div>

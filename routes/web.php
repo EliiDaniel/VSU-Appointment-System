@@ -4,11 +4,9 @@ use App\Http\Controllers\{
     RegistrarsController,
     CashiersController,
     RequestersController,
-    UsersController,
     DocumentsController,
     EmailVerificationController,
     CheckoutController,
-    BlockedDatesController,
     ScheduleController,
 };
 
@@ -45,20 +43,12 @@ Route::middleware(['auth', 'verified', 'role:admin,registrar'])
         Route::get('/registrar/notifications', [RegistrarsController::class, 'notifications'])->name('registrar.notifications');
         Route::get('/registrar/exports', [RegistrarsController::class, 'exports'])->name('registrar.exports');
 
-        // Users
-        Route::patch('/users/{id}', [UsersController::class, 'update'])->name('update.user');
-
         // Documents
         Route::patch('/documents', [DocumentsController::class, 'create'])->name('create.document');
         Route::patch('/documents/{id}', [DocumentsController::class, 'update'])->name('update.document');
-        Route::patch('/process', [DocumentsController::class, 'createProcess'])->name('create.process');
-        Route::patch('/type', [DocumentsController::class, 'createType'])->name('create.type');
 
         // Schedules
         Route::patch('/schedule', [ScheduleController::class, 'update'])->name('update.schedule');
-        
-        // Blocked Dates
-        Route::patch('/blocked-dates', [BlockedDatesController::class, 'create'])->name('create.blocked-date');
     });
 
 Route::middleware(['auth', 'verified', 'role:admin,cashier'])

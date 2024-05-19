@@ -6,10 +6,12 @@ use Livewire\Component;
 use App\Models\Schedule;
 use App\Models\BlockedDate;
 use Livewire\WithPagination;
+use WireUi\Traits\Actions;
 
 class Schedules extends Component
 {
     use WithPagination;
+    use Actions;
 
     public $search = '';
     public $shownEntries = 5;
@@ -21,7 +23,8 @@ class Schedules extends Component
     public $maxTime;
     public $blockedDate;
     public $selectedDays;
-    public $dayNames ;
+    public $dayNames;
+    public $state;
 
     public function mount()
     {
@@ -38,7 +41,42 @@ class Schedules extends Component
             6 => 'Saturday',
             7 => 'Sunday',
         ];
-    
+        $this->state = ([
+            'block_date' => null,
+        ]);
+    }
+
+    public function sessionNotif($session)
+    {
+        $this->notification([
+            'title'       => $session,
+            'icon'        => 'success'
+        ]);
+    }
+
+    public function blockDate()
+    {
+        $this->validate([
+            'state.block_date' => 'required|date',
+        ]);
+
+        $this->dialog()->confirm([
+            'title'       => 'Add new blocked date?',
+            'icon'        => 'warning',
+            'method'      => 'confirmCreateBlockDate',
+        ]);
+    }
+
+    public function confirmCreateBlockDate()
+    {
+        BlockedDate::create([
+            'date' => $this->state['block_date'],
+        ]);
+
+        $this->notification([
+            'title'       => 'Blocked date successfully!',
+            'icon'        => 'success'
+        ]);
     }
 
     public function render()
@@ -70,6 +108,10 @@ class Schedules extends Component
     
     public function deleteBlockedDate(BlockedDate $blocked_date){
         $blocked_date->delete();
+        $this->notification([
+            'title'       => 'Blocked Date deleted!',
+            'icon'        => 'success'
+        ]);
     }
     
     public function updatedShownEntries()
