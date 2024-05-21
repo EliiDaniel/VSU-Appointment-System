@@ -99,5 +99,5 @@
 }
 
 .dialog-accept-btn button {
-    @apply  text-gray-800 bg-amber-400 hover:bg-amber-500 dark:bg-amber-500 dark:hover:bg-amber-400;
+    @apply text-gray-800 bg-amber-400 hover:bg-amber-500 dark:bg-amber-500 dark:hover:bg-amber-400;
 }

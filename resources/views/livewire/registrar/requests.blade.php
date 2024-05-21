@@ -161,14 +161,8 @@
                                             </x-secondary-button>
                                             <x-danger-button x-on:click="$wireui.confirmDialog({
                                                 id: 'request-rejection',
-                                                icon: 'warning',
-                                                accept: {
-                                                    label: 'Confirm Reject',
-                                                    execute: () => {
-                                                        $wire.rejectRequest({{$request}});
-                                                    }
-                                                },
-                                            })" disabled="{{ $request->rejected_at ? 'true' : false }}">
+                                                icon: 'question',
+                                            }); $wire.setRejectRequest({{$request}})" disabled="{{ $request->rejected_at ? 'true' : false }}">
                                                 {{ __(  $request->rejected_at ? 'Rejected' : 'Reject') }}
                                             </x-danger-button>
                                         </div>
@@ -180,9 +174,11 @@
                 </div>
 
                 <div wire:ignore>
-                    <x-dialog id="request-rejection" title="Request Rejections!" description="Rejection Notice, give reason for rejection">
-                        <x-textarea placeholder="This request did not meet the requirements" wire:model="reason"/>
-                    </x-dialog>
+                    <form wire:submit.prevent="rejectRequest()">
+                        <x-dialog id="request-rejection" title="Request Rejections!" description="Rejection Notice, give reason for rejection">
+                            <x-textarea placeholder="This request did not meet the requirements" wire:model="reason" required/>
+                        </x-dialog>
+                    </form>
                 </div>
 
                 @include('livewire.registrar.includes.request-modal')

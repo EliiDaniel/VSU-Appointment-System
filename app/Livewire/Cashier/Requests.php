@@ -28,6 +28,7 @@ class Requests extends Component
     public $completedProcesses = [];
     public $pivotId;
     public $reason;
+    public ?Request $toReject;
 
     public function mount()
     {
@@ -64,14 +65,24 @@ class Requests extends Component
         $this->dispatch('open-modal', 'request-modal');
     }
 
-    public function rejectRequest(Request $request){
-        $request->reject($this->reason);
-        $this->reason = "";
+    public function rejectRequest(){
+        if(!$this->toReject->rejected_at)
+        {
+            $this->toReject->reject($this->reason);
+            $this->reason = "";
 
-        $this->notification([
-            'title'       => 'Request successfully rejected!',
-            'icon'        => 'success'
-        ]);
+            $this->notification([
+                'title'       => 'Request successfully rejected!',
+                'icon'        => 'success'
+            ]);
+        }
+        else
+        {
+            $this->notification([
+                'title'       => 'Request was already rejected!',
+                'icon'        => 'error'
+            ]);
+        }
     }
 
     public function viewRequest(Request $request){
