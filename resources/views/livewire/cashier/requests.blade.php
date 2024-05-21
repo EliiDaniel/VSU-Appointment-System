@@ -1,6 +1,6 @@
 <div>
     <section>
-        <div class="mx-auto" wire:poll.visble>
+        <div class="mx-auto" wire:poll.visble.5s>
             <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg">
                 <div class="flex flex-wrap sm:flex-nowrap gap-4 lg:hidden items-center p-4 space-x-3">
                     <div class="relative w-full">
@@ -120,11 +120,12 @@
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-4 py-3 w-1/6">documents</th>
-                                <th scope="col" class="px-4 py-3 w-1/6">tracking code</th>
-                                <th scope="col" class="px-4 py-3 w-1/6">status</th>
-                                <th scope="col" class="px-4 py-3 w-1/6">payment type</th>
-                                <th scope="col" class="px-4 py-3 w-1/6 {{ $sortBy == 'appointment_date' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200 cursor-pointer" wire:click="setSortBy('appointment_date')">
+                                <th scope="col" class="px-4 py-3 w-1/7">requester</th>
+                                <th scope="col" class="px-4 py-3 w-1/7">documents</th>
+                                <th scope="col" class="px-4 py-3 w-1/7">tracking code</th>
+                                <th scope="col" class="px-4 py-3 w-1/7">status</th>
+                                <th scope="col" class="px-4 py-3 w-1/7">payment type</th>
+                                <th scope="col" class="px-4 py-3 w-1/7 {{ $sortBy == 'appointment_date' ? 'bg-gray-200' : '' }} hover:bg-gray-300 ease-in-out duration-200 cursor-pointer" wire:click="setSortBy('appointment_date')">
                                     <div class="flex items-center justify-between">
                                         date requested
                                         <span>
@@ -140,6 +141,7 @@
                         <tbody>
                             @foreach($requests as $request)
                                 <tr wire:key="{{ $request->id }}" class="border-b dark:border-gray-700">
+                                    <td class="px-4 py-3">{{ $request->user ? $request->user->name : $request->verified_email->email }}</td>
                                     <td class="px-4 py-3 text-emerald-600 dark:text-emerald-400">
                                         @foreach ($request->documents as $document)
                                             {{ $document->name }}
@@ -157,12 +159,26 @@
                                             <x-secondary-button wire:click="viewRequest({{ $request }})">
                                                 {{ __('Update') }}
                                             </x-secondary-button>
+                                            <x-danger-button x-on:click="$wireui.confirmDialog({
+                                                id: 'request-rejection',
+                                                icon: 'question',
+                                            }); $wire.setRejectRequest({{$request}})" disabled="{{ $request->rejected_at ? 'true' : false }}">
+                                                {{ __(  $request->rejected_at ? 'Rejected' : 'Reject') }}
+                                            </x-danger-button>
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+
+                <div wire:ignore>
+                    <form wire:submit.prevent="rejectRequest()">
+                        <x-dialog id="request-rejection" title="Request Rejections!" description="Rejection Notice, give reason for rejection">
+                            <x-textarea placeholder="This request did not meet the requirements" wire:model="reason" required/>
+                        </x-dialog>
+                    </form>
                 </div>
 
                 @include('livewire.cashier.includes.request-modal')

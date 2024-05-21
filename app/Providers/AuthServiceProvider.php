@@ -22,7 +22,11 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerPolicies();
-        
+
+        Gate::define('reject-request', function ($user) {
+            return in_array($user->role, ['registrar', 'admin', 'cashier']);
+        });
+
         Gate::define('approve-request', function ($user) {
             return in_array($user->role, ['registrar', 'admin']);
         });

@@ -28,6 +28,7 @@ class AppointmentDate extends Step
             'verified_email_id' => isset($state['email']) ? VerifiedEmail::where('email', $state['email'])->first()->id : null,
             'price' => $state['price'],
             'payment_type' => $state['payment_type'],
+            'status' => $state['payment_type'] === 'Online' ? 'Payment Approval' : 'Pending Approval',
             'appointment_date' => Carbon::parse($state['appointment_date'])->format('Y-m-d\TH:i'),
         ]);
 

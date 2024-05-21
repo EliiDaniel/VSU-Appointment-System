@@ -34,7 +34,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth', 'verified', 'role:admin,registrar'])
     ->group(function () {
-        Route::get('/registrar', [RegistrarsController::class, 'index'])->name('registrar.dashboard');
+        Route::get('/registrar', [RegistrarsController::class, 'index'])->name('registrar');
         Route::get('/registrar/dashboard', [RegistrarsController::class, 'index'])->name('registrar.dashboard');
         Route::get('/registrar/users', [RegistrarsController::class, 'users'])->name('registrar.users');
         Route::get('/registrar/requests', [RegistrarsController::class, 'requests'])->name('registrar.requests');
@@ -53,7 +53,7 @@ Route::middleware(['auth', 'verified', 'role:admin,registrar'])
 
 Route::middleware(['auth', 'verified', 'role:admin,cashier'])
     ->group(function () {
-        Route::get('/cashier', [CashiersController::class, 'index'])->name('cashier.dashboard');
+        Route::get('/cashier', [CashiersController::class, 'index'])->name('cashier');
         Route::get('/cashier/dashboard', [CashiersController::class, 'index'])->name('cashier.dashboard');
         Route::get('/cashier/requests', [CashiersController::class, 'requests'])->name('cashier.requests');
         Route::get('/cashier/transactions', [CashiersController::class, 'transactions'])->name('cashier.transactions');
@@ -62,7 +62,7 @@ Route::middleware(['auth', 'verified', 'role:admin,cashier'])
 
 Route::middleware(['auth', 'verified', 'role:admin,requester'])
 ->group(function () {
-    Route::get('/requester', [RequestersController::class, 'index'])->name('requester.dashboard');
+    Route::get('/requester', [RequestersController::class, 'index'])->name('requester');
     Route::get('/requester/dashboard', [RequestersController::class, 'index'])->name('requester.dashboard');
     Route::get('/requester/requests', [RequestersController::class, 'requests'])->name('requester.requests');
     Route::get('/requester/notifications', [RequestersController::class, 'notifications'])->name('requester.notifications');

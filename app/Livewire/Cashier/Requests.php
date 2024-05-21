@@ -17,7 +17,7 @@ class Requests extends Component
     public $shownEntries = 5;
     public $sortBy = 'appointment_date';
     public $sortDir = 'DESC';
-    public $statuses = ['Payment Approval', 'Awaiting Payment', 'Ready for Collection', 'Completed', 'Canceled'];
+    public $statuses = ['Payment Approval', 'Awaiting Payment', 'Ready for Collection', 'Completed', 'Canceled', 'Rejected'];
     public $status = '';
     public $type = '';
     public $title = 'view-request';
@@ -27,6 +27,8 @@ class Requests extends Component
     public ?Document $selectedDocument;
     public $completedProcesses = [];
     public $pivotId;
+    public $reason;
+    public ?Request $toReject;
 
     public function mount()
     {
@@ -62,7 +64,27 @@ class Requests extends Component
 
         $this->dispatch('open-modal', 'request-modal');
     }
-    
+
+    public function rejectRequest(){
+        if(!$this->toReject->rejected_at)
+        {
+            $this->toReject->reject($this->reason);
+            $this->reason = "";
+
+            $this->notification([
+                'title'       => 'Request successfully rejected!',
+                'icon'        => 'success'
+            ]);
+        }
+        else
+        {
+            $this->notification([
+                'title'       => 'Request was already rejected!',
+                'icon'        => 'error'
+            ]);
+        }
+    }
+
     public function viewRequest(Request $request){
         $this->selectedRequest = $request;
 

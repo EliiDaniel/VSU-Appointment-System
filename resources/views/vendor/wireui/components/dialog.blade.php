@@ -76,15 +76,32 @@
                 </div>
             </div>
 
+            @if ($dialog !== 'dialog:request-rejection')
             <div class="grid grid-cols-1 gap-y-2 sm:gap-x-3 rounded-b-xl"
+            :class="{
+                'sm:grid-cols-2 sm:gap-y-0': style === 'center',
+                'sm:p-4 sm:bg-gray-100 sm:dark:bg-gray-800 sm:grid-cols-none sm:flex sm:justify-end': style === 'inline',
+            }"
+            x-show="dialog && (dialog.accept || dialog.reject)">
+            <div x-show="dialog && dialog.accept" class="sm:order-last dialog-accept-btn" x-ref="accept"></div>
+            <div x-show="dialog && dialog.reject" class="dialog-reject-btn" x-ref="reject"></div>
+        </div>
+            @else
+                <div class="grid grid-cols-1 gap-y-2 sm:gap-x-3 rounded-b-xl"
                 :class="{
                     'sm:grid-cols-2 sm:gap-y-0': style === 'center',
                     'sm:p-4 sm:bg-gray-100 sm:dark:bg-gray-800 sm:grid-cols-none sm:flex sm:justify-end': style === 'inline',
-                }"
-                x-show="dialog && (dialog.accept || dialog.reject)">
-                <div x-show="dialog && dialog.accept" class="sm:order-last dialog-accept-btn" x-ref="accept"></div>
+                }">
+                <div class="sm:order-last dialog-accept-btn">
+                    <button wire:loading.attr="disabled" wire:loading.class="!cursor-waitz" class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 outline-none justify-center group transition-all ease-in duration-150 hover:shadow-sm disabled:opacity-80 disabled:cursor-not-allowed rounded gap-x-2 text-sm ring-warning-500 bg-warning-500 hover:bg-warning-600 hover:ring-warning-600 dark:ring-offset-slate-800 dark:bg-warning-700 dark:ring-warning-700 dark:hover:bg-warning-600 dark:hover:ring-warning-600 w-full dark:border-0 dark:hover:bg-secondary-700" type="submit">
+                        Confirm
+                    </button>
+                </div>
+                <div x-show="false" class="sm:order-last dialog-accept-btn" x-ref="accept"></div>
                 <div x-show="dialog && dialog.reject" class="dialog-reject-btn" x-ref="reject"></div>
             </div>
+            @endif
+        </div>
 
             <div class="flex justify-center"
                 x-show="dialog && dialog.close && !dialog.accept && !dialog.accept"
