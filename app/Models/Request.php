@@ -81,7 +81,7 @@ class Request extends Model
                         'user_id' => $request->user->id,
                     ]);
                     if ($request->user->hasVerifiedEmail()) {
-                        NotificationEmail::route('mail', $request->user->email)->notify(new RequestStatusUpdate(url('/requester/requests/?tracking_code=' . $request->tracking_code), "You have successfully filed a new request with tracking code $request->tracking_code,now pending for approval."));
+                        NotificationEmail::route('mail', $request->user->email)->notify(new RequestStatusUpdate(url('/requester/requests/?tracking_code=' . $request->tracking_code), "You have successfully filed a new request with tracking code $request->tracking_code, request status $request->status"));
                     }
 
                     SystemLog::today()->appendActivity([
@@ -99,7 +99,7 @@ class Request extends Model
                         'time' => Carbon::now(),
                         'description' => "New Request by: " . $request->verified_email->email,
                     ]);
-                    NotificationEmail::route('mail', $request->verified_email->email)->notify(new RequestStatusUpdate(url('?tracking_code=' . $request->tracking_code), "You have successfully filed a new request with tracking code $request->tracking_code,now pending for approval."));
+                    NotificationEmail::route('mail', $request->verified_email->email)->notify(new RequestStatusUpdate(url('?tracking_code=' . $request->tracking_code), "You have successfully filed a new request with tracking code $request->tracking_code, request status $request->status"));
                 }
             }
         });
@@ -231,7 +231,7 @@ class Request extends Model
     public function approvePayment()
     {
         if (Gate::allows('approve-request-payment') && !$this->paid_at) {
-            $this->update(['paid_at' => date('Y-m-d H:i:s'), 'status' => 'Ready for Collection']);
+            $this->update(['paid_at' => date('Y-m-d H:i:s'), 'status' => $this->approved_at ? 'Ready for Collection' : 'Pending Approval']);
             return response()->json(['message' => 'Request approved successfully'], 200);
         } else {
             abort(403, 'Unauthorized action.');
