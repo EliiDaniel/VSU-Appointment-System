@@ -199,7 +199,7 @@
         new Chart(requestsChart, {
         type: 'polarArea',
         data: {
-            labels: ['Pending Approval', 'In Progress', 'Payment Approval', 'Awaiting Payment', 'Ready for Collection', 'Completed', 'Canceled'],
+            labels: ['Pending Approval', 'In Progress', 'Payment Approval', 'Awaiting Payment', 'Ready for Collection', 'Completed', 'Canceled', 'Rejected'],
             datasets: [{
             label: 'Users',
             data: [pendingApprovalCount, inProgressCount, paymentApprovalCount, awaitingPaymentCount, forCollectionCount, completedCount, canceledCount],

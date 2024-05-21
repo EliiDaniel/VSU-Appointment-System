@@ -26,6 +26,7 @@ class Request extends Model
         'canceled_at',
         'claimed_at',
         'paid_at',
+        'rejected_at',
     ];
 
     protected static function boot()
@@ -188,9 +189,33 @@ class Request extends Model
         return $this->hasOne(Transaction::class);
     }
 
+    public function rejectedRequest()
+    {
+        return $this->hasOne(RejectedRequest::class);
+    }
+
+    public function isRejected()
+    {
+        return $this->rejectedRequest()->exists();
+    }
+
     public function cancel()
     {
         $this->update(['canceled_at' => date('Y-m-d H:i:s'), 'status' => 'Canceled']);
+    }
+    
+    public function reject($reason)
+    {
+        if (Gate::allows('reject-request')) {
+            RejectedRequest::create([
+                'request_id' => $this->id,
+                'user_id' => auth()->user()->id, // Or whoever is rejecting the request
+                'reason' => $reason ? $reason : 'This request did not meet the requirements',
+            ]);
+            $this->update(['rejected_at' => date('Y-m-d H:i:s'), 'status' => 'Rejected']);
+        } else {
+            abort(403, 'Unauthorized action.');
+        }
     }
 
     public function approve()
@@ -233,6 +258,10 @@ class Request extends Model
     }
 
     public function scopeSearch($query, $value){
-        $query->where('tracking_code', 'like', "%{$value}%");
+        $query->where('tracking_code', 'like', "%{$value}%")
+                ->orWhereHas('user', function ($query) use ($value) {
+                    $query->where('name', 'like', "%{$value}%");})
+                ->orWhereHas('verified_email', function ($query) use ($value) {
+                    $query->where('email', 'like', "%{$value}%");});
     }
 }
