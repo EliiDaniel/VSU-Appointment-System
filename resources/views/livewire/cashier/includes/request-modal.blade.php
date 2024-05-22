@@ -121,6 +121,20 @@
                 @endif
             </x-modal-second>
         </div>
+
+        @if(!$selectedRequest->paid_at && !$selectedRequest->canceled_at)
+            <div class="flex items-center justify-end">
+                <x-primary-button class="ms-4 mb-4 mr-4" @click="$dispatch('confirm-approve')">
+                    {{ __('Approve') }}
+                </x-primary-button>
+            </div>
+        @else
+            <div class="flex items-center justify-end">
+                <x-primary-button class="ms-4 mb-4 mr-4" @click="show = false">
+                    {{ __('Done') }}
+                </x-primary-button>
+            </div>
+        @endif
     @endif
 
     @if(isset($statuses))
@@ -159,20 +173,6 @@
                     </select>
                 </div>
             </div>
-        </div>
-    @endif
-
-    @if(!$selectedRequest->paid_at && !$selectedRequest->canceled_at)
-        <div class="flex items-center justify-end">
-            <x-primary-button class="ms-4 mb-4 mr-4" @click="$dispatch('confirm-approve')">
-                {{ __('Approve') }}
-            </x-primary-button>
-        </div>
-    @else
-        <div class="flex items-center justify-end">
-            <x-primary-button class="ms-4 mb-4 mr-4" @click="show = false">
-                {{ __('Done') }}
-            </x-primary-button>
         </div>
     @endif
 </x-modal>

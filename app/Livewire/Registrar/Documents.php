@@ -20,17 +20,14 @@ class Documents extends Component
     public $type = '';
     public $sortBy = 'id';
     public $sortDir = 'ASC';
-    public Document $selectedDocument;
+    public ?Document $selectedDocument;
     public $state = [];
 
     public function mount()
     {
-        if (Document::count() > 0) {
-            $this->selectedDocument = Document::first();
-        }
         $this->state = ([
             'process_name' => '',
-            'document_type' => 'asdasd',
+            'document_type' => '',
         ]);
     }
 

@@ -161,7 +161,7 @@
                                             </x-secondary-button>
                                             <x-danger-button x-on:click="$wireui.confirmDialog({
                                                 id: 'request-rejection',
-                                                icon: 'question',
+                                                icon: 'warning',
                                             }); $wire.setRejectRequest({{$request}})" disabled="{{ $request->rejected_at ? 'true' : false }}">
                                                 {{ __(  $request->rejected_at ? 'Rejected' : 'Reject') }}
                                             </x-danger-button>

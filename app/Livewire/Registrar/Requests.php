@@ -26,20 +26,13 @@ class Requests extends Component
     public $type = '';
     public $title = 'view-request';
     public $selectedDocuments = [];
-    public Request $selectedRequest;
+    public ?Request $selectedRequest;
     public $selectedRequestStatus = '';
     public ?Document $selectedDocument;
     public $completedProcesses = [];
     public $pivotId;
     public $reason;
     public ?Request $toReject;
-
-    public function mount()
-    {
-        if (Request::count() > 0) {
-            $this->selectedRequest = Request::first();
-        }
-    }
 
     public function render()
     {

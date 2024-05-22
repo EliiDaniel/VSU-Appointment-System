@@ -21,11 +21,11 @@
                                 <x-text-input wire:model="trackingNumber" class="block mt-1 w-full" type="text" name="tracking" required autofocus autocomplete="off" />
                             </div>
 
-                            <div class="grid grid-cols-2 sm:flex items-center justify-between mt-4 gap-4">
-                                <x-secondary-button wire:click="createRequest" class="h-full">
+                            <div class="flex flex-col-reverse sm:grid grid-cols-2 items-center justify-between mt-4 gap-2">
+                                <x-secondary-button wire:click="createRequest" class="h-full w-full">
                                     {{ __('Request Documents') }}
                                 </x-secondary-button>
-                                <x-primary-button class="h-full">
+                                <x-primary-button class="h-full w-full">
                                     {{ __('Track Request') }}
                                 </x-primary-button>
                             </div>

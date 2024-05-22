@@ -1,6 +1,6 @@
 <div>
     <div class="text-gray-900 dark:text-gray-100">
-        <div class="flex flex-wrap justify-center md:grid grid-cols-3 gap-4 p-3">
+        <div class="flex flex-wrap justify-center md:grid grid-cols-3 gap-4">
             <div class="flex items-center justify-between p-4 px-8 shadow-md rounded-md h-28 bg-white dark:bg-gray-800 overflow-hidden sm:rounded-lg w-full">
             <div class="text-xl">
                 <p>{{ $approvedCount }}</p>
@@ -40,7 +40,7 @@
 
         <div class="block lg:grid grid-cols-2 gap-4 lg:gap-8 py-6">
             <div class="flex flex-col lg:grid grid-rows-2 gap-4">
-                <div wire:ignore class="mx-auto w-full min-w-96 min-h-full bg-white dark:bg-gray-800 overflow-hidden shadow-md rounded-lg py-8">
+                <div wire:ignore class="mx-auto w-full min-h-full bg-white dark:bg-gray-800 overflow-hidden shadow-md rounded-lg py-8">
                     <canvas id="earnings-chart" class="p-2" style="min-height: 250px; min-width: 250px;max-height: 300px; max-width: 100%"></canvas>
                 </div>
                 <div class="relative flex flex-col w-full items-center justify-center p-4 px-8 shadow-md rounded-md bg-white dark:bg-gray-800 sm:rounded-lg">
@@ -83,7 +83,7 @@
                 </div>
             </div>
 
-            <div wire:ignore class="mt-4 lg:mt-0 w-full min-w-96 min-h-56 max-w-full max-h-[800px] flex justify-center bg-white dark:bg-gray-800 overflow-hidden shadow-md rounded-lg py-8">
+            <div wire:ignore class="mt-4 lg:mt-0 w-full min-h-56 max-w-full max-h-[800px] flex justify-center bg-white dark:bg-gray-800 overflow-hidden shadow-md rounded-lg py-8">
                 <canvas id="request-documents-chart" class="p-2" style="min-height: 250px; min-width: 250px;max-height: 800px; max-width: 100%"></canvas>
             </div>
         </div>
@@ -103,7 +103,7 @@
         data: {
       labels: monthLabels,
       datasets: [{
-        label: 'Number of Requests',
+        label: 'Successful request earnings',
         data: earningsData,
         fill: true,
         borderColor: 'rgb(75, 192, 192)',
