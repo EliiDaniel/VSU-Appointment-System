@@ -15,7 +15,7 @@ $maxWidth = [
 ][$maxWidth];
 @endphp
     <img src="{{ asset('images/VSUAS LOGO.png') }}" alt="Example Image" class="{{ $maxWidth }} dark:invert">
-@if (!auth()->user())
+@if (!auth()->user() || request()->is('verify-email'))
     <div class="absolute right-0 bottom-0">
         <img src="{{ asset('images/VSU LOGO.png') }}" alt="Example Image" width="650">
     </div>
