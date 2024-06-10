@@ -1,4 +1,5 @@
-<p align="center">![VSUAS](readme_img.png)</p>
+
+    ![VSUAS](readme_img.png)
 
 
 ## About The System
