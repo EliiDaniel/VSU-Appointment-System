@@ -1,4 +1,4 @@
-<p align="center">![VSUAS LOGO](public\images\VSUAS LOGO.png)</p>
+<p align="center">![VSUAS](public\images\readme_img.png)</p>
 
 
 ## About The System
