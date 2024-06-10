@@ -1,5 +1,4 @@
-
-    ![VSUAS](readme_img.png)
+![VSUAS](readme_img.png)
 
 
 ## About The System
