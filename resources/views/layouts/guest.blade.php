@@ -64,7 +64,7 @@
         <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css" rel="stylesheet">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-gray-900 antialiased ">
+    <body class="font-sans text-gray-900 antialiased">
         @if (request()->routeIs('system.logs'))
             @if (Route::has('login'))
                 <livewire:welcome.navigation />

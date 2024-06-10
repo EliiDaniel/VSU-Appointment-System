@@ -24,19 +24,10 @@ class Requests extends Component
     public $type = '';
     public $selectedDocuments = [];
     public $title = 'create-request';
-    public Request $selectedRequest;
+    public ?Request $selectedRequest;
     public ?Document $selectedDocument;
     public $completedProcesses = [];
     public $pivotId;
-    public $firstTime = false;
-
-    public function mount()
-    {
-        $this->firstTime = auth()->user()->first_time_login;
-        if (Request::count() > 0) {
-            $this->selectedRequest = Request::first();
-        }
-    }
 
     public function sessionNotif($session)
     {
