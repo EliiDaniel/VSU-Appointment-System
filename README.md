@@ -1,6 +1,5 @@
 ![VSUAS](readme_img.png)
 
-
 ## About The System
 
 ## Contributing
