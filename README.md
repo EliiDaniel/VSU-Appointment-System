@@ -1,4 +1,4 @@
-<p align="center">![VSUAS LOGO](public\images\.png)</p>
+<p align="center">![VSUAS LOGO](public\images\VSUAS LOGO.png)</p>
 
 
 ## About The System
